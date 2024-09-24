@@ -1,5 +1,6 @@
 <template>
   <TheTitle title-message="Ola, mundo!"/>
+  <TheParagraph paragraph-message="Billy, dog!"/>
   <InputField
     input-type="text"
     input-id="test"
@@ -10,7 +11,6 @@
 </template>
 
 <script>
-import TheTitle from './components/atoms/TheTitle.vue'
 
 export default {
   name: "App",

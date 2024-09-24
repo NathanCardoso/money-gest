@@ -5,6 +5,7 @@
     input-name="Nome"
     input-placeholder="Digite seu nome..."
   />
+  <ButtonForm button-message="Login" />
 </template>
 
 <script>

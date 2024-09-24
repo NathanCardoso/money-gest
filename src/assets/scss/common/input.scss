@@ -1,0 +1,13 @@
+@mixin theInputStyle {
+  padding: rem(8) rem(16);
+  border: rem(2) solid $linesAndStroke;
+  border-radius: rem(4);
+  background: $white;
+  width: 100%;
+  transition: all 0.5s;
+
+  &:hover, 
+  &:focus {
+    border: rem(2) solid $purple;
+  }
+}

@@ -54,15 +54,6 @@ export default {
 
 <style lang="scss" scoped>
 .input-field {
-  padding: rem(8) rem(16);
-  border: rem(2) solid $linesAndStroke;
-  border-radius: rem(4);
-  background: $white;
-  width: 100%;
-  transition: all .5s;
-  
-  &:hover, &:focus {
-    border: rem(2) solid $purple;
-  }
+  @include theInputStyle;
 }
 </style>

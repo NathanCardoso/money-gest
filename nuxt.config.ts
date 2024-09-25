@@ -6,11 +6,16 @@ export default defineNuxtConfig({
   components: [
     { path: './components/atoms/' },
     { path: './components/molecules/' },
-    { path: './components/organisms/' }
+    { path: './components/organisms/' },
+    { path: './assets/image/svg' }
   ],
   css: [
     '~/assets/scss/common/reset.scss'
   ],
+  sourcemap: {
+    server: false,
+    client: false,
+  },
   vite: {
     css: {
       preprocessorOptions: {
@@ -20,5 +25,5 @@ export default defineNuxtConfig({
         }
       }
     }
-  }
+  },
 })

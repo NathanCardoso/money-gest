@@ -13,9 +13,9 @@ export default {
     },
     titleColor: {
       type: String,
-      requied: true,
+      required: true,
       validator(value: string) {
-        ['green', 'blue', 'red', 'yellow'].includes(value)
+        return ['green', 'blue', 'red', 'yellow'].includes(value)
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="card-info-money">
-    <div class="icon-wrapper">
+    <div class="icon-wrapper" :class="moneyColor">
       <slot class=""></slot>
     </div>
     <div class="info-wrapper">
@@ -25,7 +25,10 @@ export default {
     },
     moneyColor: {
       type: String,
-      required: true
+      required: true,
+      validator(value: string) {
+        return ['green', 'blue', 'red', 'yellow'].includes(value)
+      }
     }
   }
 }
@@ -45,10 +48,25 @@ export default {
     width: rem(50);
     height: rem(50);
     border-radius: 50%;
-    background: $greenLight;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &.green {
+      background: $greenLight;
+    }
+  
+    &.blue {
+      background: $blueLight;
+    }
+
+    &.red {
+      background: $redLight;
+    }
+
+    &.yellow {
+      background: $yellowLight;
+    }
   }
 
   .info-wrapper {

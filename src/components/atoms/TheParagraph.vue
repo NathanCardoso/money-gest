@@ -21,11 +21,11 @@ export default {
 
 <style lang="scss" scoped>
 .the-paragraph {
-  color: $gray;
+  color: $grayLightAlt;
   font-size: rem(14);
 
   &.bold {
-    color: $black;
+    color: $blackLight;
     font-weight: 600;
   }
 }

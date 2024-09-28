@@ -2,26 +2,35 @@
   <div class="popover-container">
     <button class="popover-button" @click="togglePopover">&nbsp;</button>
     <ul v-if="popoverActive" class="popover-list">
-      <li class="popover-item" @click="handlePopoverEdit">Editar</li>
-      <li class="popover-item" @click="handlePopoverDelete">Excluir</li>
+      <li
+        v-for="popover in popoverOptions"
+        :key="popover.id"
+        class="popover-item"
+        @click="handlePopover(popover.action)"
+      >
+        {{ popover.label }}
+      </li>
     </ul>
   </div>
 </template>
 
 <script lang="ts">
-interface PopoverInterface {
-  popoverActive: boolean;
-  popoverContainer: HTMLElement | null;
-}
+import type { PopoverOptionsProp, PopoverData } from "../../interface/atoms/ThePopoverInterface"
 
 export default {
   name: "ThePopover",
 
+  props: {
+    popoverOptions: {
+      type: Array as () => PopoverOptionsProp[],
+      default: () => [] as PopoverOptionsProp[],
+    },
+  },
+
   data() {
     return {
       popoverActive: false,
-      popoverContainer: null
-    } as PopoverInterface
+    } as PopoverData
   },
 
   methods: {
@@ -30,33 +39,30 @@ export default {
     },
 
     handlePopoverOutside(event: MouseEvent): void {
-      const target = event.target as HTMLElement;
+      const target = event.target as HTMLElement
 
-      const isPopoverButton = target.classList.contains('popover-button');
-      const isPopoverList = target.classList.contains('popover-list');
-      const isPopoverItem = target.classList.contains('popover-item');
+      const isPopoverButton = target.classList.contains("popover-button")
+      const isPopoverList = target.classList.contains("popover-list")
+      const isPopoverItem = target.classList.contains("popover-item")
 
       const isPopover = isPopoverItem || isPopoverList || isPopoverButton
 
-      if (!isPopover) this.popoverActive = false;
+      if (!isPopover) this.popoverActive = false
     },
 
-    handlePopoverEdit(): void {
-      this.$emit('popover:edit')
-    },
-
-    handlePopoverDelete(): void {
-      this.$emit('popover:delete')
+    handlePopover(action: string): void {
+      console.log(`popover:${action}`)
+      this.$emit(`popover:${action}`)
     }
   },
 
   mounted() {
-    document.addEventListener('click', this.handlePopoverOutside);
+    document.addEventListener("click", this.handlePopoverOutside)
   },
 
   beforeUnmount() {
-    document.removeEventListener('click', this.handlePopoverOutside);
-  }
+    document.removeEventListener("click", this.handlePopoverOutside)
+  },
 }
 </script>
 
@@ -72,9 +78,9 @@ export default {
     border-radius: rem(6);
     cursor: pointer;
     position: relative;
-  
+
     &::after {
-      content: '...';
+      content: "...";
       display: inline-block;
       font-weight: bold;
       width: rem(16);
@@ -104,7 +110,7 @@ export default {
       color: $black;
       cursor: pointer;
 
-      +.popover-item {
+      + .popover-item {
         border-top: rem(1) solid $grayLight;
       }
 

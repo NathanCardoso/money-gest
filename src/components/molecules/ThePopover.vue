@@ -15,7 +15,10 @@
 </template>
 
 <script lang="ts">
-import type { PopoverOptionsProp, PopoverData } from "../../interface/atoms/ThePopoverInterface"
+import type {
+  PopoverOptionsProp,
+  PopoverData,
+} from "../../interface/atoms/ThePopoverInterface"
 
 export default {
   name: "ThePopover",
@@ -53,7 +56,7 @@ export default {
     handlePopover(action: string): void {
       console.log(`popover:${action}`)
       this.$emit(`popover:${action}`)
-    }
+    },
   },
 
   mounted() {
@@ -69,6 +72,7 @@ export default {
 <style lang="scss" scoped>
 .popover-container {
   width: max-content;
+  position: relative;
 
   .popover-button {
     background: $white;
@@ -98,6 +102,11 @@ export default {
   }
 
   .popover-list {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+
     background: $white;
     width: rem(150);
     border-radius: rem(8);

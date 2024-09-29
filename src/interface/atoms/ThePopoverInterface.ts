@@ -5,5 +5,5 @@ export interface PopoverOptionsProp {
 }
 
 export interface PopoverData {
-  popoverActive: boolean
+  popoverActive: boolean;
 }

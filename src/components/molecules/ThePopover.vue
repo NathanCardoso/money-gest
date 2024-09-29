@@ -54,7 +54,6 @@ export default {
     },
 
     handlePopover(action: string): void {
-      console.log(`popover:${action}`)
       this.$emit(`popover:${action}`)
     },
   },

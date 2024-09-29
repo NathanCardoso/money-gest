@@ -1,0 +1,33 @@
+@mixin useBackgroundColors {
+  &.white {
+    background: $white;
+  }
+
+  &.black {
+    background: $black;
+  }
+
+  &.purple {
+    background: $purple;
+  }
+
+  &.gray {
+    background: $gray;
+  }
+
+  &.blue {
+    background: $blue;
+  }
+
+  &.green {
+    background: $green;
+  }
+
+  &.red {
+    background: $red;
+  }
+
+  &.yellow {
+    background: $yellow;
+  }
+}

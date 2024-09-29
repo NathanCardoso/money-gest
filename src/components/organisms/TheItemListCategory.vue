@@ -1,0 +1,53 @@
+<template>
+  <li class="item-list-category" @click="handleClick">
+    <div class="info-category">
+      <span class="icon-mark" :class="itemCategory.colorCategory">&nbsp;</span>
+      <TheParagraph :paragraph-message="itemCategory.nameCategory" bold />
+    </div>
+    <TheParagraph :paragraph-message="itemCategory.revenueValue" bold />
+  </li>
+</template>
+
+<script lang="ts">
+import type { ItemListCategoryProp } from "../../interface/organisms/TheItemListCategory"
+
+export default {
+  name: "TheItemListCategory",
+
+  props: {
+    itemCategory: {
+      type: Object as () => ItemListCategoryProp,
+      default: () => ({} as ItemListCategoryProp),
+    },
+  },
+
+  methods: {
+    handleClick(): void {
+      this.$emit("category:click")
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+.item-list-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $white;
+  padding: rem(8) 0;
+
+  .info-category {
+    display: flex;
+    align-items: center;
+    gap: rem(8);
+
+    .icon-mark {
+      width: rem(16);
+      height: rem(16);
+      border-radius: rem(4);
+      @include useBackgroundColors;
+    }
+  }
+}
+</style>

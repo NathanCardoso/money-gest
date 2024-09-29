@@ -12,6 +12,8 @@
 </template>
 
 <script lang="ts">
+import type { SelectOptionsProp } from "~/interface/atoms/TheSelect"
+
 export default {
   name: "TheSelect",
 
@@ -25,8 +27,8 @@ export default {
       required: true,
     },
     selectOptions: {
-      type: Array,
-      required: true,
+      type: Array as () => SelectOptionsProp[],
+      default: () => [] as SelectOptionsProp[],
     },
   },
 }

@@ -1,0 +1,110 @@
+<template>
+  <li class="item-list-secondary">
+    <div class="info-account">
+      <div class="card-bank">
+        <TheParagraph :paragraph-message="itemList.nameAccount" bold />
+      </div>
+      <div class="info-category">
+        <span class="icon-mark" :class="itemList.colorCategory">&nbsp;</span>
+        <TheParagraph :paragraph-message="itemList.nameCategory" />
+      </div>
+    </div>
+    <div class="info-invoice">
+      <div class="invoice-range">
+        <TheParagraph :paragraph-message="itemList.recipeName" />
+        <TheParagraph :paragraph-message="itemList.revenueValue" bold />
+      </div>
+      <ThePopover v-if="isPopover" :popover-options="popoverOptions" />
+    </div>
+  </li>
+</template>
+
+<script lang="ts">
+import type { PopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
+import type { ItemListSecondaryProp } from "~/interface/organisms/TheItemListSecondary"
+
+export default {
+  name: "TheItemListPrimary",
+
+  props: {
+    itemList: {
+      type: Object as () => ItemListSecondaryProp,
+      default: () => ({} as ItemListSecondaryProp),
+    },
+    isPopover: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
+  data() {
+    return {
+      popoverOptions: [
+        {
+          id: 1,
+          label: "Editar",
+          action: "edit",
+        },
+        {
+          id: 2,
+          label: "Excluir",
+          action: "delete",
+        },
+      ] as PopoverOptionsProp[],
+    }
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+.item-list-secondary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(8);
+
+  .info-account {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: rem(14);
+
+    .card-bank {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: rem(14);
+    }
+
+    .info-category {
+      display: flex;
+      align-items: baseline;
+      gap: rem(8);
+
+      .icon-mark {
+        width: rem(16);
+        height: rem(16);
+        border-radius: rem(4);
+        @include useBackgroundColors;
+      }
+    }
+  }
+
+  .info-invoice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: rem(16);
+
+    .invoice-range {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: rem(14);
+    }
+  }
+}
+</style>

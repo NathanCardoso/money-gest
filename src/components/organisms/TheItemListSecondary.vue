@@ -5,7 +5,7 @@
         <TheParagraph :paragraph-message="itemList.nameAccount" bold />
       </div>
       <div class="info-category">
-        <span class="icon-mark" :class="itemList.colorCategory">&nbsp;</span>
+        <TheIconMark :color="itemList.colorCategory" />
         <TheParagraph :paragraph-message="itemList.nameCategory" />
       </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <li class="item-list-category" @click="handleClick">
     <div class="info-category">
-      <span class="icon-mark" :class="itemCategory.colorCategory">&nbsp;</span>
+      <TheIconMark :color="itemCategory.colorCategory" />
       <TheParagraph :paragraph-message="itemCategory.nameCategory" bold />
     </div>
     <TheParagraph :paragraph-message="itemCategory.revenueValue" bold />

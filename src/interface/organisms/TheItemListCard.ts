@@ -1,4 +1,4 @@
-export interface ItemListPrimaryProp {
+export interface ItemListCardProp {
   nameBanking: string;
   cardFlag: string;
   cardLastNumber: string;

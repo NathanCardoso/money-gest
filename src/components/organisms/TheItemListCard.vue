@@ -33,15 +33,15 @@
 
 <script lang="ts">
 import type { PopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
-import type { ItemListPrimaryProp } from "~/interface/organisms/TheItemListPrimary"
+import type { ItemListCardProp } from "~/interface/organisms/TheItemListCard"
 
 export default {
-  name: "TheItemListPrimary",
+  name: "TheItemListCard",
 
   props: {
     itemList: {
-      type: Object as () => ItemListPrimaryProp,
-      default: () => ({} as ItemListPrimaryProp),
+      type: Object as () => ItemListCardProp,
+      default: () => ({} as ItemListCardProp),
     },
     isInvoiceOptions: {
       type: Boolean,

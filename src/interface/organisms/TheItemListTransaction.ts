@@ -1,4 +1,4 @@
-export interface ItemListSecondaryProp {
+export interface ItemListTransactionProp {
   nameAccount: string;
   nameCategory: string;
   colorCategory: string;

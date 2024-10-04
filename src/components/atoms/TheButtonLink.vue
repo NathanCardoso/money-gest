@@ -12,15 +12,15 @@ export default {
   props: {
     buttonMessage: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
 
   methods: {
     handleClick() {
-     this.$emit("the-button:click")
-    }
-  }
+      this.$emit("button:click")
+    },
+  },
 }
 </script>
 

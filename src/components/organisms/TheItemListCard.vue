@@ -1,5 +1,5 @@
 <template>
-  <li class="item-list-primary">
+  <li class="item-list-card">
     <div class="info-card">
       <div class="logo-flag">
         <IconMastercard v-if="isMastercard" />
@@ -87,11 +87,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item-list-primary {
+.item-list-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: rem(8);
+
+  + .item-list-card {
+    padding-top: rem(28);
+  }
 
   .info-card {
     display: flex;

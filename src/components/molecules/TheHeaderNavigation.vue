@@ -2,10 +2,10 @@
   <ul class="header-navigation">
     <li
       class="item-navigation"
-      v-for="route in routes"
+      v-for="(route, routeIndex) in routes"
       :key="route.id"
-      :class="{ active: isActive }"
-      @click="handleClickRoute"
+      :class="{ active: isActive(routeIndex) }"
+      @click="handleClickRoute(route)"
     >
       {{ route.name }}
     </li>
@@ -13,44 +13,59 @@
 </template>
 
 <script lang="ts">
-import type { HeaderNavigationProp } from "../../interface/molecules/TheHeaderNavigation"
+import type {
+  IHeaderNavigationProp,
+  IHeaderNavigationData
+} from "../../interface/molecules/TheHeaderNavigation"
 
 export default {
   name: "TheHeaderNavigation",
 
   props: {
     routes: {
-      type: Array as () => HeaderNavigationProp[],
-      required: true,
-    },
-    isActive: {
-      type: Boolean,
-      default: false,
-    },
+      type: Array as () => IHeaderNavigationProp[],
+      required: true
+    }
+  },
+
+  data() {
+    return {
+      routeActive: null
+    } as IHeaderNavigationData
   },
 
   methods: {
-    handleClickRoute(): void {
-      this.$emit("navigation-header:click")
+    handleClickRoute(route: IHeaderNavigationProp): void {
+      this.toggleActive(route)
+      this.$emit("navigation-header:click", route)
     },
-  },
+
+    toggleActive(route: IHeaderNavigationProp): void {
+      this.routeActive = this.routeActive === route.id ? null : route.id
+    },
+
+    isActive(routeIndex: number): boolean {
+      return this.routeActive === this.routes[routeIndex]?.id
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .header-navigation {
-  display: flex;
-  align-items: center;
+  @include useAlignCenter;
   gap: rem(16);
 
   .item-navigation {
     color: $gray;
-    font-size: rem(14);
+    font-size: rem(16);
+    padding: rem(8) rem(8);
     cursor: pointer;
+    transition: all 0.5s;
 
     &.active {
       display: inline-block;
-      padding: rem(6) rem(8);
+      padding: rem(8) rem(8);
       background: $purple;
       color: $white;
       border-radius: rem(6);

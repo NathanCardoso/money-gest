@@ -1,4 +1,4 @@
-export interface ItemListCardProp {
+export interface IItemListCardProp {
   nameBanking: string;
   cardFlag: string;
   cardLastNumber: string;

@@ -1,9 +1,9 @@
-export interface PopoverOptionsProp {
+export interface IPopoverOptionsProp {
   id: number | string;
   label: string;
   action: string;
 }
 
-export interface PopoverData {
+export interface IPopoverData {
   popoverActive: boolean;
 }

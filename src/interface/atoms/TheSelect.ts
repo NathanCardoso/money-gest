@@ -1,4 +1,4 @@
-export interface SelectOptionsProp {
+export interface ISelectOptionsProp {
   value: string;
   label: string;
 }

@@ -16,8 +16,8 @@
 
 <script lang="ts">
 import type {
-  PopoverOptionsProp,
-  PopoverData,
+  IPopoverOptionsProp,
+  IPopoverData
 } from "../../interface/atoms/ThePopoverInterface"
 
 export default {
@@ -25,15 +25,15 @@ export default {
 
   props: {
     popoverOptions: {
-      type: Array as () => PopoverOptionsProp[],
-      default: () => [] as PopoverOptionsProp[],
-    },
+      type: Array as () => IPopoverOptionsProp[],
+      default: () => [] as IPopoverOptionsProp[]
+    }
   },
 
   data() {
     return {
-      popoverActive: false,
-    } as PopoverData
+      popoverActive: false
+    } as IPopoverData
   },
 
   methods: {
@@ -55,7 +55,7 @@ export default {
 
     handlePopover(action: string): void {
       this.$emit(`popover:${action}`)
-    },
+    }
   },
 
   mounted() {
@@ -64,7 +64,7 @@ export default {
 
   beforeUnmount() {
     document.removeEventListener("click", this.handlePopoverOutside)
-  },
+  }
 }
 </script>
 

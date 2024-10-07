@@ -20,21 +20,21 @@
 </template>
 
 <script lang="ts">
-import type { PopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
-import type { ItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
+import type { IPopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
+import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 
 export default {
   name: "TheItemListAccount",
 
   props: {
     itemAccount: {
-      type: Object as () => ItemListAccountProp,
-      default: () => ({} as ItemListAccountProp),
+      type: Object as () => IItemListAccountProp,
+      default: () => ({} as IItemListAccountProp)
     },
     isPopover: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   data() {
@@ -43,22 +43,22 @@ export default {
         {
           id: 1,
           label: "Editar",
-          action: "edit",
+          action: "edit"
         },
         {
           id: 2,
           label: "Excluir",
-          action: "delete",
-        },
-      ] as PopoverOptionsProp[],
+          action: "delete"
+        }
+      ] as IPopoverOptionsProp[]
     }
   },
 
   computed: {
     isMastercard(): boolean {
       return this.itemAccount.cardFlag === "mastercad"
-    },
-  },
+    }
+  }
 }
 </script>
 

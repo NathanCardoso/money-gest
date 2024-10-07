@@ -9,23 +9,23 @@
 </template>
 
 <script lang="ts">
-import type { ItemListCategoryProp } from "../../interface/organisms/TheItemListCategory"
+import type { IItemListCategoryProp } from "../../interface/organisms/TheItemListCategory"
 
 export default {
   name: "TheItemListCategory",
 
   props: {
     itemCategory: {
-      type: Object as () => ItemListCategoryProp,
-      default: () => ({} as ItemListCategoryProp),
-    },
+      type: Object as () => IItemListCategoryProp,
+      default: () => ({} as IItemListCategoryProp)
+    }
   },
 
   methods: {
     handleClick(): void {
       this.$emit("category:click")
-    },
-  },
+    }
+  }
 }
 </script>
 

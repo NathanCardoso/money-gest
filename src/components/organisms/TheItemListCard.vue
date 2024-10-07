@@ -32,29 +32,29 @@
 </template>
 
 <script lang="ts">
-import type { PopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
-import type { ItemListCardProp } from "~/interface/organisms/TheItemListCard"
+import type { IPopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
+import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
 
 export default {
   name: "TheItemListCard",
 
   props: {
     itemList: {
-      type: Object as () => ItemListCardProp,
-      default: () => ({} as ItemListCardProp),
+      type: Object as () => IItemListCardProp,
+      default: () => ({} as IItemListCardProp)
     },
     isInvoiceOptions: {
       type: Boolean,
-      default: true,
+      default: true
     },
     isCardShow: {
       type: Boolean,
-      default: true,
+      default: true
     },
     isPopover: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
 
   data() {
@@ -63,26 +63,26 @@ export default {
         {
           id: 1,
           label: "Editar",
-          action: "edit",
+          action: "edit"
         },
         {
           id: 2,
           label: "Excluir",
-          action: "delete",
-        },
-      ] as PopoverOptionsProp[],
+          action: "delete"
+        }
+      ] as IPopoverOptionsProp[]
     }
   },
 
   computed: {
     isMastercard(): boolean {
       return this.itemList.cardFlag === "mastercad"
-    },
+    }
   },
 
   methods: {
-    handleCardShow(): void {},
-  },
+    handleCardShow(): void {}
+  }
 }
 </script>
 

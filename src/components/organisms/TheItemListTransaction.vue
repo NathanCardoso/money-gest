@@ -20,21 +20,21 @@
 </template>
 
 <script lang="ts">
-import type { PopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
-import type { ItemListTransactionProp } from "../../interface/organisms/TheItemListTransaction"
+import type { IPopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
+import type { IItemListTransactionProp } from "../../interface/organisms/TheItemListTransaction"
 
 export default {
   name: "TheItemListTransaction",
 
   props: {
     itemList: {
-      type: Object as () => ItemListTransactionProp,
-      default: () => ({} as ItemListTransactionProp),
+      type: Object as () => IItemListTransactionProp,
+      default: () => ({} as IItemListTransactionProp)
     },
     isPopover: {
       type: Boolean,
-      default: true,
-    },
+      default: true
+    }
   },
 
   data() {
@@ -43,16 +43,16 @@ export default {
         {
           id: 1,
           label: "Editar",
-          action: "edit",
+          action: "edit"
         },
         {
           id: 2,
           label: "Excluir",
-          action: "delete",
-        },
-      ] as PopoverOptionsProp[],
+          action: "delete"
+        }
+      ] as IPopoverOptionsProp[]
     }
-  },
+  }
 }
 </script>
 

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import type { SelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 
 export default {
   name: "TheSelect",
@@ -20,17 +20,17 @@ export default {
   props: {
     selectName: {
       type: String,
-      required: true,
+      required: true
     },
     selectId: {
       type: String,
-      required: true,
+      required: true
     },
     selectOptions: {
-      type: Array as () => SelectOptionsProp[],
-      default: () => [] as SelectOptionsProp[],
-    },
-  },
+      type: Array as () => ISelectOptionsProp[],
+      default: () => [] as ISelectOptionsProp[]
+    }
+  }
 }
 </script>
 

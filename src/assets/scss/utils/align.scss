@@ -1,0 +1,11 @@
+@mixin useAlignCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin useAlignBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

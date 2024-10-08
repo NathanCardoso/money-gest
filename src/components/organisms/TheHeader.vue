@@ -1,13 +1,15 @@
 <template>
   <header class="header">
-    <div class="header-wrapper container">
-      <div class="header-navigation">
-        <IconLogo />
-        <TheHeaderNavigation :routes="routes" />
-      </div>
-      <div class="header-user">
-        <TheUserProfile user-name="Nathan" user-email="nathan@gmail.com" />
-        <TheNotification />
+    <div class="header-background">
+      <div class="header-wrapper container">
+        <div class="header-navigation">
+          <IconLogo />
+          <TheHeaderNavigation :routes="routes" />
+        </div>
+        <div class="header-user">
+          <TheUserProfile user-name="Nathan" user-email="nathan@gmail.com" />
+          <TheNotification />
+        </div>
       </div>
     </div>
   </header>
@@ -45,20 +47,25 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  background: $white;
-  padding: rem(16) 0;
+  padding: 0 rem(16);
 
-  .header-wrapper {
-    @include useAlignCenterBetween;
+  .header-background {
+    border-radius: rem(8);
+    background: $white;
+    padding: rem(16) 0;
 
-    .header-navigation {
+    .header-wrapper {
       @include useAlignCenterBetween;
-      gap: rem(24);
-    }
 
-    .header-user {
-      @include useAlignCenterBetween;
-      gap: rem(10);
+      .header-navigation {
+        @include useAlignCenterBetween;
+        gap: rem(24);
+      }
+
+      .header-user {
+        @include useAlignCenterBetween;
+        gap: rem(10);
+      }
     }
   }
 }

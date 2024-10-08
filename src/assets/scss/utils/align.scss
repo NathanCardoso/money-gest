@@ -4,8 +4,32 @@
   justify-content: center;
 }
 
-@mixin useAlignBetween {
+@mixin useAlignStartCenter {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+@mixin useAlignEndCenter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@mixin useAlignCenterBetween {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+
+@mixin useAlignStartBetween {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+@mixin useAlignEndBetween {
+  display: flex;
+  align-items: flex-end;
   justify-content: space-between;
 }

@@ -47,6 +47,7 @@ export default {
 
 <style lang="scss" scoped>
 .header {
+  margin-top: rem(16);
   padding: 0 rem(16);
 
   .header-background {

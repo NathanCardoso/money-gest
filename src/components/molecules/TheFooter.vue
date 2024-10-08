@@ -35,11 +35,11 @@ export default {
   @include useAlignCenterBetween;
   flex-direction: column;
   padding: rem(16);
+  margin-bottom: rem(16);
 
   .footer-background {
     border-top-left-radius: rem(8);
     border-top-right-radius: rem(8);
-    padding: 0 rem(24);
     width: 100%;
     @include useAlignCenterBetween;
     background: linear-gradient(
@@ -50,7 +50,7 @@ export default {
 
     .footer-wrapper {
       width: 100%;
-      padding: rem(60) 0;
+      padding: rem(60) rem(24);
       @include useAlignCenterBetween;
 
       .footer-info {

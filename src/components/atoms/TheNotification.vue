@@ -23,8 +23,6 @@ export default {
   border-radius: rem(4);
   width: rem(40);
   height: rem(40);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include useAlignCenter;
 }
 </style>

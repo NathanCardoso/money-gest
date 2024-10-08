@@ -12,15 +12,15 @@ export default {
   props: {
     buttonMessage: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   methods: {
     handleClick() {
       this.$emit("button:click")
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -31,9 +31,7 @@ export default {
   border: none;
   border-radius: rem(6);
   color: $black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include useAlignCenter;
   gap: rem(8);
 }
 </style>

@@ -64,15 +64,12 @@ export default {
 
 <style lang="scss" scoped>
 .item-list-account {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include useAlignCenterBetween;
+  width: 100%;
   gap: rem(8);
 
   .info-account {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include useAlignCenter;
     gap: rem(24);
 
     .logo-flag {
@@ -80,31 +77,23 @@ export default {
       height: rem(50);
       border-radius: rem(6);
       background: $grayLight;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include useAlignCenter;
     }
 
     .info-bank {
-      display: flex;
+      @include useAlignStartBetween;
       flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-between;
       gap: rem(14);
     }
   }
 
   .wrapper-balance {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include useAlignCenter;
     gap: rem(40);
 
     .info-balance {
-      display: flex;
+      @include useAlignEndBetween;
       flex-direction: column;
-      align-items: flex-end;
-      justify-content: space-between;
       gap: rem(14);
     }
   }

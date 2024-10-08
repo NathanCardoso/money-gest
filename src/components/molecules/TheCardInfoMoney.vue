@@ -27,7 +27,7 @@ export default {
       type: String,
       required: true,
       validator(value: string) {
-        return ['green', 'blue', 'red', 'yellow'].includes(value)
+        return ["green", "blue", "red", "yellow"].includes(value)
       }
     }
   }
@@ -36,9 +36,7 @@ export default {
 
 <style lang="scss" scoped>
 .card-info-money {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include useAlignCenterBetween;
   width: 100%;
   background: $white;
   border-radius: rem(12);
@@ -48,14 +46,12 @@ export default {
     width: rem(50);
     height: rem(50);
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include useAlignCenter;
 
     &.green {
       background: $greenLight;
     }
-  
+
     &.blue {
       background: $blueLight;
     }
@@ -70,10 +66,8 @@ export default {
   }
 
   .info-wrapper {
-    display: flex;
+    @include useAlignStartCenter;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
     gap: rem(16);
   }
 }

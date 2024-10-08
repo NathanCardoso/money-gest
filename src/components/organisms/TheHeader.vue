@@ -49,15 +49,15 @@ export default {
   padding: rem(24) 0;
 
   .header-wrapper {
-    @include useAlignBetween;
+    @include useAlignCenterBetween;
 
     .header-navigation {
-      @include useAlignBetween;
+      @include useAlignCenterBetween;
       gap: rem(24);
     }
 
     .header-user {
-      @include useAlignBetween;
+      @include useAlignCenterBetween;
       gap: rem(10);
     }
   }

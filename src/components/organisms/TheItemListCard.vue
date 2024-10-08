@@ -88,19 +88,16 @@ export default {
 
 <style lang="scss" scoped>
 .item-list-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include useAlignCenterBetween;
   gap: rem(8);
+  width: 100%;
 
   + .item-list-card {
     padding-top: rem(28);
   }
 
   .info-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include useAlignCenter;
     gap: rem(24);
 
     .logo-flag {
@@ -108,38 +105,28 @@ export default {
       height: rem(50);
       border-radius: rem(6);
       background: $grayLight;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include useAlignCenter;
     }
 
     .card-bank {
-      display: flex;
+      @include useAlignStartBetween;
       flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-between;
       gap: rem(14);
     }
   }
 
   .info-invoice {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include useAlignCenter;
     gap: rem(40);
 
     .invoice-range {
-      display: flex;
+      @include useAlignEndBetween;
       flex-direction: column;
-      align-items: flex-end;
-      justify-content: space-between;
       gap: rem(14);
     }
 
     .invoice-options {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      @include useAlignCenter;
       gap: rem(40);
     }
 

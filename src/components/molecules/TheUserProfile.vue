@@ -27,19 +27,17 @@ export default {
 
 <style lang="scss" scoped>
 .user-profile {
+  @include useAlignCenter;
+  gap: rem(16);
   width: max-content;
   background: $grayLight;
   padding: rem(8) rem(8) rem(8) rem(16);
   border-radius: rem(6);
   border: rem(1) solid $linesAndStroke;
-  display: flex;
-  align-items: center;
-  gap: rem(16);
 
   .user-info {
-    display: flex;
+    @include useAlignEndCenter;
     flex-direction: column;
-    align-items: flex-end;
     gap: rem(8);
   }
 }

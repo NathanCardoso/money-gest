@@ -31,9 +31,8 @@ export default {
 
 <style lang="scss" scoped>
 .item-list-category {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include useAlignCenterBetween;
+  width: 100%;
   background: $white;
   padding: rem(8) 0;
 

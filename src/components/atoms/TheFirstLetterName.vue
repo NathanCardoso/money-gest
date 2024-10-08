@@ -11,15 +11,15 @@ export default {
   props: {
     userName: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   computed: {
     firstLetterName() {
       return this.userName.toUpperCase()[0]
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -29,9 +29,7 @@ export default {
   height: rem(40);
   background: $black;
   border-radius: rem(4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include useAlignCenter;
 
   .letter-name {
     font-size: rem(20);

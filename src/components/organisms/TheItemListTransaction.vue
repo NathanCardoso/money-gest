@@ -58,23 +58,18 @@ export default {
 
 <style lang="scss" scoped>
 .item-list-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  @include useAlignCenterBetween;
   gap: rem(8);
+  width: 100%;
 
   .info-account {
-    display: flex;
+    @include useAlignStartCenter;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
     gap: rem(14);
 
     .card-bank {
-      display: flex;
+      @include useAlignStartBetween;
       flex-direction: column;
-      align-items: flex-start;
-      justify-content: space-between;
       gap: rem(14);
     }
 
@@ -93,16 +88,12 @@ export default {
   }
 
   .info-invoice {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include useAlignCenter;
     gap: rem(16);
 
     .invoice-range {
-      display: flex;
+      @include useAlignEndBetween;
       flex-direction: column;
-      align-items: flex-end;
-      justify-content: space-between;
       gap: rem(14);
     }
   }

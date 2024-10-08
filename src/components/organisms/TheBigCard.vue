@@ -18,17 +18,17 @@ export default {
   props: {
     titleCard: {
       type: String,
-      required: true,
+      required: true
     },
     paragraphCard: {
       type: String,
-      required: true,
+      required: true
     },
     paragraphLink: {
       type: String,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 }
 </script>
 
@@ -38,14 +38,12 @@ export default {
   padding: rem(24);
   border-radius: rem(12);
   max-width: rem(620);
-  display: flex;
+  @include useAlignStartCenter;
   flex-direction: column;
-  justify-content: flex-start;
 
   .card-header {
-    display: flex;
+    @include useAlignStartCenter;
     flex-direction: column;
-    justify-content: flex-start;
     gap: rem(10);
     margin-bottom: rem(30);
   }

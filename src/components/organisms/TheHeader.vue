@@ -46,7 +46,7 @@ export default {
 <style lang="scss" scoped>
 .header {
   background: $white;
-  padding: rem(24) 0;
+  padding: rem(16) 0;
 
   .header-wrapper {
     @include useAlignCenterBetween;

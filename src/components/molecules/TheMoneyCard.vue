@@ -41,6 +41,12 @@ export default {
   background: $white;
   border-radius: rem(12);
   padding: rem(20) rem(32);
+  cursor: pointer;
+  transition: all 0.3s;
+
+  &:hover {
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  }
 
   .icon-wrapper {
     width: rem(50);

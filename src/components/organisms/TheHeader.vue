@@ -47,13 +47,14 @@ export default {
 
 <style lang="scss" scoped>
 .header {
-  margin-top: rem(16);
+  margin: rem(16) 0 rem(32);
   padding: 0 rem(16);
 
   .header-background {
     border-radius: rem(8);
     background: $white;
     padding: rem(16) 0;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
     .header-wrapper {
       @include useAlignCenterBetween;

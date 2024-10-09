@@ -1,7 +1,7 @@
 <template>
   <svg
-    width="17"
-    height="23"
+    width="12"
+    height="16"
     viewBox="0 0 17 23"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
@@ -24,11 +24,11 @@
 </template>
 
 <script lang="ts">
-import { useStrokeColor } from '~/composables/useStrokeColor';
+import { useStrokeColor } from "~/composables/useStrokeColor"
 
 export default {
   name: "IconArrowDown",
-  
+
   props: {
     iconColor: {
       type: String,

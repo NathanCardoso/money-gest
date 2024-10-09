@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { useStrokeColor } from '~/composables/useStrokeColor';
+import { useStrokeColor } from "~/composables/useStrokeColor"
 
 export default {
   name: "IconArrowUp",

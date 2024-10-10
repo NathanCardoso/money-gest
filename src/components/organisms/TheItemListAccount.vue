@@ -11,7 +11,7 @@
     </div>
     <div class="wrapper-balance">
       <div class="info-balance">
-        <TheParagraph paragraph-message="Saldo" />
+        <TheParagraph paragraph-message="Saldo de:" />
         <TheParagraph :paragraph-message="itemAccount.balance" bold />
       </div>
       <ThePopover v-if="isPopover" :popover-options="popoverOptions" />
@@ -67,6 +67,10 @@ export default {
   @include useAlignCenterBetween;
   width: 100%;
   gap: rem(8);
+
+  + .item-list-account {
+    margin-top: rem(28);
+  }
 
   .info-account {
     @include useAlignCenter;

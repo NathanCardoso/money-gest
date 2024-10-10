@@ -1,30 +1,30 @@
 <template>
-  <button @click="handleClick" class="paragraph-link">{{ paragraphMessage }}</button>
+  <button @click="handleClick" class="button-link">{{ buttonMessage }}</button>
 </template>
 
 <script lang="ts">
 export default {
-  name: "TheParagraphLink",
+  name: "TheButtonLinkCard",
 
   props: {
-    paragraphMessage: {
+    buttonMessage: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   methods: {
     handleClick(): void {
       this.$emit("button:click")
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.paragraph-link {
+.button-link {
+  padding: rem(30) rem(30) 0 0;
   font-size: rem(16);
-  font-weight: bold;
   color: $purple;
   cursor: pointer;
   background: none;

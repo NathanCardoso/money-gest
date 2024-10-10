@@ -5,9 +5,7 @@
       <TheParagraph :paragraph-message="paragraphCard" />
     </div>
     <slot></slot>
-    <div class="card-button">
-      <TheParagraphLink :paragraph-message="paragraphLink" />
-    </div>
+    <TheButtonLinkCard :button-message="buttonLinkMessage" />
   </div>
 </template>
 
@@ -24,9 +22,13 @@ export default {
       type: String,
       required: true
     },
-    paragraphLink: {
+    buttonLinkMessage: {
       type: String,
-      required: true
+      default: ""
+    },
+    isButtonLink: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -46,26 +48,6 @@ export default {
     flex-direction: column;
     gap: rem(10);
     margin-bottom: rem(30);
-  }
-
-  .button {
-    margin-top: rem(30);
-    width: max-content;
-    padding: rem(15) rem(24);
-    border: none;
-    border-radius: rem(6);
-    background: rgba($purple, 0.9);
-    color: $white;
-    cursor: pointer;
-    transition: all 0.3s;
-
-    &:hover {
-      background: $purple;
-    }
-  }
-
-  .card-button {
-    margin-top: rem(30);
   }
 }
 </style>

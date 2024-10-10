@@ -43,6 +43,7 @@ export default {
 
   .item-card {
     flex-grow: 1;
+    flex-basis: 0;
   }
 }
 </style>

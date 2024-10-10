@@ -48,11 +48,6 @@ export default {
     margin-bottom: rem(30);
   }
 
-  .card-list {
-    display: flex;
-    flex-direction: column;
-  }
-
   .button {
     margin-top: rem(30);
     width: max-content;

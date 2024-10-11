@@ -39,7 +39,6 @@ export default {
   background: $white;
   padding: rem(24);
   border-radius: rem(12);
-  max-width: rem(620);
   @include useAlignStartCenter;
   flex-direction: column;
 

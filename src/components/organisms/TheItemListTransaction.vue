@@ -1,18 +1,18 @@
 <template>
-  <li class="item-list-secondary">
+  <li class="item-list-transaction">
     <div class="info-account">
       <div class="card-bank">
-        <TheParagraph :paragraph-message="itemList.nameAccount" bold />
+        <TheParagraph :paragraph-message="itemTransaction.nameAccount" bold />
       </div>
       <div class="info-category">
-        <TheIconMark :color="itemList.colorCategory" />
-        <TheParagraph :paragraph-message="itemList.nameCategory" />
+        <TheIconMark :color="itemTransaction.colorCategory" />
+        <TheParagraph :paragraph-message="itemTransaction.nameCategory" />
       </div>
     </div>
     <div class="info-invoice">
       <div class="invoice-range">
-        <TheParagraph :paragraph-message="itemList.recipeName" />
-        <TheParagraph :paragraph-message="itemList.revenueValue" bold />
+        <TheParagraph :paragraph-message="itemTransaction.recipeName" />
+        <TheParagraph :paragraph-message="itemTransaction.revenueValue" bold />
       </div>
       <ThePopover v-if="isPopover" :popover-options="popoverOptions" />
     </div>
@@ -27,7 +27,7 @@ export default {
   name: "TheItemListTransaction",
 
   props: {
-    itemList: {
+    itemTransaction: {
       type: Object as () => IItemListTransactionProp,
       default: () => ({} as IItemListTransactionProp)
     },
@@ -57,10 +57,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item-list-secondary {
+.item-list-transaction {
   @include useAlignCenterBetween;
   gap: rem(8);
   width: 100%;
+
+  + .item-list-transaction {
+    margin-top: rem(28);
+  }
 
   .info-account {
     @include useAlignStartCenter;

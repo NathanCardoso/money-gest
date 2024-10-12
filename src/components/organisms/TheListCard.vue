@@ -4,6 +4,7 @@
       v-for="(card, cardIndex) in cardList"
       :key="cardIndex"
       :itemList="card"
+      :is-card-show="isCardShow"
     />
   </ul>
 </template>
@@ -18,6 +19,10 @@ export default {
     cardList: {
       type: Array as () => IItemListCardProp[],
       default: () => [] as IItemListCardProp[]
+    },
+    isCardShow: {
+      type: Boolean,
+      default: true
     }
   }
 }

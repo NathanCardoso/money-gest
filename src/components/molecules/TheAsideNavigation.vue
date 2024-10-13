@@ -37,7 +37,7 @@ export default {
 
   methods: {
     handleClick(buttonAction: string): void {
-      console.log("lalala: ", buttonAction)
+      this.$emit(`aside:${buttonAction}`)
     }
   }
 }

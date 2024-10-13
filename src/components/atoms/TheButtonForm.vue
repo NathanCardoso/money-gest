@@ -1,33 +1,42 @@
 <template>
-  <button
-    class="button-form"
-    :class="{ 'cancel': buttonCancel }"
-    @click.prevent="handleClick"
-  >
+  <button class="button-form" :class="classButton" @click.prevent="handleClick">
     {{ buttonMessage }}
   </button>
 </template>
 
 <script lang="ts">
 export default {
-  name: "ButtonForm",
+  name: "TheButtonForm",
 
   props: {
     buttonMessage: {
       type: String,
-      required: true,
+      required: true
     },
     buttonCancel: {
       type: Boolean,
-      default: false,
+      default: false
     },
+    isButtonSmall: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  computed: {
+    classButton() {
+      return {
+        cancel: this.buttonCancel,
+        small: this.isButtonSmall
+      }
+    }
   },
 
   methods: {
     handleClick() {
       this.$emit("button:click")
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -45,6 +54,10 @@ export default {
     background: $white;
     color: $black;
     font-weight: 600;
+  }
+
+  &.small {
+    width: rem(128);
   }
 }
 </style>

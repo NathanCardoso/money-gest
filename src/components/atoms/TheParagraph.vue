@@ -1,5 +1,5 @@
 <template>
-  <p class="the-paragraph" :class="{ 'bold': bold }">{{ paragraphMessage }}</p>
+  <p class="the-paragraph" :class="{ bold }">{{ paragraphMessage }}</p>
 </template>
 
 <script lang="ts">
@@ -23,6 +23,7 @@ export default {
 .the-paragraph {
   color: $grayLightAlt;
   font-size: rem(14);
+  line-height: rem(20);
 
   &.bold {
     color: $blackLight;

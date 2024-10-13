@@ -1,12 +1,12 @@
 <template>
-  <div class="big-card">
-    <div class="card-header">
+  <section class="big-card">
+    <div class="card-header" v-if="isHeader">
       <TheTitleSection :title-message="titleCard" />
       <TheParagraph :paragraph-message="paragraphCard" />
     </div>
     <slot></slot>
     <TheButtonLinkCard :button-message="buttonLinkMessage" />
-  </div>
+  </section>
 </template>
 
 <script lang="ts">
@@ -16,11 +16,11 @@ export default {
   props: {
     titleCard: {
       type: String,
-      required: true
+      default: ""
     },
     paragraphCard: {
       type: String,
-      required: true
+      default: ""
     },
     buttonLinkMessage: {
       type: String,
@@ -29,6 +29,10 @@ export default {
     isButtonLink: {
       type: Boolean,
       default: false
+    },
+    isHeader: {
+      type: Boolean,
+      default: true
     }
   }
 }

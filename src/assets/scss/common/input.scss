@@ -1,6 +1,6 @@
 @mixin theInputStyle {
   padding: rem(8) rem(16);
-  border: rem(2) solid $linesAndStroke;
+  border: rem(1) solid $linesAndStroke;
   border-radius: rem(4);
   background: $white;
   width: 100%;
@@ -8,6 +8,6 @@
 
   &:hover, 
   &:focus {
-    border: rem(2) solid $purple;
+    border: rem(1) solid $purple;
   }
 }

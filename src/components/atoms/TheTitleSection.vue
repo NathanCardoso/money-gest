@@ -9,9 +9,9 @@ export default {
   props: {
     titleMessage: {
       type: String,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 }
 </script>
 

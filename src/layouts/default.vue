@@ -10,6 +10,12 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  name: "LayoutDefault"
+}
+</script>
+
 <style lang="scss" scoped>
 .content {
   padding: 0 rem(16);

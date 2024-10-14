@@ -4,19 +4,16 @@
       class="item-navigation"
       v-for="(route, routeIndex) in routes"
       :key="route.id"
-      :class="{ active: isActive(routeIndex) }"
-      @click="handleClickRoute(route)"
+      :class="{ active: isActive(route) }"
     >
-      {{ route.name }}
+      <NuxtLink class="route" :to="route.path">{{ route.name }}</NuxtLink>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
-import type {
-  IHeaderNavigationProp,
-  IHeaderNavigationData
-} from "../../interface/molecules/TheHeaderNavigation"
+import type { IHeaderNavigationProp } from "../../interface/molecules/TheHeaderNavigation"
+import { useRoute } from "vue-router"
 
 export default {
   name: "TheHeaderNavigation",
@@ -28,24 +25,15 @@ export default {
     }
   },
 
-  data() {
+  setup() {
+    const route = useRoute()
+
+    const isActive = (routeProp: IHeaderNavigationProp): boolean => {
+      return route.path === routeProp.path
+    }
+
     return {
-      routeActive: null
-    } as IHeaderNavigationData
-  },
-
-  methods: {
-    handleClickRoute(route: IHeaderNavigationProp): void {
-      this.toggleActive(route)
-      this.$emit("navigation-header:click", route)
-    },
-
-    toggleActive(route: IHeaderNavigationProp): void {
-      this.routeActive = this.routeActive === route.id ? null : route.id
-    },
-
-    isActive(routeIndex: number): boolean {
-      return this.routeActive === this.routes[routeIndex]?.id
+      isActive
     }
   }
 }
@@ -60,15 +48,19 @@ export default {
     color: $gray;
     font-size: rem(16);
     padding: rem(8) rem(8);
+    border-radius: rem(6);
     cursor: pointer;
-    transition: all 0.5s;
+    transition: all 0.3s;
 
     &.active {
       display: inline-block;
-      padding: rem(8) rem(8);
       background: $purple;
       color: $white;
-      border-radius: rem(6);
+    }
+
+    .route {
+      color: inherit;
+      text-decoration: none;
     }
   }
 }

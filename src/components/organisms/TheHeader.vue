@@ -26,18 +26,28 @@ export default {
       routes: [
         {
           id: 1,
-          name: "Entrada",
-          path: "/entrada"
+          name: "Início",
+          path: "/home"
         },
         {
           id: 2,
-          name: "saída",
-          path: "/saida"
+          name: "Entrada",
+          path: "/revenue"
         },
         {
           id: 3,
-          name: "Categoria",
-          path: "/categoria"
+          name: "Saída",
+          path: "/expenses"
+        },
+        {
+          id: 4,
+          name: "Categorias",
+          path: "/category"
+        },
+        {
+          id: 5,
+          name: "Cartões",
+          path: "/card"
         }
       ] as IHeaderNavigationProp[]
     }

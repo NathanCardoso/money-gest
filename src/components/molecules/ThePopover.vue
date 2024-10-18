@@ -55,6 +55,7 @@ export default {
 
     handlePopover(action: string): void {
       this.$emit(`popover:${action}`)
+      this.popoverActive = false
     }
   },
 

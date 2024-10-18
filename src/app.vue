@@ -1,41 +1,42 @@
 <template>
-  <TheTitle title-message="Ola, mundo!"/>
-  <TheParagraph paragraph-message="Billy, dog!"/>
-  <InputField
-    input-type="text"
-    input-id="test"
-    input-name="Nome"
-    input-placeholder="Digite seu nome..."
-  />
-  <TheSelect select-name="gender" select-id="gender-register" :select-options="options" />
-  <ButtonForm button-message="Login" />
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
-<script>
-
+<script lang="ts">
 export default {
-  name: "App",
-
-  data() {
-    return {
-      options: [
-        {
-          value: "",
-          label: "Selecione uma opção",
-        },
-        {
-          value: "M",
-          label: "Masculino"
-        },
-        {
-          value: "F",
-          label: "Feminino"
-        }
-      ]
-    }
-  }
+  name: "App"
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.page-enter-from {
+  transform: translate3d(0, rem(20), 0);
+  filter: blur(2px);
+  opacity: 0;
+}
+
+.page-enter-to {
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+  opacity: 1;
+}
+
+.page-leave-from {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  filter: blur(0);
+}
+
+.page-leave-to {
+  transform: translate3d(0, rem(-20), 0);
+  opacity: 0;
+  filter: blur(2px);
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
+}
 </style>

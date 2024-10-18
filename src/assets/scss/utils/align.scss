@@ -16,6 +16,12 @@
   justify-content: flex-start;
 }
 
+@mixin useAlignCenterEnd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 @mixin useAlignEndCenter {
   display: flex;
   align-items: flex-end;

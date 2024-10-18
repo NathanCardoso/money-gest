@@ -40,7 +40,7 @@
 
 <script lang="ts">
 export default {
-  name: "TheModalFormCard",
+  name: "TheModalCreateCard",
 
   props: {
     isOpened: {

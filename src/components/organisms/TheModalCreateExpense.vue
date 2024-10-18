@@ -1,7 +1,7 @@
 <template>
   <TheModal
     :is-opened="isOpened"
-    title="Adicione uma nova entrada"
+    title="Adicione uma nova saída"
     @modal:close="handleClose"
     @modal:submit="handleSubmit"
   >
@@ -26,6 +26,12 @@
         select-id="account"
         :select-options="selectOptions"
       />
+      <TheSelect
+        is-label
+        select-name="Categoria"
+        select-id="category"
+        :select-options="selectOptions"
+      />
     </form>
   </TheModal>
 </template>
@@ -34,7 +40,7 @@
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 
 export default {
-  name: "TheModalFormRevenue",
+  name: "TheModalCreateExpense",
 
   props: {
     isOpened: {
@@ -64,10 +70,10 @@ export default {
 
   methods: {
     handleClose() {
-      this.$emit("modal-revenue:close")
+      this.$emit("modal-expense:close")
     },
     handleSubmit() {
-      this.$emit("modal-revenue:submit")
+      this.$emit("modal-expense:submit")
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <TheModal
     :is-opened="isOpened"
-    title="Adicione uma nova categoria"
+    title="Adicione uma nova entrada"
     @modal:close="handleClose"
     @modal:submit="handleSubmit"
   >
@@ -11,12 +11,19 @@
         input-type="text"
         input-id="name"
         input-name="Nome"
-        input-placeholder="Digite o nome da categoria..."
+        input-placeholder="Digite o nome da entrada..."
+      />
+      <TheInputField
+        is-label
+        input-type="number"
+        input-id="revenue"
+        input-name="Valor"
+        input-placeholder="Digite o valor da entrada..."
       />
       <TheSelect
         is-label
-        select-name="Selecione a cor da categoria"
-        select-id="category"
+        select-name="Conta"
+        select-id="account"
         :select-options="selectOptions"
       />
     </form>
@@ -27,7 +34,7 @@
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 
 export default {
-  name: "TheModalFormCategory",
+  name: "TheModalCreateRevenue",
 
   props: {
     isOpened: {
@@ -57,10 +64,10 @@ export default {
 
   methods: {
     handleClose() {
-      this.$emit("modal-category:close")
+      this.$emit("modal-revenue:close")
     },
     handleSubmit() {
-      this.$emit("modal-category:submit")
+      this.$emit("modal-revenue:submit")
     }
   }
 }

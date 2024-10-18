@@ -13,7 +13,7 @@
     :select-options="selectOptions"
   />
   <ButtonForm button-message="Login" />
-  <TheButtonLink button-message="Nova Entrada">
+  <TheButtonLink button-message="Nova Entrada" button-action="add-entry">
     <IconArrowDown />
   </TheButtonLink>
   <TheTitleMoney title-message="R$ 300,00" title-color="green" />
@@ -52,13 +52,13 @@
 </template>
 
 <script lang="ts">
-import type { ISelectOptionsProp } from "../interface/atoms/TheSelect"
-import type { IPopoverOptionsProp } from "../interface/atoms/ThePopoverInterface"
-import type { IItemListCardProp } from "../interface/organisms/TheItemListCard"
-import type { IItemListTransactionProp } from "../interface/organisms/TheItemListTransaction"
-import type { IItemListCategoryProp } from "../interface/organisms/TheItemListCategory"
-import type { IItemListAccountProp } from "../interface/organisms/TheItemListAccount"
-import type { IHeaderNavigationProp } from "../interface/molecules/TheHeaderNavigation"
+import type { ISelectOptionsProp } from "../../interface/atoms/TheSelect"
+import type { IPopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
+import type { IItemListCardProp } from "../../interface/organisms/TheItemListCard"
+import type { IItemListTransactionProp } from "../../interface/organisms/TheItemListTransaction"
+import type { IItemListCategoryProp } from "../../interface/organisms/TheItemListCategory"
+import type { IItemListAccountProp } from "../../interface/organisms/TheItemListAccount"
+import type { IHeaderNavigationProp } from "../../interface/molecules/TheHeaderNavigation"
 
 export default {
   name: "App",

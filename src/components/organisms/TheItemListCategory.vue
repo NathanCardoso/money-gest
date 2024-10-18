@@ -1,14 +1,23 @@
 <template>
   <li class="item-list-category" @click="handleClick">
-    <div class="info-category">
+    <div class="info-category-left">
       <TheIconMark :color="itemCategory.colorCategory" />
       <TheParagraph :paragraph-message="itemCategory.nameCategory" bold />
     </div>
-    <TheParagraph :paragraph-message="itemCategory.revenueValue" bold />
+    <div class="info-category-right">
+      <TheParagraph :paragraph-message="itemCategory.revenueValue" bold />
+      <ThePopover
+        v-if="isPopover"
+        :popover-options="popoverOptions"
+        @popover:edit="handlePopoverEdit"
+        @popover:delete="handlePopoverDelete"
+      />
+    </div>
   </li>
 </template>
 
 <script lang="ts">
+import type { IPopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
 import type { IItemListCategoryProp } from "../../interface/organisms/TheItemListCategory"
 
 export default {
@@ -18,12 +27,39 @@ export default {
     itemCategory: {
       type: Object as () => IItemListCategoryProp,
       default: () => ({} as IItemListCategoryProp)
+    },
+    isPopover: {
+      type: Boolean,
+      default: true
+    }
+  },
+
+  data() {
+    return {
+      popoverOptions: [
+        {
+          id: 1,
+          label: "Editar",
+          action: "edit"
+        },
+        {
+          id: 2,
+          label: "Excluir",
+          action: "delete"
+        }
+      ] as IPopoverOptionsProp[]
     }
   },
 
   methods: {
     handleClick(): void {
       this.$emit("category:click")
+    },
+    handlePopoverEdit() {
+      this.$emit("popover:edit")
+    },
+    handlePopoverDelete() {
+      this.$emit("popover:delete")
     }
   }
 }
@@ -36,7 +72,7 @@ export default {
   background: $white;
   padding: rem(8) 0;
 
-  .info-category {
+  .info-category-left {
     display: flex;
     align-items: center;
     gap: rem(8);
@@ -47,6 +83,11 @@ export default {
       border-radius: rem(4);
       @include useBackgroundColors;
     }
+  }
+
+  .info-category-right {
+    @include useAlignEndCenter;
+    gap: rem(16);
   }
 }
 </style>

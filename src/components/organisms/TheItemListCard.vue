@@ -26,7 +26,12 @@
           <IconArrowRight />
         </button>
       </div>
-      <ThePopover v-if="isPopover" :popover-options="popoverOptions" />
+      <ThePopover
+        v-if="isPopover"
+        :popover-options="popoverOptions"
+        @popover:edit="handlePopoverEdit"
+        @popover:delete="handlePopoverDelete"
+      />
     </div>
   </li>
 </template>
@@ -81,7 +86,13 @@ export default {
   },
 
   methods: {
-    handleCardShow(): void {}
+    handleCardShow(): void {},
+    handlePopoverEdit() {
+      this.$emit("popover:edit")
+    },
+    handlePopoverDelete() {
+      this.$emit("popover:delete")
+    }
   }
 }
 </script>

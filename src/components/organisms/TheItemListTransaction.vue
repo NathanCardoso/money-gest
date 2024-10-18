@@ -14,7 +14,12 @@
         <TheParagraph :paragraph-message="itemTransaction.recipeName" />
         <TheParagraph :paragraph-message="itemTransaction.revenueValue" bold />
       </div>
-      <ThePopover v-if="isPopover" :popover-options="popoverOptions" />
+      <ThePopover
+        v-if="isPopover"
+        :popover-options="popoverOptions"
+        @popover:edit="handlePopoverEdit"
+        @popover:delete="handlePopoverDelete"
+      />
     </div>
   </li>
 </template>
@@ -51,6 +56,15 @@ export default {
           action: "delete"
         }
       ] as IPopoverOptionsProp[]
+    }
+  },
+
+  methods: {
+    handlePopoverEdit() {
+      this.$emit("popover:edit")
+    },
+    handlePopoverDelete() {
+      this.$emit("popover:delete")
     }
   }
 }

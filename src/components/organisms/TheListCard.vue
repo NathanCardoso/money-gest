@@ -5,6 +5,8 @@
       :key="cardIndex"
       :itemList="card"
       :is-card-show="isCardShow"
+      @popover:edit="handlePopoverEdit"
+      @popover:delete="handlePopoverDelete"
     />
   </ul>
 </template>
@@ -23,6 +25,15 @@ export default {
     isCardShow: {
       type: Boolean,
       default: true
+    }
+  },
+
+  methods: {
+    handlePopoverEdit() {
+      this.$emit("card:edit")
+    },
+    handlePopoverDelete() {
+      this.$emit("card:delete")
     }
   }
 }

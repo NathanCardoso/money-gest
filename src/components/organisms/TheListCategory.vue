@@ -4,6 +4,8 @@
       v-for="(category, categoryIndex) in categoryList"
       :key="categoryIndex"
       :item-category="category"
+      @popover:edit="handlePopoverEdit"
+      @popover:delete="handlePopoverDelete"
     />
   </ul>
 </template>
@@ -18,6 +20,15 @@ export default {
     categoryList: {
       type: Array as () => IItemListCategoryProp[],
       default: () => [] as IItemListCategoryProp[]
+    }
+  },
+
+  methods: {
+    handlePopoverEdit() {
+      this.$emit("category:edit")
+    },
+    handlePopoverDelete() {
+      this.$emit("category:delete")
     }
   }
 }

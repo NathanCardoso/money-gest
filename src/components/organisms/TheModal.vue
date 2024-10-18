@@ -7,7 +7,12 @@
         <slot></slot>
         <div class="modal-buttons">
           <TheButtonForm button-message="Salvar" is-button-small />
-          <TheButtonForm button-message="Cancelar" is-button-small button-cancel />
+          <TheButtonForm
+            button-message="Cancelar"
+            is-button-small
+            button-cancel
+            @button:click="closeModal"
+          />
         </div>
       </section>
     </div>

@@ -5,6 +5,8 @@
       :key="transactionIndex"
       :item-transaction="transaction"
       :is-popover="isPopover"
+      @popover:edit="handlePopoverEdit"
+      @popover:delete="handlePopoverDelete"
     />
   </ul>
 </template>
@@ -23,6 +25,15 @@ export default {
     isPopover: {
       type: Boolean,
       default: true
+    }
+  },
+
+  methods: {
+    handlePopoverEdit() {
+      this.$emit("transaction:edit")
+    },
+    handlePopoverDelete() {
+      this.$emit("transaction:delete")
     }
   }
 }

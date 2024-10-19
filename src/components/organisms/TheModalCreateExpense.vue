@@ -11,26 +11,30 @@
         input-type="text"
         input-id="name"
         input-name="Nome"
-        input-placeholder="Digite o nome da entrada..."
+        input-placeholder="Digite o nome da saída..."
+        v-model="dataCreateExpense.expenseName"
       />
       <TheInputField
         is-label
         input-type="number"
-        input-id="revenue"
+        input-id="expense"
         input-name="Valor"
-        input-placeholder="Digite o valor da entrada..."
+        input-placeholder="Digite o valor da saída..."
+        v-model="dataCreateExpense.expenseValue"
       />
       <TheSelect
         is-label
         select-name="Conta"
         select-id="account"
         :select-options="selectOptions"
+        v-model="dataCreateExpense.expenseAccount"
       />
       <TheSelect
         is-label
         select-name="Categoria"
         select-id="category"
         :select-options="selectOptions"
+        v-model="dataCreateExpense.expenseCategory"
       />
     </form>
   </TheModal>
@@ -38,6 +42,7 @@
 
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { IModalCreateOrEditExpenseData } from "~/interface/organisms/TheModalCreateOrEditExpense";
 
 export default {
   name: "TheModalCreateExpense",
@@ -51,6 +56,12 @@ export default {
 
   data() {
     return {
+      dataCreateExpense: {
+        expenseName: "",
+        expenseValue: "",
+        expenseAccount: "",
+        expenseCategory: ""
+      } as IModalCreateOrEditExpenseData,
       selectOptions: [
         {
           value: "",
@@ -69,11 +80,11 @@ export default {
   },
 
   methods: {
-    handleClose() {
+    handleClose(): void {
       this.$emit("modal-expense:close")
     },
-    handleSubmit() {
-      this.$emit("modal-expense:submit")
+    handleSubmit(): void {
+      this.$emit("modal-expense:submit", this.dataCreateExpense)
     }
   }
 }

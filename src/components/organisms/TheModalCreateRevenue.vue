@@ -12,6 +12,7 @@
         input-id="name"
         input-name="Nome"
         input-placeholder="Digite o nome da entrada..."
+        v-model="dataCreateRevenue.revenueName"
       />
       <TheInputField
         is-label
@@ -19,11 +20,13 @@
         input-id="revenue"
         input-name="Valor"
         input-placeholder="Digite o valor da entrada..."
+        v-model="dataCreateRevenue.revenueMoney"
       />
       <TheSelect
         is-label
         select-name="Conta"
         select-id="account"
+        v-model="dataCreateRevenue.revenueAccount"
         :select-options="selectOptions"
       />
     </form>
@@ -32,6 +35,7 @@
 
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue";
 
 export default {
   name: "TheModalCreateRevenue",
@@ -45,6 +49,11 @@ export default {
 
   data() {
     return {
+      dataCreateRevenue: {
+        revenueName: "",
+        revenueMoney: "",
+        revenueAccount: ""
+      } as IModalCreateOrEditRevenueData,
       selectOptions: [
         {
           value: "",
@@ -63,11 +72,11 @@ export default {
   },
 
   methods: {
-    handleClose() {
+    handleClose(): void {
       this.$emit("modal-revenue:close")
     },
-    handleSubmit() {
-      this.$emit("modal-revenue:submit")
+    handleSubmit(): void {
+      this.$emit("modal-revenue:submit", this.dataCreateRevenue)
     }
   }
 }

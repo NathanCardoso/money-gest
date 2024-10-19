@@ -12,11 +12,13 @@
         input-id="name"
         input-name="Nome"
         input-placeholder="Digite o nome da categoria..."
+        v-model="dataEditCategory.categoryName"
       />
       <TheSelect
         is-label
         select-name="Selecione a cor da categoria"
         select-id="category"
+        v-model="dataEditCategory.categoryColor"
         :select-options="selectOptions"
       />
     </form>
@@ -25,6 +27,7 @@
 
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { IModalCreateOrEditCategoryData } from "~/interface/organisms/TheModalCreateOrEditCategory";
 
 export default {
   name: "TheModalEditCategory",
@@ -42,6 +45,10 @@ export default {
 
   data() {
     return {
+      dataEditCategory: {
+        categoryName: "",
+        categoryColor: ""
+      } as IModalCreateOrEditCategoryData,
       selectOptions: [
         {
           value: "",
@@ -60,11 +67,11 @@ export default {
   },
 
   methods: {
-    handleClose() {
+    handleClose(): void {
       this.$emit("modal-category:close")
     },
-    handleSubmit() {
-      this.$emit("modal-category:submit")
+    handleSubmit(): void {
+      this.$emit("modal-category:submit", this.dataEditCategory)
     }
   }
 }

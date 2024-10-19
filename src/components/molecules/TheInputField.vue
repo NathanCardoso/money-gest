@@ -8,17 +8,14 @@
       :type="inputType"
       :id="inputId"
       :placeholder="inputPlaceholder"
-      v-model="inputField"
+      :value="modelValue"
+      @input="handleInputData"
     />
     <TheParagraph v-if="isInputMessage" :paragraph-message="inputMessage" />
   </div>
 </template>
 
 <script lang="ts">
-interface InputFieldInterface {
-  inputField: string
-}
-
 export default {
   name: "TheInputField",
 
@@ -52,13 +49,18 @@ export default {
     inputMessage: {
       type: String,
       default: ""
+    },
+    modelValue: {
+      type: String,
+      required: true
     }
   },
 
-  data() {
-    return {
-      inputField: ""
-    } as InputFieldInterface
+  methods: {
+    handleInputData(event: Event) {
+      const target = event.target as HTMLInputElement;
+      this.$emit("update:modelValue", target.value);
+    }
   }
 }
 </script>

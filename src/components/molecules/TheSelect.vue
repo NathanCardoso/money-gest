@@ -3,11 +3,17 @@
     <label v-if="isLabel" class="label" :for="selectId">
       {{ selectName }}
     </label>
-    <select :name="selectName" :id="selectId" class="select" v-model="selectData">
+    <select 
+      class="select"
+      :name="selectName"
+      :id="selectId"
+      :value="modelValue"
+      @input="handleSelectData"
+    >
       <option
-        v-for="(option, index) in selectOptions"
-        :key="index"
-        :disabled="index === 0"
+        v-for="(option, optionIndex) in selectOptions"
+        :key="optionIndex"
+        :disabled="optionIndex === 0"
         :value="option.value"
       >
         {{ option.label }}
@@ -47,12 +53,23 @@ export default {
     selectMessage: {
       type: String,
       default: ""
+    },
+    modelValue: {
+      type: String,
+      required: true
     }
   },
 
   data() {
     return {
       selectData: ""
+    }
+  },
+
+  methods: {
+    handleSelectData(event: Event) {
+      const target = event.target as HTMLSelectElement
+      this.$emit("update:modelValue", target.value)
     }
   }
 }

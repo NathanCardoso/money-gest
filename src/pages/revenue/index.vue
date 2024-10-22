@@ -45,7 +45,7 @@
 <script lang="ts">
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
 import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue";
-import { useTransactionStore } from '~/store/useStoreTransactionRevenue';
+import { useStoreRevenue } from '~/store/useTransactionRevenue';
 
 export default {
   name: "PageRevenue",
@@ -96,7 +96,7 @@ export default {
   },
 
   setup() {
-    const { transactions, addTransaction } = useTransactionStore()
+    const { transactions, addTransaction } = useStoreRevenue()
 
     return {
       transactions,

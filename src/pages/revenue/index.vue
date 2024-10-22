@@ -44,6 +44,8 @@
 
 <script lang="ts">
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
+import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue";
+import { useTransactionStore } from '~/store/useStoreTransactionRevenue';
 
 export default {
   name: "PageRevenue",
@@ -93,26 +95,37 @@ export default {
     }
   },
 
+  setup() {
+    const { transactions, addTransaction } = useTransactionStore()
+
+    return {
+      transactions,
+      addTransaction
+    }
+  },
+
   methods: {
-    handleOpenModalCreateRevenue() {
+    handleOpenModalCreateRevenue(): void {
       this.createRevenueModalOpened = true
     },
-    handleCreateRevenue() {},
-    handleCloseModalCreateRevenue() {
+    handleCreateRevenue(payload: IModalCreateOrEditRevenueData) {
+      this.addTransaction(payload)
+    },
+    handleCloseModalCreateRevenue(): void {
       this.createRevenueModalOpened = false
     },
-    handleOpenModalEditRevenue() {
+    handleOpenModalEditRevenue(): void {
       this.editRevenueModalOpened = true
     },
-    handleEditRevenue() {},
-    handleCloseModalEditRevenue() {
+    handleEditRevenue(): void {},
+    handleCloseModalEditRevenue(): void {
       this.editRevenueModalOpened = false
     },
-    handleOpenModalDeleteRevenue() {
+    handleOpenModalDeleteRevenue(): void {
       this.deleteRvenueModalOpened = true
     },
-    handleDeleteRevenue() {},
-    handleCloseModalDeleteRevenue() {
+    handleDeleteRevenue(): void {},
+    handleCloseModalDeleteRevenue(): void {
       this.deleteRvenueModalOpened = false
     }
   },

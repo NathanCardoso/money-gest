@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import serviceTransactionRevenue from '~/services/useTransactionRevenue'
+import serviceTransactionRevenue from '~/services/transactionRevenue'
 import type { IItemListTransactionProp } from '~/interface/organisms/TheItemListTransaction';
 import type { IModalCreateOrEditRevenueData } from '~/interface/organisms/TheModalCreateOrEditRevenue';
 

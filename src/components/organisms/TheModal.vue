@@ -6,7 +6,7 @@
         <TheTitleSection :title-message="title" class="modal-title" />
         <slot></slot>
         <div class="modal-buttons">
-          <TheButtonForm button-message="Salvar" is-button-small />
+          <TheButtonForm button-message="Salvar" is-button-small @button:click="submit"/>
           <TheButtonForm
             button-message="Cancelar"
             is-button-small

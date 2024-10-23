@@ -3,47 +3,48 @@ import axios from "axios"
 const url = 'https://dogsapi.origamid.dev/json/'
 
 const urlInstance = axios.create({
-  baseURL: url + 'api'
+  baseURL: url + 'api/',
 })
 
 urlInstance.interceptors.request.use(
   function(config) {
     const token = window.localStorage.token
-    if(token) {
+    if (token) {
       config.headers.Authorization = token
     }
     return config
   },
-  function (error) {
+  function(error) {
     return Promise.reject(error)
   }
 )
 
 export const api = {
-  get<typeResponse>(endpoint: string): Promise<typeResponse> {
-    return urlInstance.get(endpoint)
+  async get<typeResponse>(endpoint: string): Promise<typeResponse> {
+    const response = await urlInstance.get<typeResponse>(endpoint)
+    return response.data
   },
 
-  post<typeBody, typeResponse>(endpoint: string, body: typeBody): Promise<typeResponse> {
-    return urlInstance.post(endpoint, body)
+  async post<typeBody, typeResponse>(endpoint: string, body: typeBody): Promise<typeResponse> {
+    const response = await urlInstance.post<typeResponse>(endpoint, body)
+    return response.data
   },
-  
-  put<typeBody, typeResponse>(endpoint: string, body: typeBody): Promise<typeResponse> {
-    return urlInstance.put(endpoint, body)
+
+  async put<typeBody, typeResponse>(endpoint: string, body: typeBody): Promise<typeResponse> {
+    const response = await urlInstance.put<typeResponse>(endpoint, body)
+    return response.data
   },
-  
-  delete(endpoint: string): Promise<void> {
-    return urlInstance.delete(endpoint)
+
+  async delete(endpoint: string): Promise<void> {
+    await urlInstance.delete(endpoint)
   },
-  
-  login<typeBody>(body: typeBody): Promise<void> {
-    return axios.post(
-      url + 'jwt-auth/v1/token', 
-      body)
+
+  async login<typeBody, typeResponse>(body: typeBody): Promise<typeResponse> {
+    const response = await axios.post<typeResponse>(url + 'jwt-auth/v1/token', body)
+    return response.data
   },
-  
-  validateToken(): Promise<void> {
-    return urlInstance.post(
-      url + 'jwt-auth/v1/token/validate')
-  }
+
+  async validateToken(): Promise<void> {
+    await urlInstance.post(url + 'jwt-auth/v1/token/validate')
+  },
 }

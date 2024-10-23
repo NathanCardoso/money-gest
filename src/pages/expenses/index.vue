@@ -44,6 +44,7 @@
 
 <script lang="ts">
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
+import { useStoreExpense } from "~/store/useTransactionExpense";
 
 export default {
   name: "PageExpenses",
@@ -90,6 +91,14 @@ export default {
           revenueValue: "R$ 200,00"
         }
       ] as IItemListTransactionProp[]
+    }
+  },
+
+  setup() {
+    const storeExpense = useStoreExpense()
+
+    return {
+      storeExpense
     }
   },
 

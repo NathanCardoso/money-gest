@@ -96,11 +96,10 @@ export default {
   },
 
   setup() {
-    const { transactions, addTransaction } = useStoreRevenue()
+    const storeRevenue = useStoreRevenue()
 
     return {
-      transactions,
-      addTransaction
+      storeRevenue
     }
   },
 
@@ -108,9 +107,7 @@ export default {
     handleOpenModalCreateRevenue(): void {
       this.createRevenueModalOpened = true
     },
-    handleCreateRevenue(payload: IModalCreateOrEditRevenueData) {
-      this.addTransaction(payload)
-    },
+    handleCreateRevenue(payload: IModalCreateOrEditRevenueData) {},
     handleCloseModalCreateRevenue(): void {
       this.createRevenueModalOpened = false
     },

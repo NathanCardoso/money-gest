@@ -54,6 +54,7 @@
 
 <script lang="ts">
 import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
+import { useStoreCategory } from "~/store/useCategory";
 
 export default {
   name: "PageCategories",
@@ -85,6 +86,14 @@ export default {
           revenueValue: "R$ 890,00"
         }
       ] as IItemListCategoryProp[]
+    }
+  },
+
+  setup() {
+    const storeCategory = useStoreCategory()
+
+    return {
+      storeCategory
     }
   },
 

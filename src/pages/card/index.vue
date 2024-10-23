@@ -45,6 +45,7 @@
 
 <script lang="ts">
 import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
+import { useStoreCard } from "~/store/useCard";
 
 export default {
   name: "PageCard",
@@ -92,6 +93,14 @@ export default {
           cardStatus: "moderate"
         }
       ] as IItemListCardProp[]
+    }
+  },
+
+  setup() {
+    const storeCard = useStoreCard()
+
+    return {
+      storeCard
     }
   },
 

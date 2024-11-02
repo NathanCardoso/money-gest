@@ -16,6 +16,7 @@
         input-name="Nome de usuário"
         input-placeholder="Digite seu nome..."
         input-message="Altere seu nome de usuário aqui. Pode ser seu nome real ou um pseudônimo."
+        v-model="user.name"
       />
       <TheInputField
         is-label
@@ -25,6 +26,7 @@
         input-name="Idade"
         input-placeholder="Digite sua idade..."
         input-message="A sua idade só pode ser alterada uma única vez."
+        v-model="user.age"
       />
       <TheSelect
         is-label
@@ -33,6 +35,7 @@
         select-id="gender"
         select-message="Altere o seu gênero aqui."
         :select-options="selectOptions"
+        v-model="user.gender"
       />
       <TheInputField
         is-label
@@ -42,6 +45,7 @@
         input-name="Email"
         input-placeholder="Digite seu email..."
         input-message="Altere seu email de usuário aqui."
+        v-model="user.email"
       />
       <TheButtonForm button-message="Atualizar Perfil" is-button-small />
     </form>
@@ -56,6 +60,12 @@ export default {
 
   data() {
     return {
+      user: {
+        name: "",
+        email: "",
+        age: "",
+        gender: "",
+      },
       selectOptions: [
         {
           value: "",

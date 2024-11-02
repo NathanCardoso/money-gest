@@ -48,7 +48,7 @@ export default {
     },
     dynamicComponent(component: string): DefineComponent {
       return defineAsyncComponent(
-        () => import(`../components/organisms/${component}.vue`)
+        () => import(`../../components/organisms/${component}.vue`)
       )
     }
   }

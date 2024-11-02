@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const url = 'https://dogsapi.origamid.dev/json/'
+const url = 'https://finance-api-xi.vercel.app/'
 
 const urlInstance = axios.create({
   baseURL: url + 'api/',

@@ -20,7 +20,7 @@
           button-link-message="Ver todas as contas"
           is-button-link-card
         >
-          <TheListAccount :accountList="listAccount" />
+          <TheListAccount :account-list="listAccount" />
         </TheBigCard>
         <TheBigCard
           class="card"
@@ -42,8 +42,8 @@
 </template>
 
 <script lang="ts">
-import type { IButtonLinkProp } from "../interface/atoms/TheButtonLink"
-import type { IMoneyCard } from "../interface/organisms/TheMoneyCard"
+import type { IButtonLinkProp } from "~/interface/atoms/TheButtonLink"
+import type { IMoneyCard } from "~/interface/organisms/TheMoneyCard"
 import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
 import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"

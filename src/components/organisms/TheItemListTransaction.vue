@@ -6,12 +6,12 @@
       </div>
       <div class="info-category">
         <TheIconMark :color="itemTransaction.colorCategory" />
-        <TheParagraph :paragraph-message="itemTransaction.nameCategory" />
+        <TheParagraph :paragraph-message="buyCategory" />
       </div>
     </div>
     <div class="info-invoice">
       <div class="invoice-range">
-        <TheParagraph :paragraph-message="itemTransaction.recipeName" />
+        <TheParagraph :paragraph-message="itemTransaction.dateTime" />
         <TheParagraph :paragraph-message="itemTransaction.revenueValue" bold />
       </div>
       <ThePopover
@@ -56,6 +56,12 @@ export default {
           action: "delete"
         }
       ] as IPopoverOptionsProp[]
+    }
+  },
+
+  computed: {
+    buyCategory() {
+      return `${this.itemTransaction.nameCategory} - ${this.itemTransaction.recipeName}`
     }
   },
 

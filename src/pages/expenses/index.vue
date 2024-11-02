@@ -59,35 +59,40 @@ export default {
           nameAccount: "Conta Itaú",
           nameCategory: "Carteira",
           colorCategory: "red",
-          recipeName: "Cinema - 10/06/2024",
+          dateTime: "10/06/2024 - 12:38",
+          recipeName: "Cinema",
           revenueValue: "R$ 89,90"
         },
         {
           nameAccount: "Conta Itaú",
           nameCategory: "Carteira",
           colorCategory: "red",
-          recipeName: "Estacionamento - 10/06/2024",
+          dateTime: "10/06/2024 - 12:38",
+          recipeName: "Estacionamento",
           revenueValue: "R$ 30,00"
         },
         {
           nameAccount: "Conta Itaú",
           nameCategory: "Carteira",
           colorCategory: "red",
-          recipeName: "Madero - 10/06/2024",
+          dateTime: "10/06/2024 - 12:38",
+          recipeName: "Madero",
           revenueValue: "R$ 230,52"
         },
         {
           nameAccount: "Conta Itaú",
           nameCategory: "Carteira",
           colorCategory: "red",
-          recipeName: "Açaí - 10/06/2024",
+          dateTime: "10/06/2024 - 12:38",
+          recipeName: "Açaí",
           revenueValue: "R$ 19,00"
         },
         {
           nameAccount: "Conta Itaú",
           nameCategory: "Carteira",
           colorCategory: "red",
-          recipeName: "Gasolina - 10/06/2024",
+          dateTime: "10/06/2024 - 12:38",
+          recipeName: "Gasolina",
           revenueValue: "R$ 200,00"
         }
       ] as IItemListTransactionProp[]

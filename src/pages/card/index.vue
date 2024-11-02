@@ -16,8 +16,8 @@
         paragraph-card="Veja seu cartões, e monitore com facilidade."
       >
         <TheListCard
+          is-popover
           :card-list="listCard"
-          :is-card-show="false"
           @card:edit="handleOpenModalEditCard"
           @card:delete="handleOpenModalDeleteCard"
         />

@@ -16,6 +16,7 @@
         paragraph-card="Veja suas categorias de despesas."
       >
         <TheListCategory
+          is-popover
           :category-list="listCategory"
           @category:edit="handleOpenModalEditCategory"
           @category:delete="handleOpenModalDeleteCategory"

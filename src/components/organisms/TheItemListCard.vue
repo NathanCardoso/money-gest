@@ -54,7 +54,7 @@ export default {
     },
     isCardShow: {
       type: Boolean,
-      default: true
+      default: false
     },
     isPopover: {
       type: Boolean,

@@ -5,6 +5,7 @@
       :key="cardIndex"
       :itemList="card"
       :is-card-show="isCardShow"
+      :is-popover="isPopover"
       @popover:edit="handlePopoverEdit"
       @popover:delete="handlePopoverDelete"
     />
@@ -24,7 +25,11 @@ export default {
     },
     isCardShow: {
       type: Boolean,
-      default: true
+      default: false
+    },
+    isPopover: {
+      type: Boolean,
+      default: false
     }
   },
 

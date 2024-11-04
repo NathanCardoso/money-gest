@@ -5,6 +5,7 @@
       :key="categoryIndex"
       :item-category="category"
       :is-popover="isPopover"
+      :is-click="isClick"
       @category:click="handleCategory"
       @popover:edit="handlePopoverEdit"
       @popover:delete="handlePopoverDelete"
@@ -24,6 +25,10 @@ export default {
       default: () => [] as IItemListCategoryProp[]
     },
     isPopover: {
+      type: Boolean,
+      default: false
+    },
+    isClick: {
       type: Boolean,
       default: false
     }

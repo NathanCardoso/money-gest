@@ -17,6 +17,7 @@
       >
         <TheListCategory
           is-popover
+          is-click
           :category-list="listCategory"
           @category:view="handleOpenCategory"
           @category:edit="handleOpenModalEditCategory"

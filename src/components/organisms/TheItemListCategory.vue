@@ -1,5 +1,9 @@
 <template>
-  <li class="item-list-category" @click="handleClick">
+  <li
+    class="item-list-category"
+    :class="{'click': isClick}"
+    @click="handleClick"
+  >
     <div class="info-category-left">
       <TheIconMark :color="itemCategory.colorCategory" />
       <TheParagraph :paragraph-message="itemCategory.nameCategory" bold />
@@ -29,6 +33,10 @@ export default {
       default: () => ({} as IItemListCategoryProp)
     },
     isPopover: {
+      type: Boolean,
+      default: false
+    },
+    isClick: {
       type: Boolean,
       default: false
     }
@@ -75,8 +83,10 @@ export default {
   cursor: pointer;
   transition: all .3s;
 
-  &:hover {
-    border-bottom: rem(2) solid $grayLight;
+  &.click {
+    &:hover {
+      border-bottom: rem(2) solid $grayLight;
+    }
   }
 
   .info-category-left {

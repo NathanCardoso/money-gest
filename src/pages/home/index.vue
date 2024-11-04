@@ -147,21 +147,25 @@ export default {
       ] as IItemListAccountProp[],
       listCategory: [
         {
+          id: 1,
           nameCategory: "Transporte",
           colorCategory: "blue",
           revenueValue: "R$ 890,00"
         },
         {
+          id: 2,
           nameCategory: "Alimentação",
           colorCategory: "red",
           revenueValue: "R$ 890,00"
         },
         {
+          id: 3,
           nameCategory: "lazer",
           colorCategory: "yellow",
           revenueValue: "R$ 890,00"
         },
         {
+          id: 4,
           nameCategory: "saude",
           colorCategory: "green",
           revenueValue: "R$ 890,00"

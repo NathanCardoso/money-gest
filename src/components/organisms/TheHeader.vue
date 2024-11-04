@@ -46,6 +46,11 @@ export default {
         },
         {
           id: 5,
+          name: "Contas",
+          path: "/account"
+        },
+        {
+          id: 6,
           name: "Cartões",
           path: "/card"
         }

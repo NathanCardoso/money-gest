@@ -14,7 +14,12 @@
         <TheParagraph paragraph-message="Saldo de:" />
         <TheParagraph :paragraph-message="itemAccount.balance" bold />
       </div>
-      <ThePopover v-if="isPopover" :popover-options="popoverOptions" />
+      <ThePopover
+        v-if="isPopover"
+        :popover-options="popoverOptions"
+        @popover:edit="handlePopoverEdit"
+        @popover:delete="handlePopoverDelete"
+      />
     </div>
   </li>
 </template>
@@ -57,6 +62,15 @@ export default {
   computed: {
     isMastercard(): boolean {
       return this.itemAccount.cardFlag === "mastercad"
+    }
+  },
+
+  methods: {
+    handlePopoverEdit() {
+      this.$emit("popover:edit")
+    },
+    handlePopoverDelete() {
+      this.$emit("popover:delete")
     }
   }
 }

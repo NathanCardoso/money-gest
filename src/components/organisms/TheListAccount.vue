@@ -4,6 +4,9 @@
       v-for="(account, accountIndex) in accountList"
       :key="accountIndex"
       :item-account="account"
+      :is-popover="isPopover"
+      @popover:edit="handlePopoverEdit"
+      @popover:delete="handlePopoverDelete"
     />
   </ul>
 </template>
@@ -18,6 +21,19 @@ export default {
     accountList: {
       type: Array as () => IItemListAccountProp[],
       default: () => [] as IItemListAccountProp[]
+    },
+    isPopover: {
+      type: Boolean,
+      default: false
+    }
+  },
+
+  methods: {
+    handlePopoverEdit() {
+      this.$emit("account:edit")
+    },
+    handlePopoverDelete() {
+      this.$emit("account:delete")
     }
   }
 }

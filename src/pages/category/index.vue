@@ -18,6 +18,7 @@
         <TheListCategory
           is-popover
           :category-list="listCategory"
+          @category:view="handleOpenCategory"
           @category:edit="handleOpenModalEditCategory"
           @category:delete="handleOpenModalDeleteCategory"
         />
@@ -67,21 +68,25 @@ export default {
       deleteCategoryModalOpened: false,
       listCategory: [
         {
+          id: 1,
           nameCategory: "Transporte",
           colorCategory: "blue",
           revenueValue: "R$ 890,00"
         },
         {
+          id: 2,
           nameCategory: "Alimentação",
           colorCategory: "red",
           revenueValue: "R$ 890,00"
         },
         {
+          id: 3,
           nameCategory: "lazer",
           colorCategory: "yellow",
           revenueValue: "R$ 890,00"
         },
         {
+          id: 4,
           nameCategory: "saude",
           colorCategory: "green",
           revenueValue: "R$ 890,00"
@@ -99,6 +104,9 @@ export default {
   },
 
   methods: {
+    handleOpenCategory(categoryId) {
+      this.$router.push(`/category/${categoryId}`)
+    },
     handleOpenModalCreateCategory() {
       this.createCategoryModalOpened = true
     },

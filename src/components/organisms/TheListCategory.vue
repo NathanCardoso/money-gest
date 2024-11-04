@@ -5,6 +5,7 @@
       :key="categoryIndex"
       :item-category="category"
       :is-popover="isPopover"
+      @category:click="handleCategory"
       @popover:edit="handlePopoverEdit"
       @popover:delete="handlePopoverDelete"
     />
@@ -29,6 +30,9 @@ export default {
   },
 
   methods: {
+    handleCategory(categoryId) {
+      this.$emit("category:view", categoryId)
+    },
     handlePopoverEdit() {
       this.$emit("category:edit")
     },

@@ -53,7 +53,7 @@ export default {
 
   methods: {
     handleClick(): void {
-      this.$emit("category:click")
+      this.$emit("category:click", this.itemCategory.id)
     },
     handlePopoverEdit() {
       this.$emit("popover:edit")
@@ -70,7 +70,14 @@ export default {
   @include useAlignCenterBetween;
   width: 100%;
   background: $white;
+  border-bottom: rem(2) solid $white;
   padding: rem(8) 0;
+  cursor: pointer;
+  transition: all .3s;
+
+  &:hover {
+    border-bottom: rem(2) solid $grayLight;
+  }
 
   .info-category-left {
     display: flex;

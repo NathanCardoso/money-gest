@@ -29,7 +29,7 @@ export default {
     const route = useRoute()
 
     const isActive = (routeProp: IHeaderNavigationProp): boolean => {
-      return route.path === routeProp.path
+      return route.path.includes(routeProp.path)
     }
 
     return {

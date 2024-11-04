@@ -43,7 +43,22 @@ export default {
     },
     handleSubmit() {
       this.$emit("modal-confirmation:submit")
+    },
+    handleModalOutside(event: MouseEvent): void {
+      const target = event.target as HTMLElement
+      
+      const isModal = target.classList.contains("modal-overlay")
+
+      if (isModal) this.handleClose()
     }
+  },
+
+  mounted() {
+    document.addEventListener("click", this.handleModalOutside)
+  },
+
+  beforeUnmount() {
+    document.removeEventListener("click", this.handleModalOutside)
   }
 }
 </script>

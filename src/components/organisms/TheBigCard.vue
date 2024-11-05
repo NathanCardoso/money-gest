@@ -5,7 +5,7 @@
       <TheParagraph :paragraph-message="paragraphCard" />
     </div>
     <slot></slot>
-    <TheButtonLinkCard :button-message="buttonLinkMessage" />
+    <TheButtonLinkCard :button-message="buttonLinkMessage" @button:click="handleClick" />
   </section>
 </template>
 
@@ -33,6 +33,12 @@ export default {
     isHeader: {
       type: Boolean,
       default: true
+    }
+  },
+
+  methods: {
+    handleClick() {
+      this.$emit('big-card:click')
     }
   }
 }

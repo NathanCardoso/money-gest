@@ -10,6 +10,7 @@
           paragraph-card="Veja seus cartões utilizados recentemente."
           button-link-message="Ver todos os cartões"
           is-button-link-card
+          @big-card:click="handleBigCardClick('card')"
         >
           <TheListCard :card-list="listCard" />
         </TheBigCard>
@@ -19,6 +20,7 @@
           paragraph-card="Veja o saldo de suas contas bancárias."
           button-link-message="Ver todas as contas"
           is-button-link-card
+          @big-card:click="handleBigCardClick('account')"
         >
           <TheListAccount :account-list="listAccount" />
         </TheBigCard>
@@ -26,8 +28,9 @@
           class="card"
           title-card="Gastos por Categoria"
           paragraph-card="Veja suas categorias de despesas."
-          button-link-messgae="Ver todas as categorias"
+          button-link-message="Ver todas as categorias"
           is-button-link-card
+          @big-card:click="handleBigCardClick('category')"
         >
           <TheListCategory :category-list="listCategory" />
         </TheBigCard>
@@ -171,6 +174,12 @@ export default {
           revenueValue: "R$ 890,00"
         }
       ] as IItemListCategoryProp[]
+    }
+  },
+
+  methods: {
+    handleBigCardClick(route) {
+      this.$router.push(`/${route}`)
     }
   }
 }

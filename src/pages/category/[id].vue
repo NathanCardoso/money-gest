@@ -1,9 +1,10 @@
 <template>
   <div class="page-category">
-  <div class="category-header">
-    <TheTitlePage title-message="Categoria" />
-    <TheDatePicker class="date-picker"/>
-  </div>
+    <div class="category-header">
+      <TheTitlePage title-message="Categoria" />
+      <TheDatePicker class="date-picker"/>
+    </div>
+    <TheListMoneyCard class="category-money-cards" :cards="moneyCards" />
     <main class="category-main">
       <TheBigCard
         class="card-main"
@@ -11,27 +12,6 @@
         paragraph-card="O limite de gasto nessa categoria é R$ 1.000,00."
       >
         <TheListTransaction :transaction-list="itemListTransaction" :is-popover="false" />
-      </TheBigCard>
-
-      <TheBigCard
-        class="card-info"
-        title-card="Informações"
-        paragraph-card="Veja mais detalhes"
-      >
-        <ul class="info-list">
-          <li class="info-item">
-            <TheParagraph paragraph-message="Limite de Gasto" />
-            <TheParagraph paragraph-message="R$ 1000,00" bold />
-          </li>
-          <li class="info-item">
-            <TheParagraph paragraph-message="Total Gasto" />
-            <TheParagraph paragraph-message="R$ 800,00" bold />
-          </li>
-          <li class="info-item">
-            <TheParagraph paragraph-message="Saldo" />
-            <TheParagraph paragraph-message="R$ 200,00" bold />
-          </li>
-        </ul>
       </TheBigCard>
     </main>
   </div>
@@ -86,7 +66,65 @@ export default {
           recipeName: "Gasoli24",
           revenueValue: "R$ 200,00"
         }
-      ] as IItemListTransactionProp[]
+      ] as IItemListTransactionProp[],
+      moneyCards: [
+        {
+          title: "Limite de Gasto",
+          moneyValue: "R$ 300",
+          moneyColor: "blue",
+          icon: "IconArrowUp"
+        },
+        {
+          title: "Total Gasto",
+          moneyValue: "R$ 2000",
+          moneyColor: "green",
+          icon: "IconAlert"
+        },
+        {
+          title: "Saldo",
+          moneyValue: "R$ 200",
+          moneyColor: "yellow",
+          icon: "IconBarChart"
+        }
+      ] as IMoneyCard[],
+      listCard: [
+        {
+          nameBanking: "Itaú",
+          cardFlag: "visa",
+          cardLastNumber: "Final 5552",
+          cardLimited: "De: R$ 3750,43",
+          cardInvoice: "Fatura: R$ 1870,00",
+          cardPercentageLimited: "28",
+          cardStatus: "moderate"
+        },
+        {
+          nameBanking: "Nubank",
+          cardFlag: "mastercard",
+          cardLastNumber: "Final 9856",
+          cardLimited: "De: R$ 6789,80",
+          cardInvoice: "Fatura: R$ 3489,00",
+          cardPercentageLimited: "37",
+          cardStatus: "moderate"
+        },
+        {
+          nameBanking: "Itaú",
+          cardFlag: "visa",
+          cardLastNumber: "Final 5552",
+          cardLimited: "De: R$ 3750,43",
+          cardInvoice: "Fatura: R$ 1870,00",
+          cardPercentageLimited: "28",
+          cardStatus: "moderate"
+        },
+        {
+          nameBanking: "Itaú",
+          cardFlag: "visa",
+          cardLastNumber: "Final 5552",
+          cardLimited: "De: R$ 3750,43",
+          cardInvoice: "Fatura: R$ 1870,00",
+          cardPercentageLimited: "28",
+          cardStatus: "moderate"
+        }
+      ] as IItemListCardProp[],
     }
   }
 }
@@ -96,6 +134,10 @@ export default {
 .page-category {
   .category-header {
     @include useDatePicker;
+  }
+
+  .category-money-cards {
+    margin-top: rem(16);
   }
 
   .card-main {

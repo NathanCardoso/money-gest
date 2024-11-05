@@ -80,10 +80,11 @@ export default {
   background: $white;
   border-bottom: rem(2) solid $white;
   padding: rem(8) 0;
-  cursor: pointer;
   transition: all .3s;
-
+  
   &.click {
+    cursor: pointer;
+
     &:hover {
       border-bottom: rem(2) solid $grayLight;
     }

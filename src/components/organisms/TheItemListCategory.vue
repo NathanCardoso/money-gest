@@ -60,8 +60,9 @@ export default {
   },
 
   methods: {
-    handleClick(): void {
-      this.$emit("category:click", this.itemCategory.id)
+    handleClick({ target }: { target: EventTarget }): void {
+      const isPopover = (target as HTMLElement)?.classList.contains('popover-button');
+      if (!isPopover) this.$emit("category:click", this.itemCategory.id);
     },
     handlePopoverEdit() {
       this.$emit("popover:edit")

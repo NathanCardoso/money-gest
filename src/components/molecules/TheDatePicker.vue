@@ -119,6 +119,12 @@ export default {
 .dp__input {
   border: none;
   padding: 8px 16px 8px 38px;
+  font-size: 14px;
+  transition: all .3s;
+}
+
+.dp__input:hover {
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
 .wrapper-button {
@@ -185,7 +191,7 @@ export default {
 :root {
   /*General*/
   --dp-font-family: Arial, Helvetica, sans-serif;
-  --dp-border-radius: 4px; /*Configurable border-radius*/
+  --dp-border-radius: 6px; /*Configurable border-radius*/
   --dp-cell-border-radius: 4px; /*Specific border radius for the calendar cell*/
   --dp-common-transition: all 0.1s ease-in; /*Generic transition applied on buttons and calendar cells*/
 }

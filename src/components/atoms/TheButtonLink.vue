@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss" scoped>
 .button-link {
-  padding: rem(6) rem(12);
+  padding: rem(12);
   background: $white;
   border: none;
   border-radius: rem(6);
@@ -38,6 +38,7 @@ export default {
   @include useAlignCenter;
   gap: rem(8);
   cursor: pointer;
+  font-size: rem(14);
   transition: all 0.3s;
 
   &:hover {

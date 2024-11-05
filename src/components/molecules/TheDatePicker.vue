@@ -2,13 +2,14 @@
   <VueDatePicker
     range
     multi-calendars
+    auto-apply
+    ref="dp"
     locale="pt-BR"
+    class="date-picker"
     :format="format"
     :day-names="['S', 'T', 'Q', 'Q', 'S', 'S', 'D']"
     :show-time="false"
     :enable-time-picker="false"
-    auto-apply
-    ref="dp"
     v-model="date"
   >
     <template #left-sidebar="props">
@@ -103,12 +104,23 @@ export default {
   },
 
   mounted() {
-    this.handleClick(7)
+    
+    this.$nextTick(() => {
+      const buttonClearDate = document.getElementsByClassName('dp--clear-btn')
+      buttonClearDate[0].remove()
+      
+      this.handleClick(7)
+    })
   }
 }
 </script>
 
-<style scoped>
+<style>
+.dp__input {
+  border: none;
+  padding: 8px 16px 8px 38px;
+}
+
 .wrapper-button {
   display: flex;
   flex-direction: column;
@@ -124,7 +136,13 @@ export default {
   transition: all 0.3s;
   width: 150px;
   text-align: start;
+  border: none;
   border-radius: 4px;
+  cursor: pointer;
+}
+
+.date-button + .date-button {
+  margin-top: 6px;
 }
 
 .date-button.active, .date-button:hover {

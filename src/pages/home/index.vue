@@ -1,6 +1,9 @@
 <template>
   <section class="home">
-    <TheTitlePage title-message="Informações inicias" />
+    <div class="home-header">
+      <TheTitlePage title-message="Informações inicias" />
+      <TheDatePicker class="date-picker"/>
+    </div>
     <main class="main">
       <TheListMoneyCard :cards="moneyCards" />
       <div class="big-cards">
@@ -49,7 +52,6 @@ import type { IButtonLinkProp } from "~/interface/atoms/TheButtonLink"
 import type { IMoneyCard } from "~/interface/organisms/TheMoneyCard"
 import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
 import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
-import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
 
 export default {
   name: "AppIndex",
@@ -187,6 +189,10 @@ export default {
 
 <style lang="scss" scoped>
 .home {
+  .home-header {
+    @include useDatePicker;
+  }
+
   .main {
     margin: rem(20) 0;
     display: flex;

@@ -1,14 +1,17 @@
 <template>
-  <div class="page-category">
+  <div class="page-expenses">
     <TheTitlePage title-message="Saídas" />
-    <TheButtonLink
-      class="button-link"
-      button-message="Adicionar saída"
-      button-action="add-expense"
-      @button:add-expense="handleOpenModalCreateExpense"
-    >
-      <IconAdd />
-    </TheButtonLink>
+    <div class="expenses-actions">
+      <TheButtonLink
+        class="button-link"
+        button-message="Adicionar saída"
+        button-action="add-expense"
+        @button:add-expense="handleOpenModalCreateExpense"
+      >
+        <IconAdd />
+      </TheButtonLink>
+      <TheDatePicker class="date-picker"/>
+    </div>
     <main class="category-main">
       <TheBigCard
         class="card-main"
@@ -137,9 +140,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page-category {
-  .button-link {
-    margin-top: rem(20);
+.page-expenses {
+  .expenses-actions {
+    @include useDatePicker;
+
+    .button-link {
+      margin-top: rem(20);
+    }
   }
 
   .card-main {

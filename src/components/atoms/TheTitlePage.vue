@@ -22,6 +22,7 @@ export default {
 .title-wrapper {
   @include useAlignCenterBetween;
   gap: rem(16);
+  width: 100%;
 
   .title {
     color: $black;

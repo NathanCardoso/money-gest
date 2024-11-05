@@ -1,14 +1,17 @@
 <template>
   <div class="page-revenue">
     <TheTitlePage title-message="Entradas" />
-    <TheButtonLink
-      class="button-link"
-      button-message="Adicionar entrada"
-      button-action="add-entry"
-      @button:add-entry="handleOpenModalCreateRevenue"
-    >
-      <IconAdd />
-    </TheButtonLink>
+    <div class="revenue-actions">
+      <TheButtonLink
+        class="button-link"
+        button-message="Adicionar entrada"
+        button-action="add-entry"
+        @button:add-entry="handleOpenModalCreateRevenue"
+      >
+        <IconAdd />
+      </TheButtonLink>
+      <TheDatePicker class="date-picker"/>
+    </div>
     <main class="category-main">
       <TheBigCard
         class="card-main"
@@ -139,9 +142,14 @@ export default {
 
 <style lang="scss" scoped>
 .page-revenue {
-  .button-link {
-    margin-top: rem(20);
+  .revenue-actions {
+    @include useDatePicker;
+    
+    .button-link {
+      margin-top: rem(20);
+    }
   }
+
 
   .card-main {
     margin-top: rem(16);

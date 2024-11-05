@@ -1,6 +1,9 @@
 <template>
   <div class="page-category">
+  <div class="category-header">
     <TheTitlePage title-message="Categoria" />
+    <TheDatePicker class="date-picker"/>
+  </div>
     <main class="category-main">
       <TheBigCard
         class="card-main"
@@ -91,8 +94,8 @@ export default {
 
 <style lang="scss" scoped>
 .page-category {
-  .button-link {
-    margin-top: rem(20);
+  .category-header {
+    @include useDatePicker;
   }
 
   .card-main {

@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile">
+  <div class="user-profile" @click="handleClick">
     <div class="user-info">
       <TheParagraph :paragraph-message="userName" />
       <TheParagraph :paragraph-message="userEmail" bold />
@@ -21,6 +21,12 @@ export default {
       type: String,
       required: true
     }
+  },
+
+  methods: {
+    handleClick() {
+      this.$emit('user-profile:click')
+    }
   }
 }
 </script>
@@ -34,6 +40,7 @@ export default {
   padding: rem(8) rem(8) rem(8) rem(16);
   border-radius: rem(6);
   border: rem(1) solid $linesAndStroke;
+  cursor: pointer;
 
   .user-info {
     @include useAlignEndCenter;

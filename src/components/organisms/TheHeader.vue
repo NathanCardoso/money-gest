@@ -7,8 +7,11 @@
           <TheHeaderNavigation :routes="routes" />
         </div>
         <div class="header-user">
-          <TheUserProfile user-name="Nathan" user-email="nathan@gmail.com" />
-          <TheNotification />
+          <TheUserProfile
+            user-name="Nathan"
+            user-email="nathan@gmail.com"
+            @user-profile:click="handleClickProfile"
+          />
         </div>
       </div>
     </div>
@@ -55,6 +58,12 @@ export default {
           path: "/card"
         }
       ] as IHeaderNavigationProp[]
+    }
+  },
+
+  methods: {
+    handleClickProfile() {
+      this.$router.push('/setting')
     }
   }
 }

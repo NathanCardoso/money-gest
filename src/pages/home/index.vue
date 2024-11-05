@@ -58,12 +58,6 @@ export default {
 
   data() {
     return {
-      buttons: [
-        { label: "Nova entrada", action: "entry", icon: "IconArrowUp" },
-        { label: "Nova saída", action: "exit", icon: "IconArrowDown" },
-        { label: "Adicionar categoria", action: "category", icon: "IconAdd" },
-        { label: "Adicionar conta", action: "account", icon: "IconClipboard" }
-      ] as IButtonLinkProp[],
       moneyCards: [
         {
           title: "Entrada",
@@ -72,7 +66,7 @@ export default {
           icon: "IconArrowUp"
         },
         {
-          title: "Limite Total de Gasto",
+          title: "Limite",
           moneyValue: "R$ 2000",
           moneyColor: "blue",
           icon: "IconAlert"

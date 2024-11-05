@@ -7,10 +7,6 @@ export interface IUserRegister {
   confirmPassword: string;
 }
 
-export interface IUserRegisterResponse {
-  token: string;
-}
-
 export interface IUserData {
   name: string;
   age: string;

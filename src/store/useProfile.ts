@@ -1,38 +1,23 @@
 import { defineStore } from 'pinia'
 import serviceProfile from "~/services/profile"
-import type { IApiResponse } from "~/interface/service/ResponseRequest";
-import type { IUserRegister, IUserRegisterResponse } from "~/interface/pages/user"
+import type { IUserRegister } from "~/interface/pages/user"
+import type { UserToken } from "~/types/page/user"
 
 export const useStoreProfile = defineStore('transaction', {
   state: () => ({
-    userRegister: {} as IUserRegisterResponse
+    userToken: "" as UserToken
   }),
 
   getters: {
-    getUser(state) {
-      return state.userRegister
+    getToken(state) {
+      return state.userToken
     }
   },
 
   actions: {
-    // async getAllCard(): Promise<void> {
-    //   const { error, data } = await serviceProfile.getAllCard()
-
-    //   if(!error && Array.isArray(data)) this.allCards = [...data]
-    // },
-
     async postUser(user: IUserRegister): Promise<void> {
       const { error, data } = await serviceProfile.postUser(user)
-      console.log(data)
-      if(!error && data !== null) this.userRegister = data
-    },
-
-    // async putCard(card: IModalCreateOrEditCardData, cardId: number): Promise<void> {
-    //   await serviceProfile.putCard(card, cardId)
-    // },
-
-    // async deleteCard(cardId: number): Promise<void> {
-    //   await serviceProfile.deleteCard(cardId)
-    // },
+      if (!error && data !== null && !Array.isArray(data)) this.userToken = data
+    }
   }
 })

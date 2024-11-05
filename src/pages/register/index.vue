@@ -62,7 +62,11 @@
           v-model="user.confirmPassword"
         />
       </div>
-      <TheButtonForm class="form-button" button-message="Entrar" />
+      <TheButtonForm
+        class="form-button"
+        button-message="Criar conta"
+        @button:click="handleClickRegister"
+      />
     </form>
   </div>
 </template>
@@ -105,6 +109,12 @@ export default {
     definePageMeta({
       layout: "login"
     })
+  },
+
+  methods: {
+    handleClickRegister() {
+      this.$router.push('/home')
+    }
   }
 }
 </script>

@@ -21,14 +21,21 @@
         input-placeholder="Digite sua senha..."
         v-model="user.password"
       />
-      <TheButtonForm class="form-button" button-message="Entrar" />
+      <TheButtonForm
+        class="form-button"
+        button-message="Entrar"
+        @button:click="handleClickSend"/>
     </form>
     <div class="login-register">
     <div class="register-message">
       <TheTitlePage title-message="Cadastre-se" />
       <TheParagraph paragraph-message="Ainda não possui conta? Cadastre-se no site" />
     </div>
-      <TheButtonForm class="register-button" button-message="Cadastro" />
+      <TheButtonForm
+        class="register-button"
+        button-message="Cadastro"
+        @button:click="handleClickRegister"
+      />
     </div>
   </div>
 </template>
@@ -50,6 +57,15 @@ export default {
     definePageMeta({
       layout: "login"
     })
+  },
+
+  methods: {
+    handleClickSend() {
+      this.$router.push('/home')
+    },
+    handleClickRegister() {
+      this.$router.push('/register')
+    }
   }
 }
 </script>

@@ -1,6 +1,12 @@
 <template>
   <div class="popover-container">
-    <button class="popover-button" @click="togglePopover">&nbsp;</button>
+    <button
+      class="popover-button"
+      :class="{'active': popoverActive}"
+      @click="togglePopover"
+    >
+    &nbsp;
+    </button>
     <ul v-if="popoverActive" class="popover-list">
       <li
         v-for="popover in popoverOptions"
@@ -97,7 +103,7 @@ export default {
     }
 
     &.active {
-      border: rem(1) solid $grayLight;
+      border: rem(1) solid $grayLightAlt;
     }
   }
 

@@ -56,7 +56,7 @@
         />
         <TheInputField
           input-type="password"
-          input-id="password"
+          input-id="repet-password"
           input-name="Senha"
           input-placeholder="Digite novamente sua senha..."
           v-model="user.confirmPassword"
@@ -73,6 +73,7 @@
 
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import { useStoreProfile } from "~/store/useProfile"
 
 export default {
   name: "PageRegister",
@@ -109,10 +110,18 @@ export default {
     definePageMeta({
       layout: "login"
     })
+
+    const storeProfile = useStoreProfile()
+
+    return {
+      storeProfile
+    }
   },
 
   methods: {
-    handleClickRegister() {
+   async handleClickRegister() {
+      await this.storeProfile.postUser(this.user)
+
       this.$router.push('/home')
     }
   }

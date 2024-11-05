@@ -1,6 +1,7 @@
 <template>
   <div class="login">
     <div class="login-header">
+      <!-- <TheDatePicker /> -->
       <TheTitlePage title-message="Login" />
       <TheParagraph paragraph-message="Insira seu e-mail abaixo para fazer login" />
     </div>

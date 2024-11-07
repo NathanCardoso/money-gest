@@ -1,18 +1,52 @@
 <template>
   <div class="login">
     <div class="info-system">
-    <IconLogo logo-color="#fff"/>
-    <TheParagraph paragraph-message="Tenha total controle sobre o seu dinheiro."/>
+      <IconLogo logo-color="#fff"/>
+      <TheParagraph paragraph-message="Tenha total controle sobre o seu dinheiro."/>
     </div>
     <div class="info-user">
+      <TheFeedback
+        v-if="feedbackData.isFeedbackActive"
+        :error-request="feedbackData.errorRequest"
+        :messageRequest="feedbackData.feedbackMessage"
+        @feedback:finished="removeFeedback"
+      />
       <slot></slot>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { useStoreFeedback } from '~/store/useFeedback'
+
 export default {
-  name: "LayoutDefault"
+  name: "LayoutLogin",
+
+  setup() {
+    const feedbackStore = useStoreFeedback()
+
+    return {
+      feedbackStore
+    }
+  },
+
+  computed: {
+    feedbackData() {
+      return this.feedbackStore.getFeedback
+    }
+  },
+
+  methods: {
+    removeFeedback() {
+      setTimeout(() => {
+        this.feedbackStore.setFeedback({
+          isFeedbackActive: false,
+          isError: false,
+          feedbackMessage: ""
+        })
+      }, 400);
+    },
+  }
 }
 </script>
 
@@ -34,6 +68,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
   }
 }
 </style>

@@ -1,13 +1,13 @@
 <template>
   <div class="login">
     <div class="login-header">
-      <!-- <TheDatePicker /> -->
       <TheTitlePage title-message="Login" />
       <TheParagraph paragraph-message="Insira seu e-mail abaixo para fazer login" />
     </div>
     <form class="login-form">
       <TheInputField
         class="form-input"
+        ref="inputEmail"
         input-type="email"
         input-id="email"
         input-name="Email"
@@ -16,6 +16,7 @@
       />
       <TheInputField
         class="form-input"
+        ref="inputPassword"
         input-type="password"
         input-id="password"
         input-name="Senha"
@@ -43,6 +44,7 @@
 
 <script lang="ts">
 import { useStoreProfile } from "~/store/useProfile"
+import TheInputField from "~/components/molecules/TheInputField.vue"
 
 export default {
   name: "PageLogin",
@@ -64,18 +66,31 @@ export default {
     const storeProfile = useStoreProfile()
 
     return {
-      storeProfile
+      storeProfile,
     }
   },
 
   methods: {
-    async handleClickSend() {
-      await this.storeProfile.userLogin(this.user)
-      this.$router.push('/home')
+    async handleClickSend(): Promise<void> {
+      if(this.isValidateFormRequest()) {
+        await this.storeProfile.userLogin(this.user)
+        // this.$router.push('/home')
+      }
     },
-    handleClickRegister() {
+    handleClickRegister(): void {
       this.$router.push('/register')
     },
+    isValidateFormRequest(): boolean {
+      const inputEmail = this.$refs.inputEmail as typeof TheInputField
+      const inputPassword = this.$refs.inputPassword as typeof TheInputField
+      
+      const email = inputEmail.validate()
+      const password = inputPassword.validate()
+      
+      const isValidRequest = email && password
+
+      return isValidRequest
+    }
   }
 }
 </script>

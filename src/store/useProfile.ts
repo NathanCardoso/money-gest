@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
-import serviceProfile from "~/services/profile"
 import type { IUserRegister, IUserLogin } from "~/interface/pages/user"
 import type { UserToken } from "~/types/page/user"
+import { addFeedback } from '~/utils/addFeedback'
+import serviceProfile from "~/services/profile"
 
 export const useStoreProfile = defineStore('transaction', {
   state: () => ({
@@ -26,6 +27,14 @@ export const useStoreProfile = defineStore('transaction', {
 
     async userLogin(user: IUserLogin): Promise<void> {
       const { error, data } = await serviceProfile.userLogin(user)
+
+      if(error) {
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: "Não foi possivel fazer o login!"
+        })
+      }
     }
   }
 })

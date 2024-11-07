@@ -42,6 +42,8 @@
 </template>
 
 <script lang="ts">
+import { useStoreProfile } from "~/store/useProfile"
+
 export default {
   name: "PageLogin",
 
@@ -58,15 +60,22 @@ export default {
     definePageMeta({
       layout: "login"
     })
+
+    const storeProfile = useStoreProfile()
+
+    return {
+      storeProfile
+    }
   },
 
   methods: {
-    handleClickSend() {
+    async handleClickSend() {
+      await this.storeProfile.userLogin(this.user)
       this.$router.push('/home')
     },
     handleClickRegister() {
       this.$router.push('/register')
-    }
+    },
   }
 }
 </script>

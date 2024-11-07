@@ -48,16 +48,18 @@
 </template>
 
 <script lang="ts">
-import type { IButtonLinkProp } from "~/interface/atoms/TheButtonLink"
 import type { IMoneyCard } from "~/interface/organisms/TheMoneyCard"
 import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
 import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
+import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
+import { useCurrencyFormat } from "~/composables/useCurrencyFormat"
 
 export default {
   name: "AppIndex",
 
   data() {
     return {
+      amount: "",
       moneyCards: [
         {
           title: "Entrada",
@@ -173,8 +175,17 @@ export default {
     }
   },
 
+  setup() {
+    const { formattedValue, formatCurrency } = useCurrencyFormat()
+
+    return {
+      formattedValue,
+      formatCurrency
+    }
+  },
+
   methods: {
-    handleBigCardClick(route) {
+    handleBigCardClick(route: string) {
       this.$router.push(`/${route}`)
     }
   }

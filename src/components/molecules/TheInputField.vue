@@ -5,17 +5,21 @@
     </label>
     <input
       class="input"
+      v-model="inputValue"
       :type="inputType"
       :id="inputId"
       :placeholder="inputPlaceholder"
-      :value="modelValue"
+      :onBlur="onBlur"
       @input="handleInputData"
     />
+    <p v-show="error" class="error">{{ error }}</p>
     <TheParagraph v-if="isInputMessage" :paragraph-message="inputMessage" />
   </div>
 </template>
 
 <script lang="ts">
+import useForm from '~/composables/useForm';
+
 export default {
   name: "TheInputField",
 
@@ -56,10 +60,21 @@ export default {
     }
   },
 
+  setup(props) {
+    const { inputValue, error, validate, onBlur } = useForm(props.inputType)
+
+    return {
+      inputValue,
+      error,
+      validate,
+      onBlur
+    }
+  },
+
   methods: {
     handleInputData(event: Event) {
-      const target = event.target as HTMLInputElement;
-      this.$emit("update:modelValue", target.value);
+      const target = event.target as HTMLInputElement
+      this.$emit("update:modelValue", target.value)
     }
   }
 }
@@ -79,6 +94,12 @@ export default {
 
   .input {
     @include theInputStyle;
+  }
+
+  .error {
+    color: $red;
+    font-size: rem(14);
+    margin-top: rem(4);
   }
 }
 </style>

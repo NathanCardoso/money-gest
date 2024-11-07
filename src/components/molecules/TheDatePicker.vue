@@ -104,7 +104,6 @@ export default {
   },
 
   mounted() {
-    
     this.$nextTick(() => {
       const buttonClearDate = document.getElementsByClassName('dp--clear-btn')
       buttonClearDate[0].remove()

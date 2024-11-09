@@ -48,8 +48,8 @@
 
 <script lang="ts">
 import { useStoreProfile } from "~/store/useProfile"
-import TheInputField from "~/components/molecules/TheInputField.vue"
 import { addFeedback } from "~/utils/addFeedback";
+import TheInputField from "~/components/molecules/TheInputField.vue"
 
 export default {
   name: "PageLogin",

@@ -5,10 +5,20 @@ import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCat
 
 const getAllCategory = async (): Promise<IApiResponse<IItemListCategoryProp>> => {
   try {
-    const allCategory = await api.get<IItemListCategoryProp[]>('money-gest');
+    const allCategory = await api.get<IItemListCategoryProp[]>('categorias');
     return { error: null, data: allCategory }
   } catch (err) {
     const error = new Error(`Erro ao buscar todas as categorias: ${err}`);
+    return { error, data: null }
+  }
+}
+
+const getCategory = async (categoryId: number): Promise<IApiResponse<IItemListCategoryProp>> => {
+  try {
+    const category = await api.get<IItemListCategoryProp>(`category${categoryId}`);
+    return { error: null, data: category }
+  } catch (err) {
+    const error = new Error(`Erro ao buscar a categoria: ${err}`);
     return { error, data: null }
   }
 }
@@ -17,7 +27,7 @@ const postCategory = async (
   category:  IModalCreateOrEditCategoryData
 ): Promise<IApiResponse<null>> => {
   try {
-    await api.post<IModalCreateOrEditCategoryData, IItemListCategoryProp>('money-gest', category)
+    await api.post<IModalCreateOrEditCategoryData, IItemListCategoryProp>('categorias', category)
     return { error: null, data: null }
   } catch(err) {
     const error = new Error(`Erro ao criar categoria: ${err}`);
@@ -31,7 +41,7 @@ const putCategory = async (
 ): Promise<IApiResponse<null>> => {
   try {
     await api.put<IModalCreateOrEditCategoryData, IItemListCategoryProp>(
-      `money-gest${categoryId}`,
+      `categorias/${categoryId}`,
       category
     )
     return { error: null, data: null }
@@ -43,7 +53,7 @@ const putCategory = async (
 
 const deleteCategory = async (categoryId: number): Promise<IApiResponse<null>> => {
   try {
-    await api.delete(`money-gest${categoryId}`)
+    await api.delete(`categorias/${categoryId}`)
     return { error: null, data: null }
   } catch(err) {
     const error = new Error(`Erro ao deletar categoria: ${err}`);
@@ -53,6 +63,7 @@ const deleteCategory = async (categoryId: number): Promise<IApiResponse<null>> =
 
 export default {
   getAllCategory,
+  getCategory,
   postCategory,
   putCategory,
   deleteCategory

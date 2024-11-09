@@ -16,32 +16,27 @@
         paragraph-card="Veja suas categorias de despesas."
       >
         <TheListCategory
+          v-if="storeCategory.categoryAll?.length"
           is-popover
           is-click
-          :category-list="listCategory"
+          :category-list="storeCategory.categoryAll"
           @category:view="handleOpenCategory"
           @category:edit="handleOpenModalEditCategory"
           @category:delete="handleOpenModalDeleteCategory"
         />
+        <TheLoading v-else />
       </TheBigCard>
     </main>
-    <div class="category-graphics">
-      <TheBigCard
-        title-card="Gráfico de Gasto por Categoria"
-        paragraph-card="Veja a comparação de gasto por categorias."
-      />
-      <TheBigCard
-        title-card="Gráfico de Gasto por Categoria"
-        paragraph-card="Veja a comparação de gasto por categorias."
-      />
-    </div>
     <TheModalCreateCategory
       :is-opened="createCategoryModalOpened"
+      :loading-request="loadingRequest"
       @modal-category:close="handleCloseModalCreateCategory"
       @modal-category:submit="handleCreateCategory"
     />
     <TheModalEditCategory
       :is-opened="editCategoryModalOpened"
+      :loading-request="loadingRequest"
+      :category-id="categoryId"
       @modal-category:close="handleCloseModalEditCategory"
       @modal-category:submit="handleEditCategory"
     />
@@ -49,6 +44,7 @@
       title-confirmation="Tem certeza que deseja excluir?"
       :paragraph-confirmation="$options.paragraphDeleteCategory"
       :is-opened="deleteCategoryModalOpened"
+      :is-disabled="loadingRequest"
       @modal-confirmation:close="handleCloseModalDeleteCategory"
       @modal-confirmation:submit="handleDeleteCategory"
     />
@@ -56,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
+import type { IModalCreateOrEditCategoryData } from "~/interface/organisms/TheModalCreateOrEditCategory"
 import { useStoreCategory } from "~/store/useCategory"
 import { addFeedback } from "~/utils/addFeedback"
 
@@ -65,35 +61,11 @@ export default {
 
   data() {
     return {
-      createCategoryModalOpened: false,
-      editCategoryModalOpened: false,
-      deleteCategoryModalOpened: false,
-      listCategory: [
-        {
-          id: 1,
-          nameCategory: "Transporte",
-          colorCategory: "blue",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 2,
-          nameCategory: "Alimentação",
-          colorCategory: "red",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 3,
-          nameCategory: "lazer",
-          colorCategory: "yellow",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 4,
-          nameCategory: "saude",
-          colorCategory: "green",
-          revenueValue: "R$ 890,00"
-        }
-      ] as IItemListCategoryProp[]
+      categoryId: 0 as number,
+      loadingRequest: false as boolean,
+      createCategoryModalOpened: false as boolean,
+      editCategoryModalOpened: false as boolean,
+      deleteCategoryModalOpened: false as boolean
     }
   },
 
@@ -106,30 +78,57 @@ export default {
   },
 
   methods: {
-    handleOpenCategory(categoryId) {
+    handleOpenCategory(categoryId: number): void {
       this.$router.push(`/category/${categoryId}`)
     },
-    handleOpenModalCreateCategory() {
+    handleOpenModalCreateCategory(): void {
       this.createCategoryModalOpened = true
     },
-    handleCreateCategory() {},
-    handleCloseModalCreateCategory() {
+    handleCloseModalCreateCategory(): void {
       this.createCategoryModalOpened = false
     },
-    handleOpenModalEditCategory() {
+    handleOpenModalEditCategory(categoryId: number): void {
+      this.categoryId = categoryId
       this.editCategoryModalOpened = true
     },
-    handleEditCategory() {},
-    handleCloseModalEditCategory() {
+    handleCloseModalEditCategory(): void {
       this.editCategoryModalOpened = false
     },
-    handleOpenModalDeleteCategory() {
+    handleOpenModalDeleteCategory( categoryId: number): void {
+      this.categoryId = categoryId
       this.deleteCategoryModalOpened = true
     },
-    handleDeleteCategory() {},
-    handleCloseModalDeleteCategory() {
+    handleCloseModalDeleteCategory(): void{
       this.deleteCategoryModalOpened = false
-    }
+    },
+    async handleGetAllCategory(): Promise<void> {
+      this.loadingRequest = true
+      await this.storeCategory?.getAllCategory()
+
+      this.loadingRequest = false
+      this.handleCloseModalCreateCategory()
+    },
+    async handleCreateCategory(categoryPayload: IModalCreateOrEditCategoryData): Promise<void> {
+      this.loadingRequest = true
+      await this.storeCategory.postCategory(categoryPayload)
+
+      this.loadingRequest = false
+      this.handleCloseModalCreateCategory()
+    },
+    async handleEditCategory(categoryPayload: IModalCreateOrEditCategoryData): Promise<void> {
+      this.loadingRequest = true
+      await this.storeCategory.putCategory(categoryPayload, this.categoryId)
+
+      this.loadingRequest = false
+      this.handleCloseModalEditCategory()
+    },
+    async handleDeleteCategory(): Promise<void> {
+      this.loadingRequest = true
+      await this.storeCategory.deleteCategory(this.categoryId)
+
+      this.loadingRequest = false
+      this.handleCloseModalDeleteCategory()
+    },
   },
 
   beforeMount() {
@@ -146,6 +145,12 @@ export default {
     }
   },
 
+  mounted() {
+    this.$nextTick(async () => {
+      await this.handleGetAllCategory()
+    })
+  },
+
   paragraphDeleteCategory:
     "Se você optar por excluir, será necessário adicionar novamente caso queira restaurar essa informação no futuro."
 }
@@ -159,13 +164,6 @@ export default {
 
   .card-main {
     margin-top: rem(16);
-  }
-
-  .category-graphics {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: rem(8);
-    margin-top: rem(8);
   }
 }
 </style>

@@ -11,15 +11,22 @@
         title-card="Lazer"
         paragraph-card="O limite de gasto nessa categoria é R$ 1.000,00."
       >
-        <TheListTransaction :transaction-list="itemListTransaction" :is-popover="false" />
+        <TheListTransaction
+          v-if="storeCategory.category.length"
+          :transaction-list="storeCategory.category"
+          :is-popover="false"
+        />
+        <TheLoading v-else/>
       </TheBigCard>
     </main>
   </div>
 </template>
 
 <script lang="ts">
+import type { IMoneyCard } from "~/interface/organisms/TheMoneyCard"
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
 import { addFeedback } from "~/utils/addFeedback"
+import { useStoreCategory } from "~/store/useCategory"
 
 export default {
   name: "PageExpenses",
@@ -87,45 +94,15 @@ export default {
           moneyColor: "yellow",
           icon: "IconBarChart"
         }
-      ] as IMoneyCard[],
-      listCard: [
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "De: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Nubank",
-          cardFlag: "mastercard",
-          cardLastNumber: "Final 9856",
-          cardLimited: "De: R$ 6789,80",
-          cardInvoice: "Fatura: R$ 3489,00",
-          cardPercentageLimited: "37",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "De: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "De: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        }
-      ] as IItemListCardProp[],
+      ] as IMoneyCard[]
+    }
+  },
+
+  setup() {
+    const storeCategory = useStoreCategory()
+
+    return {
+      storeCategory
     }
   },
 
@@ -142,6 +119,15 @@ export default {
       this.$router.push('/login') 
     }
   },
+
+  mounted() {
+    this.$nextTick(async () => {
+      const categoryId = +this.$route.params.id
+      const error = await this.storeCategory.getCategory(categoryId)
+
+      if(error) this.$router.go(-1)
+    })
+  }
 }
 </script>
 

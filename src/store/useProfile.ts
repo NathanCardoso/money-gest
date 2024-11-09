@@ -16,19 +16,36 @@ export const useStoreProfile = defineStore('transaction', {
   },
 
   actions: {
-    async postUser(user: IUserRegister): Promise<void> {
-      const dataOk = {
-        ...user,
-        age: Number(user.age)
+    async registerUser(user: IUserRegister): Promise<void> {
+      const { error, data } = await serviceProfile.registerUser(user)
+
+      if (!error && data !== null && !Array.isArray(data)){
+        window.localStorage.setItem('token', data.response.token)
+        addFeedback({
+          isFeedbackActive: true,
+          isError: false,
+          feedbackMessage: data.message
+        })
+      } else {
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: "Não foi possivel fazer o login!"
+        })
       }
-      const { error, data } = await serviceProfile.postUser(dataOk)
-      if (!error && data !== null && !Array.isArray(data)) this.userToken = data
     },
 
     async userLogin(user: IUserLogin): Promise<void> {
       const { error, data } = await serviceProfile.userLogin(user)
-
-      if(error) {
+      
+      if (!error && data !== null && !Array.isArray(data)){
+        window.localStorage.setItem('token', data.response.token)
+        addFeedback({
+          isFeedbackActive: true,
+          isError: false,
+          feedbackMessage: data.message
+        })
+      } else {
         addFeedback({
           isFeedbackActive: true,
           isError: true,

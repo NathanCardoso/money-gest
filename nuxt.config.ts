@@ -10,6 +10,7 @@ export default defineNuxtConfig({
 
   plugins: [
     '~/plugins/pinia.ts',
+    '~/plugins/vue-the-mask.js',
   ],
 
   components: [

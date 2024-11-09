@@ -1,5 +1,5 @@
 <template>
-  <button class="button-form" :class="classButton" @click.prevent="handleClick">
+  <button class="button-form" :class="classButton" :disabled="isDisabled" @click.prevent="handleClick">
     {{ buttonMessage }}
   </button>
 </template>
@@ -20,6 +20,10 @@ export default {
     isButtonSmall: {
       type: Boolean,
       default: false
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -27,7 +31,8 @@ export default {
     classButton() {
       return {
         cancel: this.buttonCancel,
-        small: this.isButtonSmall
+        small: this.isButtonSmall,
+        disabled: this.isDisabled
       }
     }
   },
@@ -58,6 +63,11 @@ export default {
 
   &.small {
     width: rem(128);
+  }
+
+  &.disabled {
+    opacity: .6;
+    cursor: not-allowed;
   }
 }
 </style>

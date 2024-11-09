@@ -19,6 +19,7 @@
 
 <script lang="ts">
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
+import { addFeedback } from "~/utils/addFeedback"
 
 export default {
   name: "PageExpenses",
@@ -126,7 +127,21 @@ export default {
         }
       ] as IItemListCardProp[],
     }
-  }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(!isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+      
+      this.$router.push('/login') 
+    }
+  },
 }
 </script>
 

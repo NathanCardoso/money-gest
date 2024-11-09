@@ -46,6 +46,7 @@
 <script lang="ts">
 import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import { useStoreCard } from "~/store/useCard";
+import { addFeedback } from "~/utils/addFeedback";
 
 export default {
   name: "PageAccount",
@@ -109,6 +110,20 @@ export default {
     handleDeleteAccount() {},
     handleCloseModalDeleteAccount() {
       this.deleteAccountModalOpened = false
+    }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(!isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+      
+      this.$router.push('/login') 
     }
   },
 

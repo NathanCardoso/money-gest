@@ -47,7 +47,8 @@
 
 <script lang="ts">
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
-import { useStoreExpense } from "~/store/useTransactionExpense";
+import { useStoreExpense } from "~/store/useTransactionExpense"
+import { addFeedback } from "~/utils/addFeedback"
 
 export default {
   name: "PageExpenses",
@@ -131,6 +132,20 @@ export default {
     handleDeleteExpense() {},
     handleCloseModalDeleteExpense() {
       this.deleteExpenseModalOpened = false
+    }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(!isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+      
+      this.$router.push('/login') 
     }
   },
 

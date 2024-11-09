@@ -45,7 +45,8 @@
 
 <script lang="ts">
 import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
-import { useStoreCard } from "~/store/useCard";
+import { useStoreCard } from "~/store/useCard"
+import { addFeedback } from "~/utils/addFeedback"
 
 export default {
   name: "PageCard",
@@ -125,6 +126,20 @@ export default {
     handleDeleteCard() {},
     handleCloseModalDeleteCard() {
       this.deleteCardModalOpened = false
+    }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(!isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+      
+      this.$router.push('/login') 
     }
   },
 

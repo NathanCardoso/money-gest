@@ -57,7 +57,8 @@
 
 <script lang="ts">
 import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
-import { useStoreCategory } from "~/store/useCategory";
+import { useStoreCategory } from "~/store/useCategory"
+import { addFeedback } from "~/utils/addFeedback"
 
 export default {
   name: "PageCategories",
@@ -128,6 +129,20 @@ export default {
     handleDeleteCategory() {},
     handleCloseModalDeleteCategory() {
       this.deleteCategoryModalOpened = false
+    }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(!isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+
+      this.$router.push('/login') 
     }
   },
 

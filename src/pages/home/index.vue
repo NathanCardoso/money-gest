@@ -53,6 +53,8 @@ import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
 import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
 import { useCurrencyFormat } from "~/composables/useCurrencyFormat"
+import { auth } from '~/utils/authToken'
+import { addFeedback } from "~/utils/addFeedback"
 
 export default {
   name: "AppIndex",
@@ -187,6 +189,20 @@ export default {
   methods: {
     handleBigCardClick(route: string) {
       this.$router.push(`/${route}`)
+    }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(!isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+      
+      this.$router.push('/login') 
     }
   }
 }

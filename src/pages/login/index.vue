@@ -6,12 +6,14 @@
     </div>
     <form class="login-form">
       <TheInputField
-        class="form-input"
         ref="inputEmail"
+        class="form-input"
         input-type="email"
         input-id="email"
+        input-validate="email"
         input-name="Email"
         input-placeholder="name@example.com"
+        :is-input-disabled="loadingRequest"
         v-model="user.email"
       />
       <TheInputField
@@ -19,8 +21,10 @@
         ref="inputPassword"
         input-type="password"
         input-id="password"
+        input-validate="password"
         input-name="Senha"
         input-placeholder="Digite sua senha..."
+        :is-input-disabled="loadingRequest"
         v-model="user.password"
       />
       <TheButtonForm
@@ -45,6 +49,7 @@
 <script lang="ts">
 import { useStoreProfile } from "~/store/useProfile"
 import TheInputField from "~/components/molecules/TheInputField.vue"
+import { addFeedback } from "~/utils/addFeedback";
 
 export default {
   name: "PageLogin",
@@ -54,13 +59,14 @@ export default {
       user: {
         email: "",
         password: ""
-      }
+      },
+      loadingRequest: false as boolean
     }
   },
 
   setup() {
     definePageMeta({
-      layout: "login"
+      layout: "login",
     })
 
     const storeProfile = useStoreProfile()
@@ -72,10 +78,13 @@ export default {
 
   methods: {
     async handleClickSend(): Promise<void> {
+      this.loadingRequest = true
       if(this.isValidateFormRequest()) {
         await this.storeProfile.userLogin(this.user)
-        // this.$router.push('/home')
+        this.$router.push('/home')
       }
+
+      this.loadingRequest = false
     },
     handleClickRegister(): void {
       this.$router.push('/register')
@@ -90,6 +99,20 @@ export default {
       const isValidRequest = email && password
 
       return isValidRequest
+    }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+      
+      this.$router.push('/home') 
     }
   }
 }

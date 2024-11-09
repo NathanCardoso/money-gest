@@ -18,6 +18,7 @@
 <script lang="ts">
 import { defineAsyncComponent } from "vue"
 import type { DefineComponent } from "vue"
+import { addFeedback } from "~/utils/addFeedback";
 
 export default {
   name: "PageSettings",
@@ -50,6 +51,20 @@ export default {
       return defineAsyncComponent(
         () => import(`../../components/organisms/${component}.vue`)
       )
+    }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(!isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+      
+      this.$router.push('/login')
     }
   }
 }

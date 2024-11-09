@@ -49,6 +49,7 @@
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
 import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue";
 import { useStoreRevenue } from '~/store/useTransactionRevenue';
+import { addFeedback } from "~/utils/addFeedback";
 
 export default {
   name: "PageRevenue",
@@ -132,6 +133,20 @@ export default {
     handleDeleteRevenue(): void {},
     handleCloseModalDeleteRevenue(): void {
       this.deleteRvenueModalOpened = false
+    }
+  },
+
+  beforeMount() {
+    const isAuthorization = auth()
+
+    if(!isAuthorization) {
+      addFeedback({
+        isFeedbackActive: true,
+        isError: true,
+        feedbackMessage: "Usuário não tem permissão."
+      })
+      
+      this.$router.push('/login') 
     }
   },
 

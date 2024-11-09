@@ -4,11 +4,27 @@
       {{ inputName }}
     </label>
     <input
-      class="input"
+      v-if="isMask"
       v-model="inputValue"
+      v-mask="inputMask"
+      class="input"
+      :class="{ 'disabled': isInputDisabled }"
       :type="inputType"
       :id="inputId"
       :placeholder="inputPlaceholder"
+      :disabled="isInputDisabled"
+      :onBlur="onBlur"
+      @input="handleInputData"
+    />
+    <input
+      v-else
+      v-model="inputValue"
+      class="input"
+      :class="{ 'disabled': isInputDisabled }"
+      :type="inputType"
+      :id="inputId"
+      :placeholder="inputPlaceholder"
+      :disabled="isInputDisabled"
       :onBlur="onBlur"
       @input="handleInputData"
     />
@@ -57,11 +73,32 @@ export default {
     modelValue: {
       type: String,
       required: true
+    },
+    isMask: {
+      type: Boolean,
+      required: false
+    },
+    inputMask: {
+      type: String,
+      default: null
+    },
+    isValidate: {
+      type: Boolean,
+      default: false
+    },
+    inputValidate: {
+      type: String,
+      required: false,
+      validation: (value: string) => ["number", "age", "password", "email"].includes(value)
+    },
+    isInputDisabled: {
+      type: Boolean,
+      default: false
     }
   },
 
   setup(props) {
-    const { inputValue, error, validate, onBlur } = useForm(props.inputType)
+    const { inputValue, error, validate, onBlur } = useForm(props.inputValidate || false)
 
     return {
       inputValue,

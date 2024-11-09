@@ -6,11 +6,17 @@
         <TheTitleSection :title-message="title" class="modal-title" />
         <slot></slot>
         <div class="modal-buttons">
-          <TheButtonForm button-message="Salvar" is-button-small @button:click="submit"/>
+          <TheButtonForm
+            button-message="Salvar"
+            is-button-small
+            :is-disabled="isDisabled"
+            @button:click="submit"
+          />
           <TheButtonForm
             button-message="Cancelar"
-            is-button-small
             button-cancel
+            is-button-small
+            :is-disabled="isDisabled"
             @button:click="closeModal"
           />
         </div>
@@ -29,6 +35,10 @@ export default {
       required: true
     },
     isOpened: {
+      type: Boolean,
+      default: false
+    },
+    isDisabled: {
       type: Boolean,
       default: false
     }

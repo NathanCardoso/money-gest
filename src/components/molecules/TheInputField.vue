@@ -8,7 +8,7 @@
       v-model="inputValue"
       v-mask="inputMask"
       class="input"
-      :class="{ 'disabled': isInputDisabled }"
+      :class="{ disabled: isInputDisabled }"
       :type="inputType"
       :id="inputId"
       :placeholder="inputPlaceholder"
@@ -20,7 +20,7 @@
       v-else
       v-model="inputValue"
       class="input"
-      :class="{ 'disabled': isInputDisabled }"
+      :class="{ disabled: isInputDisabled }"
       :type="inputType"
       :id="inputId"
       :placeholder="inputPlaceholder"
@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import useForm from '~/composables/useForm';
+import useForm from "~/composables/useForm"
 
 export default {
   name: "TheInputField",
@@ -89,7 +89,8 @@ export default {
     inputValidate: {
       type: String,
       required: false,
-      validation: (value: string) => ["number", "age", "password", "email"].includes(value)
+      validation: (value: string): boolean =>
+        ["name", "number", "age", "password", "email"].includes(value)
     },
     isInputDisabled: {
       type: Boolean,

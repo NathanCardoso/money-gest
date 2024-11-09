@@ -5,11 +5,17 @@
         <TheTitlePage :title-message="titleConfirmation" class="modal-title" />
         <TheParagraph :paragraph-message="paragraphConfirmation" />
         <div class="modal-buttons">
-          <TheButtonForm button-message="Salvar" is-button-small />
+          <TheButtonForm
+            button-message="Salvar"
+            is-button-small
+            :is-disabled="isDisabled"
+            @button:click="handleSubmit"
+          />
           <TheButtonForm
             button-message="Cancelar"
             is-button-small
             button-cancel
+            :is-disabled="isDisabled"
             @button:click="handleClose"
           />
         </div>
@@ -34,6 +40,10 @@ export default {
     paragraphConfirmation: {
       type: String,
       required: true
+    },
+    isDisabled: {
+      type: Boolean,
+      default: false
     }
   },
 

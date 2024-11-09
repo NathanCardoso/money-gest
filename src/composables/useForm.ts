@@ -1,4 +1,4 @@
-import { ref } from "vue"
+import { ref, watch } from "vue"
 interface TypeConfig {
   initialVariable?: string
   regex: RegExp
@@ -8,7 +8,7 @@ interface TypeConfig {
 const types: Record<string, TypeConfig> = {
   name: {
     initialVariable: "",
-    regex: /^[a-zA-Z\s]*$/,
+    regex: /^[a-zA-Záàãâéèêíïóõôöúüç\s]*$/,
     message: 'Utilize apenas letras.'
   },
   age: {
@@ -35,6 +35,12 @@ function useForm(type: keyof typeof types | false) {
   const inputValue = ref<string>(type !== false && types[type]?.initialVariable ? types[type].initialVariable : '')
   const error = ref<string | null>(null)
 
+  watch(inputValue, () => {
+    if(error.value !== null && error.value.length) {
+      error.value = ''
+    } 
+  })
+
   function validate(data: string): boolean {
     if (type === false) return true
 
@@ -47,7 +53,6 @@ function useForm(type: keyof typeof types | false) {
       const formatDate = data.split('/').reverse().join('-')
       const parsedDate = new Date(formatDate)
       const isDateValid = parsedDate instanceof Date && !isNaN(parsedDate.getTime())
-      console.log(isDateValid)
 
       if(!isDateValid) {
         error.value = types[type].message

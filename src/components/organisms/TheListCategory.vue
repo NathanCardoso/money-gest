@@ -35,14 +35,14 @@ export default {
   },
 
   methods: {
-    handleCategory(categoryId) {
+    handleCategory(categoryId: number): void {
       this.$emit("category:view", categoryId)
     },
-    handlePopoverEdit() {
-      this.$emit("category:edit")
+    handlePopoverEdit(categoryId: number): void {
+      this.$emit("category:edit", categoryId)
     },
-    handlePopoverDelete() {
-      this.$emit("category:delete")
+    handlePopoverDelete(categoryId: number): void {
+      this.$emit("category:delete", categoryId)
     }
   }
 }
@@ -51,5 +51,7 @@ export default {
 <style lang="scss" scoped>
 .category-list {
   width: 100%;
+  max-height: rem(300);
+  overflow-y: scroll;
 }
 </style>

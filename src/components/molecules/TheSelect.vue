@@ -3,11 +3,12 @@
     <label v-if="isLabel" class="label" :for="selectId">
       {{ selectName }}
     </label>
-    <select 
+    <select
       class="select"
       :name="selectName"
       :id="selectId"
-      :value="modelValue"
+      :value="inputValue"
+      :disabled="isSelectDisabled"
       @input="handleSelectData"
     >
       <option
@@ -16,9 +17,10 @@
         :disabled="optionIndex === 0"
         :value="option.value"
       >
-        {{ option.label }}
+        {{ option.label || option.value }}
       </option>
     </select>
+    <p v-show="error" class="error">{{ error }}</p>
     <TheParagraph v-if="isSelectMessage" :paragraph-message="selectMessage" />
   </div>
 </template>
@@ -57,17 +59,35 @@ export default {
     modelValue: {
       type: String,
       required: true
+    },
+    isValidate: {
+      type: Boolean,
+      default: false
+    },
+    isSelectDisabled: {
+      type: Boolean,
+      default: false
     }
   },
 
-  data() {
+  setup(props) {
+    const { inputValue, error, validate } = useForm(props.isValidate ? "select" : false)
+
     return {
-      selectData: ""
+      inputValue,
+      error,
+      validate,
+    }
+  },
+
+  watch: {
+    modelValue(newValue: string): void {
+      this.inputValue = newValue
     }
   },
 
   methods: {
-    handleSelectData(event: Event) {
+    handleSelectData(event: Event): void {
       const target = event.target as HTMLSelectElement
       this.$emit("update:modelValue", target.value)
     }
@@ -89,6 +109,12 @@ export default {
   .label {
     font-size: rem(14);
     color: $blackAlt;
+  }
+
+  .error {
+    color: $red;
+    font-size: rem(14);
+    margin-top: rem(4);
   }
 }
 </style>

@@ -6,8 +6,13 @@ interface TypeConfig {
 }
 
 const types: Record<string, TypeConfig> = {
-  number: {
-    initialVariable: "0.00",
+  name: {
+    initialVariable: "",
+    regex: /^[a-zA-Z\s]*$/,
+    message: 'Utilize apenas letras.'
+  },
+  age: {
+    initialVariable: "",
     regex: /\d+(\.\d*)?$/,
     message: 'Utilize apenas números.'
   },
@@ -19,6 +24,11 @@ const types: Record<string, TypeConfig> = {
     regex: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
     message: "A senha precisa ter um caracter maísculo, 1 minúsculo e 1 digito. Com no mínimo 8 caracteres."
   },
+  ['date-birthday']: {
+    initialVariable: "",
+    regex: /\d+(\.\d*)?$/,
+    message: 'Preencha uma data válida.'
+  }
 }
 
 function useForm(type: keyof typeof types | false) {
@@ -31,6 +41,21 @@ function useForm(type: keyof typeof types | false) {
     if (data.length === 0) {
       error.value = "O campo é obrigatório."
       return false
+    }
+
+    if(type === 'date-birthday') {
+      const formatDate = data.split('/').reverse().join('-')
+      const parsedDate = new Date(formatDate)
+      const isDateValid = parsedDate instanceof Date && !isNaN(parsedDate.getTime())
+      console.log(isDateValid)
+
+      if(!isDateValid) {
+        error.value = types[type].message
+        return false
+      }
+
+      error.value = ''
+      return true
     }
 
     if (types[type] && !types[type].regex.test(data)) {

@@ -10,4 +10,15 @@
   &:focus {
     border: rem(1) solid $purple;
   }
+
+  &.disabled {
+    background: $grayLight;
+    opacity: .6;
+    cursor: not-allowed;
+
+    &:hover,
+    &:focus {
+      border: none;
+    }
+  }
 }

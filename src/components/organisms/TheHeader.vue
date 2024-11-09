@@ -12,6 +12,7 @@
             user-email="nathan@gmail.com"
             @user-profile:click="handleClickProfile"
           />
+          <TheExit @exit:click="handleClickExit"/>
         </div>
       </div>
     </div>
@@ -64,6 +65,13 @@ export default {
   methods: {
     handleClickProfile() {
       this.$router.push('/setting')
+    },
+
+    handleClickExit() {
+      console.log('lalalal')
+      window.localStorage.removeItem('token')
+
+      this.$router.push('/login')
     }
   }
 }

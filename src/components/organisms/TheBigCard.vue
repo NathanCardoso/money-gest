@@ -4,7 +4,9 @@
       <TheTitleSection :title-message="titleCard" />
       <TheParagraph :paragraph-message="paragraphCard" />
     </div>
-    <slot></slot>
+    <Transition name="bigCard" mode="out-in">
+      <slot></slot>
+    </Transition>
     <TheButtonLinkCard :button-message="buttonLinkMessage" @button:click="handleClick" />
   </section>
 </template>
@@ -38,7 +40,7 @@ export default {
 
   methods: {
     handleClick() {
-      this.$emit('big-card:click')
+      this.$emit("big-card:click")
     }
   }
 }
@@ -58,5 +60,34 @@ export default {
     gap: rem(10);
     margin-bottom: rem(30);
   }
+}
+
+.bigCard-enter-from {
+  transform: translate3d(0, rem(20), 0);
+  filter: blur(2px);
+  opacity: 0;
+}
+
+.bigCard-enter-to {
+  transform: translate3d(0, 0, 0);
+  filter: blur(0);
+  opacity: 1;
+}
+
+.bigCard-leave-from {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  filter: blur(0);
+}
+
+.bigCard-leave-to {
+  transform: translate3d(0, rem(-20), 0);
+  opacity: 0;
+  filter: blur(2px);
+}
+
+.bigCard-enter-active,
+.bigCard-leave-active {
+  transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
 }
 </style>

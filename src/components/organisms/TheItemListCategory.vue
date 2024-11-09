@@ -13,7 +13,7 @@
       <ThePopover
         v-if="isPopover"
         :popover-options="popoverOptions"
-        @popover:edit="handlePopoverEdit"
+        @popover:edit="handlePopoverEdit()"
         @popover:delete="handlePopoverDelete"
       />
     </div>
@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import type { IPopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
-import type { IItemListCategoryProp } from "../../interface/organisms/TheItemListCategory"
+import type { IPopoverOptionsProp } from "~/interface/atoms/ThePopoverInterface"
+import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
 
 export default {
   name: "TheItemListCategory",
@@ -60,15 +60,21 @@ export default {
   },
 
   methods: {
-    handleClick({ target }: { target: EventTarget }): void {
-      const isPopover = (target as HTMLElement)?.classList.contains('popover-button');
-      if (!isPopover) this.$emit("category:click", this.itemCategory.id);
+    handleClick(event: Event): void {
+      if(event.target) {
+        const target: EventTarget = event.target
+
+        const isPopover = (target as HTMLElement)?.classList.contains('popover-button')
+        const isPopoverItem = (target as HTMLElement)?.classList.contains('popover-item')
+
+        if (!isPopover && !isPopoverItem) this.$emit("category:click", this.itemCategory.id)
+      }
     },
-    handlePopoverEdit() {
-      this.$emit("popover:edit")
+    handlePopoverEdit(): void {
+        this.$emit("popover:edit", this.itemCategory.id)
     },
-    handlePopoverDelete() {
-      this.$emit("popover:delete")
+    handlePopoverDelete(): void {
+      this.$emit("popover:delete", this.itemCategory.id)
     }
   }
 }

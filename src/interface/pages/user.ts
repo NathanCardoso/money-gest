@@ -8,16 +8,26 @@ export interface IUserRegister {
   confirmPassword: string;
 }
 
+export interface IUserResgisterResponse {
+  message: string;
+  response: {
+    token: string;
+  };
+}
+
 export interface IUserLogin {
   email: string;
   password: string;
 }
 
 export interface IUserLoginResponse {
-  token: string;
-  id: string;
-  email: string;
-  name: string;
+  message: string;
+  response: {
+    token: string;
+    id: string;
+    email: string;
+    name: string;
+  }
 }
 
 export interface IUserData {

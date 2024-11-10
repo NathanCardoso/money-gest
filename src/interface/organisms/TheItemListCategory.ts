@@ -1,6 +1,6 @@
 export interface IItemListCategoryProp {
-  id: number;
-  nameCategory: string;
-  colorCategory: string;
+  _id: string;
+  categoryName: string;
+  categoryColor: string;
   revenueValue: string;
 }

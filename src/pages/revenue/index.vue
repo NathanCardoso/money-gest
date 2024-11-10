@@ -27,11 +27,13 @@
     </main>
     <TheModalCreateRevenue
       :is-opened="createRevenueModalOpened"
+      :loading-request="loadingRequest"
       @modal-revenue:close="handleCloseModalCreateRevenue"
       @modal-revenue:submit="handleCreateRevenue"
     />
     <TheModalEditRevenue
       :is-opened="editRevenueModalOpened"
+      :loading-request="loadingRequest"
       @modal-revenue:close="handleCloseModalEditRevenue"
       @modal-revenue:submit="handleEditRevenue"
     />
@@ -56,9 +58,10 @@ export default {
 
   data() {
     return {
-      createRevenueModalOpened: false,
-      editRevenueModalOpened: false,
-      deleteRvenueModalOpened: false,
+      loadingRequest: false as boolean,
+      createRevenueModalOpened: false as boolean,
+      editRevenueModalOpened: false as boolean,
+      deleteRvenueModalOpened: false as boolean,
       itemListTransaction: [
         {
           nameAccount: "Conta Itaú",
@@ -116,7 +119,13 @@ export default {
     handleOpenModalCreateRevenue(): void {
       this.createRevenueModalOpened = true
     },
-    handleCreateRevenue(payload: IModalCreateOrEditRevenueData) {},
+    async handleCreateRevenue(revenuePayload: IModalCreateOrEditRevenueData) {
+      this.loadingRequest = true
+      this.storeRevenue.postTransactionRevenue(revenuePayload)
+      
+      this.loadingRequest = false
+      this.handleCloseModalCreateRevenue()
+    },
     handleCloseModalCreateRevenue(): void {
       this.createRevenueModalOpened = false
     },

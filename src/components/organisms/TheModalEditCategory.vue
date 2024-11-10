@@ -72,28 +72,32 @@ export default {
           label: "Selecione uma opção"
         },
         {
-          value: "#F64E60",
+          value: "red",
           label: "Vermelho"
         },
         {
-          value: "#3699FF",
+          value: "blue",
           label: "Azul"
         },
         {
-          value: "#F99E26",
+          value: "yellow",
           label: "Amarelo"
         },
         {
-          value: "#1BC5BD",
+          value: "green",
           label: "Verde"
         },
         {
-          value: "#71717A",
+          value: "gray",
           label: "Cinza"
         },
         {
-          value: "#B727E3",
+          value: "purple",
           label: "Roxo"
+        },
+        {
+          value: "black",
+          label: "Preto"
         }
       ] as ISelectOptionsProp[]
     }

@@ -1,6 +1,7 @@
 <template>
   <TheModal
     :is-opened="isOpened"
+    :is-disabled="loadingRequest"
     title="Adicione uma nova entrada"
     @modal:close="handleClose"
     @modal:submit="handleSubmit"
@@ -12,6 +13,7 @@
         input-id="name"
         input-name="Nome"
         input-placeholder="Digite o nome da entrada..."
+        :is-input-disabled="loadingRequest"
         v-model="dataCreateRevenue.revenueName"
       />
       <TheInputField
@@ -20,14 +22,16 @@
         input-id="revenue"
         input-name="Valor"
         input-placeholder="Digite o valor da entrada..."
+        :is-input-disabled="loadingRequest"
         v-model="dataCreateRevenue.revenueMoney"
       />
       <TheSelect
         is-label
         select-name="Conta"
         select-id="account"
-        v-model="dataCreateRevenue.revenueAccount"
+        :is-input-disabled="loadingRequest"
         :select-options="selectOptions"
+        v-model="dataCreateRevenue.revenueAccount"
       />
     </form>
   </TheModal>
@@ -42,6 +46,10 @@ export default {
 
   props: {
     isOpened: {
+      type: Boolean,
+      default: false
+    },
+    loadingRequest: {
       type: Boolean,
       default: false
     }

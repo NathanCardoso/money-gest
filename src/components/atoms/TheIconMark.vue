@@ -17,7 +17,6 @@ export default {
           "yellow",
           "red",
           "purple",
-          "white",
           "black",
           "gray",
         ].includes(color)

@@ -1,6 +1,7 @@
 <template>
   <TheModal
     :is-opened="isOpened"
+    :is-disabled="loadingRequest"
     title="Edite a entrada"
     @modal:close="handleClose"
     @modal:submit="handleSubmit"
@@ -12,6 +13,7 @@
         input-id="name"
         input-name="Nome"
         input-placeholder="Digite o nome da entrada..."
+        :is-input-disabled="loadingRequest"
         v-model="dataEditRevenue.revenueName"
       />
       <TheInputField
@@ -20,14 +22,16 @@
         input-id="revenue"
         input-name="Valor"
         input-placeholder="Digite o valor da entrada..."
+        :is-input-disabled="loadingRequest"
         v-model="dataEditRevenue.revenueMoney"
       />
       <TheSelect
         is-label
         select-name="Conta"
         select-id="account"
-        v-model="dataEditRevenue.revenueAccount"
+        :is-input-disabled="loadingRequest"
         :select-options="selectOptions"
+        v-model="dataEditRevenue.revenueAccount"
       />
     </form>
   </TheModal>
@@ -48,6 +52,10 @@ export default {
     revenueData: {
       type: Object,
       default: () => {}
+    },
+    loadingRequest: {
+      type: Boolean,
+      default: false
     }
   },
 

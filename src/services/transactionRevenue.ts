@@ -5,7 +5,7 @@ import type { IItemListTransactionProp } from "~/interface/organisms/TheItemList
 
 const getTransactionRevenue = async (): Promise<IApiResponse<IItemListTransactionProp>> => {
   try {
-    const transactionRevenue = await api.get<IItemListTransactionProp[]>('money-gest');
+    const transactionRevenue = await api.get<IItemListTransactionProp[]>('receitas');
     return { error: null, data: transactionRevenue }
   } catch (err) {
     const error = new Error(`Erro ao buscar transações de entrada: ${err}`);
@@ -17,10 +17,11 @@ const postTransactionRevenue = async (
   transaction:  IModalCreateOrEditRevenueData
 ): Promise<IApiResponse<null>> => {
   try {
-    await api.post<IModalCreateOrEditRevenueData, IItemListTransactionProp>('money-gest', transaction)
+    await api.post<IModalCreateOrEditRevenueData, IItemListTransactionProp>('receitas', transaction)
     return { error: null, data: null }
   } catch(err) {
     const error = new Error(`Erro ao criar transação de entrada: ${err}`);
+    console.log('lallala')
     return { error, data: null }
   }
 }
@@ -31,7 +32,7 @@ const putTransactionRevenue = async (
 ): Promise<IApiResponse<null>> => {
   try {
     await api.put<IModalCreateOrEditRevenueData, IItemListTransactionProp>(
-      `money-gest${transactionId}`,
+      `receitas/${transactionId}`,
       transaction
     )
     return { error: null, data: null }
@@ -43,7 +44,7 @@ const putTransactionRevenue = async (
 
 const deleteTransactionRevenue = async (transactionId: number): Promise<IApiResponse<null>> => {
   try {
-    await api.delete(`money-gest${transactionId}`)
+    await api.delete(`receitas/${transactionId}`)
     return { error: null, data: null }
   } catch(err) {
     const error = new Error(`Erro ao deletar transação de entrada: ${err}`);

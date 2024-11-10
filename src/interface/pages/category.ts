@@ -5,3 +5,8 @@ export interface stateCategory {
   category: IItemListTransactionProp[];
   allCategory: IItemListCategoryProp[];
 }
+
+export interface postCategoryResponse {
+  message: string;
+  response: IItemListCategoryProp
+}

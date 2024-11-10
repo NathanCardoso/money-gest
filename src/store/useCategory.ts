@@ -21,68 +21,16 @@ export const useStoreCategory = defineStore('category', {
   actions: {
     async getAllCategory(): Promise<void> {
       const { error, data } = await serviceCategory.getAllCategory()
-      const allCategoryMock = [
-        {
-          id: 1,
-          nameCategory: "Transporte",
-          colorCategory: "blue",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 2,
-          nameCategory: "Alimentação",
-          colorCategory: "red",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 3,
-          nameCategory: "lazer",
-          colorCategory: "yellow",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 4,
-          nameCategory: "saude",
-          colorCategory: "green",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 5,
-          nameCategory: "Transporte",
-          colorCategory: "blue",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 6,
-          nameCategory: "Alimentação",
-          colorCategory: "red",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 7,
-          nameCategory: "lazer",
-          colorCategory: "yellow",
-          revenueValue: "R$ 890,00"
-        },
-        {
-          id: 8,
-          nameCategory: "saude",
-          colorCategory: "green",
-          revenueValue: "R$ 890,00"
-        }
-      ]
 
       if(!error && Array.isArray(data)) {
-        setTimeout(() => {
-          this.allCategory = allCategoryMock
-        }, 5000)
+        this.allCategory = data
       }
 
       if(error) {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel buscar as categorias."
+          feedbackMessage: error?.message
         })
       }
     },
@@ -148,7 +96,7 @@ export const useStoreCategory = defineStore('category', {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel encontrar a categoria."
+          feedbackMessage: error?.message
         })
 
         return error
@@ -170,7 +118,7 @@ export const useStoreCategory = defineStore('category', {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel criar a categoria."
+          feedbackMessage: error?.message
         })
       }
     },
@@ -190,7 +138,7 @@ export const useStoreCategory = defineStore('category', {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel atualizar a categoria."
+          feedbackMessage: error?.message
         })
       }
     },
@@ -210,7 +158,7 @@ export const useStoreCategory = defineStore('category', {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel deletar a categoria."
+          feedbackMessage: error?.message
         })
       }
     }

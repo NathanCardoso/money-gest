@@ -12,6 +12,13 @@ urlInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+
+    if (config.method === 'post' && !config.url?.includes('/login')) {
+      if (config.data && typeof config.data === 'object') {
+        config.data.userId = localStorage.getItem('userId')
+      }
+    }
+
     return config
   },
   function(error) {
@@ -21,22 +28,67 @@ urlInstance.interceptors.request.use(
 
 export const api = {
   async get<typeResponse>(endpoint: string): Promise<typeResponse> {
-    const response = await urlInstance.get<typeResponse>(endpoint)
-    return response.data
+    try {
+      const response = await urlInstance.get<typeResponse>(endpoint)
+      return response.data
+    } catch(err) {
+      if (axios.isAxiosError(err)) {
+        const errorMessage = err.response?.data?.message || 'Erro desconhecido'
+        const status = err.response?.status
+        const customError = new Error(errorMessage) as { status?: number, message: string }
+        customError.status = status
+        throw customError
+      }
+      throw new Error('Erro desconhecido ao realizar a requisição');
+    }
   },
 
-  async post<typeBody, typeResponse>(endpoint: string, body: typeBody): Promise<typeResponse> {
-    const response = await urlInstance.post<typeResponse>(endpoint, body)
-    return response.data
+  async post<typeBody, typeResponse>(endpoint: string, body: typeBody): Promise<typeResponse | undefined> {
+    try {
+      const response = await urlInstance.post<typeResponse>(endpoint, body)
+      return response.data
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const errorMessage = err.response?.data?.message || 'Erro desconhecido'
+        const status = err.response?.status
+        const customError = new Error(errorMessage) as { status?: number, message: string }
+        customError.status = status
+        throw customError
+      }
+      throw new Error('Erro desconhecido ao realizar a requisição');
+    }
   },
+  
 
   async put<typeBody, typeResponse>(endpoint: string, body: typeBody): Promise<typeResponse> {
-    const response = await urlInstance.put<typeResponse>(endpoint, body)
-    return response.data
+    try {
+      const response = await urlInstance.put<typeResponse>(endpoint, body)
+      return response.data
+    } catch(err) {
+      if (axios.isAxiosError(err)) {
+        const errorMessage = err.response?.data?.message || 'Erro desconhecido'
+        const status = err.response?.status
+        const customError = new Error(errorMessage) as { status?: number, message: string }
+        customError.status = status
+        throw customError
+      }
+      throw new Error('Erro desconhecido ao realizar a requisição');
+    }
   },
 
   async delete(endpoint: string): Promise<void> {
-    await urlInstance.delete(endpoint)
+    try {
+      await urlInstance.delete(endpoint)
+    } catch(err) {
+      if (axios.isAxiosError(err)) {
+        const errorMessage = err.response?.data?.message || 'Erro desconhecido'
+        const status = err.response?.status
+        const customError = new Error(errorMessage) as { status?: number, message: string }
+        customError.status = status
+        throw customError
+      }
+      throw new Error('Erro desconhecido ao realizar a requisição');
+    }
   },
 
   async login<typeBody, typeResponse>(body: typeBody): Promise<typeResponse> {

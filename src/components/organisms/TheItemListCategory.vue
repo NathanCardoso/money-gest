@@ -5,11 +5,11 @@
     @click="handleClick"
   >
     <div class="info-category-left">
-      <TheIconMark :color="itemCategory.colorCategory" />
-      <TheParagraph :paragraph-message="itemCategory.nameCategory" bold />
+      <TheIconMark :color="itemCategory.categoryColor" />
+      <TheParagraph :paragraph-message="itemCategory.categoryName" bold />
     </div>
     <div class="info-category-right">
-      <TheParagraph :paragraph-message="itemCategory.revenueValue" bold />
+      <TheParagraph :paragraph-message="revenueCategory" bold />
       <ThePopover
         v-if="isPopover"
         :popover-options="popoverOptions"
@@ -59,6 +59,18 @@ export default {
     }
   },
 
+  computed: {
+    revenueCategory(): string {
+    const revenueValue: number = +this.itemCategory.revenueValue
+
+    if (typeof revenueValue === "number") {
+      return revenueValue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+    }
+
+    return "R$ 0,00"
+  }
+  },
+
   methods: {
     handleClick(event: Event): void {
       if(event.target) {
@@ -67,14 +79,14 @@ export default {
         const isPopover = (target as HTMLElement)?.classList.contains('popover-button')
         const isPopoverItem = (target as HTMLElement)?.classList.contains('popover-item')
 
-        if (!isPopover && !isPopoverItem) this.$emit("category:click", this.itemCategory.id)
+        if (!isPopover && !isPopoverItem) this.$emit("category:click", this.itemCategory._id)
       }
     },
     handlePopoverEdit(): void {
-        this.$emit("popover:edit", this.itemCategory.id)
+        this.$emit("popover:edit", this.itemCategory._id)
     },
     handlePopoverDelete(): void {
-      this.$emit("popover:delete", this.itemCategory.id)
+      this.$emit("popover:delete", this.itemCategory._id)
     }
   }
 }

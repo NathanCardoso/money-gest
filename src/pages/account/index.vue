@@ -16,20 +16,24 @@
         paragraph-card="Veja suas contas bancárias, e monitore com facilidade."
       >
         <TheListAccount
+          v-if="storeAccount.allAccount.length"
           is-popover
-          :account-list="listAccount"
+          :account-list="storeAccount.allAccount"
           @account:edit="handleOpenModalEditAccount"
           @account:delete="handleOpenModalDeleteAccount"
         />
+        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateAccount
       :is-opened="createAccountModalOpened"
+      :loading-request="loadingRequest"
       @modal-card:close="handleCloseModalCreateAccount"
       @modal-card:submit="handleCreateAccount"
     />
     <TheModalEditAccount
       :is-opened="editAccountModalOpened"
+      :loading-request="loadingRequest"
       @modal-card:close="handleCloseModalEditAccount"
       @modal-card:submit="handleEditAccount"
     />
@@ -37,6 +41,7 @@
       title-confirmation="Tem certeza que deseja excluir?"
       :paragraph-confirmation="$options.paragraphDeleteAccount"
       :is-opened="deleteAccountModalOpened"
+      :is-disabled="loadingRequest"
       @modal-confirmation:close="handleCloseModalDeleteAccount"
       @modal-confirmation:submit="handleDeleteAccount"
     />
@@ -45,7 +50,8 @@
 
 <script lang="ts">
 import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
-import { useStoreCard } from "~/store/useCard";
+import type { IModalCreateOrEditAccountData } from "~/interface/organisms/TheModalCreateOrEditAccountData"
+import { useStoreAccount } from "~/store/useAccount";
 import { addFeedback } from "~/utils/addFeedback";
 
 export default {
@@ -53,39 +59,37 @@ export default {
 
   data() {
     return {
-      createAccountModalOpened: false,
-      editAccountModalOpened: false,
-      deleteAccountModalOpened: false,
+      loadingRequest: false as boolean,
+      createAccountModalOpened: false as boolean,
+      editAccountModalOpened: false as boolean,
+      deleteAccountModalOpened: false as boolean,
+      accountId: '' as string,
       listAccount: [
         {
           nameBanking: "Nubank",
-          cardFlag: "mastercard",
-          balance: "R$ 8987,00"
+          accountBalance: "R$ 8987,00"
         },
         {
-          nameBanking: "Itau",
-          cardFlag: "mastercard",
-          balance: "R$ 769,00"
+          accountBankingName: "Itau",
+          accountBalance: "R$ 769,00"
         },
         {
-          nameBanking: "PicPay",
-          cardFlag: "mastercard",
-          balance: "R$ 4860,00"
+          accountBanking: "PicPay",
+          accountBalance: "R$ 4860,00"
         },
         {
-          nameBanking: "Santander",
-          cardFlag: "mastercard",
-          balance: "R$ 2890,00"
+          accountBanking: "Santander",
+          accountBalance: "R$ 2890,00"
         }
       ] as IItemListAccountProp[],
     }
   },
 
   setup() {
-    const storeCard = useStoreCard()
+    const storeAccount= useStoreAccount()
 
     return {
-      storeCard
+      storeAccount
     }
   },
 
@@ -93,24 +97,48 @@ export default {
     handleOpenModalCreateAccount() {
       this.createAccountModalOpened = true
     },
-    handleCreateAccount() {},
+
     handleCloseModalCreateAccount() {
       this.createAccountModalOpened = false
     },
-    handleOpenModalEditAccount() {
+    handleOpenModalEditAccount(accountId: string) {
       this.editAccountModalOpened = true
+      this.accountId = accountId
     },
-    handleEditAccount() {},
     handleCloseModalEditAccount() {
       this.editAccountModalOpened = false
     },
-    handleOpenModalDeleteAccount() {
+    handleOpenModalDeleteAccount(accountId: string) {
+      this.accountId = accountId
       this.deleteAccountModalOpened = true
     },
-    handleDeleteAccount() {},
     handleCloseModalDeleteAccount() {
       this.deleteAccountModalOpened = false
-    }
+    },
+    async handleGetAllAccount() {
+      await this.storeAccount.getAllAccount()
+    },
+    async handleCreateAccount(accountPayload: IModalCreateOrEditAccountData) {
+      this.loadingRequest = true
+      await this.storeAccount.postAccount(accountPayload)
+
+      this.loadingRequest = false
+      this.handleCloseModalCreateAccount()
+    },
+    async handleEditAccount(accountPayload: IModalCreateOrEditAccountData) {
+      this.loadingRequest = true
+      await this.storeAccount.putAccount(accountPayload, this.accountId)
+
+      this.loadingRequest = false,
+      this.handleCloseModalEditAccount()
+    },
+    async handleDeleteAccount() {
+      this.loadingRequest = true
+      this.storeAccount.deleteAccount(this.accountId)
+
+      this.loadingRequest = false
+      this.handleCloseModalDeleteAccount()
+    },
   },
 
   beforeMount() {
@@ -125,6 +153,12 @@ export default {
       
       this.$router.push('/login') 
     }
+  },
+
+  mounted() {
+    this.$nextTick(async () => {
+      await this.handleGetAllAccount()
+    })
   },
 
   paragraphDeleteAccount:

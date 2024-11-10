@@ -17,7 +17,6 @@
       @input="handleInputData"
     />
     <input
-      v-else
       v-model="inputValue"
       class="input"
       :class="{ disabled: isInputDisabled }"
@@ -93,6 +92,10 @@ export default {
         ["name", "number", "age", "password", "email"].includes(value)
     },
     isInputDisabled: {
+      type: Boolean,
+      default: false
+    },
+    isMoney: {
       type: Boolean,
       default: false
     }

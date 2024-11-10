@@ -29,11 +29,11 @@ export default {
   },
 
   methods: {
-    handlePopoverEdit() {
-      this.$emit("account:edit")
+    handlePopoverEdit(accountId: number) {
+      this.$emit("account:edit", accountId)
     },
-    handlePopoverDelete() {
-      this.$emit("account:delete")
+    handlePopoverDelete(accountId: number) {
+      this.$emit("account:delete", accountId)
     }
   }
 }

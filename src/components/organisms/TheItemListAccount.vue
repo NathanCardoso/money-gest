@@ -1,18 +1,12 @@
 <template>
   <li class="item-list-account">
-    <div class="info-account">
-      <div class="logo-flag">
-        <IconMastercard v-if="isMastercard" />
-        <IconVisa v-else />
-      </div>
-      <div class="info-bank">
-        <TheParagraph :paragraph-message="itemAccount.nameBanking" bold />
-      </div>
+    <div class="info-bank">
+      <TheParagraph :paragraph-message="itemAccount.accountBankingName" bold />
     </div>
     <div class="wrapper-balance">
       <div class="info-balance">
         <TheParagraph paragraph-message="Saldo de:" />
-        <TheParagraph :paragraph-message="itemAccount.balance" bold />
+        <TheParagraph :paragraph-message="accountBalance" bold />
       </div>
       <ThePopover
         v-if="isPopover"
@@ -27,6 +21,7 @@
 <script lang="ts">
 import type { IPopoverOptionsProp } from "../../interface/atoms/ThePopoverInterface"
 import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
+import { useCurrencyFormat } from "~/composables/useCurrencyFormat"
 
 export default {
   name: "TheItemListAccount",
@@ -59,18 +54,29 @@ export default {
     }
   },
 
+  setup() {
+    const currencyFormat = useCurrencyFormat()
+
+    return {
+      currencyFormat
+    }
+  },
+
   computed: {
-    isMastercard(): boolean {
-      return this.itemAccount.cardFlag === "mastercad"
+    accountBalance() {
+      return Number(this.itemAccount.accountBalance).toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      })
     }
   },
 
   methods: {
     handlePopoverEdit() {
-      this.$emit("popover:edit")
+      this.$emit("popover:edit", this.itemAccount._id)
     },
     handlePopoverDelete() {
-      this.$emit("popover:delete")
+      this.$emit("popover:delete", this.itemAccount._id)
     }
   }
 }

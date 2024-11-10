@@ -1,5 +1,5 @@
 export interface IItemListAccountProp {
-  nameBanking: string;
-  cardFlag: string;
-  balance: string;
+  _id: string;
+  accountBankingName: string;
+  accountBalance: string;
 }

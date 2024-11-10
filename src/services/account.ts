@@ -8,8 +8,7 @@ const getAllAccount = async (): Promise<IApiResponse<IItemListAccountProp>> => {
     const allAccount = await api.get<IItemListAccountProp[]>('contas');
     return { error: null, data: allAccount }
   } catch (err) {
-    const error = new Error(`Erro ao buscar todas as contas: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 
@@ -20,34 +19,31 @@ const postAccount = async (
     await api.post<IModalCreateOrEditAccountData, IItemListAccountProp>('contas', account)
     return { error: null, data: null }
   } catch(err) {
-    const error = new Error(`Erro ao adicionar uma nova conta: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 
 const putAccount = async (
   account:  IModalCreateOrEditAccountData,
-  accountId: number
+  accountId: string
 ): Promise<IApiResponse<null>> => {
   try {
     await api.put<IModalCreateOrEditAccountData, IItemListAccountProp>(
-      `contas${accountId}`,
+      `contas/${accountId}`,
       account
     )
     return { error: null, data: null }
   } catch(err) {
-    const error = new Error(`Erro ao atualizar a conta: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 
-const deleteAccount= async (accountId: number): Promise<IApiResponse<null>> => {
+const deleteAccount= async (accountId: string): Promise<IApiResponse<null>> => {
   try {
-    await api.delete(`contas${accountId}`)
+    await api.delete(`contas/${accountId}`)
     return { error: null, data: null }
   } catch(err) {
-    const error = new Error(`Erro ao deletar a conta: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 

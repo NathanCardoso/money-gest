@@ -7,79 +7,37 @@ import { addFeedback } from '~/utils/addFeedback'
 
 export const useStoreAccount = defineStore('account', {
   state: (): stateAccount => ({
-    allAccount: [] as IItemListAccountProp[],
+    accounts: [] as IItemListAccountProp[],
   }),
 
   getters: {
     allAccount(state): IItemListAccountProp[] {
-      return state.allAccount
+      return state.accounts
     }
   },
 
   actions: {
     async getAllAccount(): Promise<void> {
       const { error, data } = await serviceAccount.getAllAccount()
-      const accountMock = [
-        {
-          nameBanking: "Nubank",
-          cardFlag: "mastercard",
-          balance: "R$ 8987,00"
-        },
-        {
-          nameBanking: "Itau",
-          cardFlag: "mastercard",
-          balance: "R$ 769,00"
-        },
-        {
-          nameBanking: "PicPay",
-          cardFlag: "mastercard",
-          balance: "R$ 4860,00"
-        },
-        {
-          nameBanking: "Santander",
-          cardFlag: "mastercard",
-          balance: "R$ 2890,00"
-        }
-      ]
 
       if(!error && Array.isArray(data)) {
-        setTimeout(() => {
-          this.allAccount = [
-            {
-              nameBanking: "Nubank",
-              cardFlag: "mastercard",
-              balance: "R$ 8987,00"
-            },
-            {
-              nameBanking: "Itau",
-              cardFlag: "mastercard",
-              balance: "R$ 769,00"
-            },
-            {
-              nameBanking: "PicPay",
-              cardFlag: "mastercard",
-              balance: "R$ 4860,00"
-            },
-            {
-              nameBanking: "Santander",
-              cardFlag: "mastercard",
-              balance: "R$ 2890,00"
-            }
-          ]
-        }, 5000)
+        this.accounts = data
       }
 
       if(error) {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel buscar os cartões."
+          feedbackMessage: error?.message
         })
       }
     },
 
     async postAccount(account: IModalCreateOrEditAccountData): Promise<void> {
-      const { error } = await serviceAccount.postAccount(account)
+      const { error } = await serviceAccount.postAccount({
+        ...account,
+        accountBalance: +account.accountBalance
+      })
 
       if(!error) {
         addFeedback({
@@ -93,12 +51,12 @@ export const useStoreAccount = defineStore('account', {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel adicionar uma nova conta."
+          feedbackMessage: error?.message
         })
       }
     },
 
-    async putAccount(account: IModalCreateOrEditAccountData, accountId: number): Promise<void> {
+    async putAccount(account: IModalCreateOrEditAccountData, accountId: string): Promise<void> {
       const { error } = await serviceAccount.putAccount(account, accountId)
 
       if(!error) {
@@ -113,12 +71,12 @@ export const useStoreAccount = defineStore('account', {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel atualizar a conta."
+          feedbackMessage: error?.message
         })
       }
     },
 
-    async deleteAccount(accountId: number): Promise<void> {
+    async deleteAccount(accountId: string): Promise<void> {
       const { error } =  await serviceAccount.deleteAccount(accountId)
 
       if(!error) {
@@ -133,7 +91,7 @@ export const useStoreAccount = defineStore('account', {
         addFeedback({
           isFeedbackActive: true,
           isError: true,
-          feedbackMessage: "Não foi possivel deletar a conta."
+          feedbackMessage: error?.message
         })
       }
     },

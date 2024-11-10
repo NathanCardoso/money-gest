@@ -17,7 +17,7 @@
       >
         <TheListCard
           is-popover
-          :card-list="listCard"
+          :card-list="storeCard.cards"
           @card:edit="handleOpenModalEditCard"
           @card:delete="handleOpenModalDeleteCard"
         />
@@ -44,6 +44,7 @@
 </template>
 
 <script lang="ts">
+import type { IModalCreateOrEditCardData } from '~/interface/organisms/TheModalCreateOrEditCard'
 import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
 import { useStoreCard } from "~/store/useCard"
 import { addFeedback } from "~/utils/addFeedback"
@@ -53,6 +54,7 @@ export default {
 
   data() {
     return {
+      loadingRequest: false as boolean,
       createCardModalOpened: false,
       editCardModalOpened: false,
       deleteCardModalOpened: false,
@@ -109,7 +111,13 @@ export default {
     handleOpenModalCreateCard() {
       this.createCardModalOpened = true
     },
-    handleCreateCard() {},
+    async handleCreateCard(cardPayload: IModalCreateOrEditCardData) {
+      this.loadingRequest = true
+      await this.storeCard.postCard(cardPayload)
+
+      this.loadingRequest = false
+      this.handleCloseModalCreateCard()
+    },
     handleCloseModalCreateCard() {
       this.createCardModalOpened = false
     },
@@ -123,9 +131,18 @@ export default {
     handleOpenModalDeleteCard() {
       this.deleteCardModalOpened = true
     },
-    handleDeleteCard() {},
+    async handleDeleteCard(cardId: string) {
+      this.loadingRequest = true
+      await this.storeCard.deleteCard(cardId)
+
+      this.loadingRequest = false
+      this.handleCloseModalDeleteCard()
+    },
     handleCloseModalDeleteCard() {
       this.deleteCardModalOpened = false
+    },
+    async handleGetAllCards() {
+      await this.storeCard.getAllCard()
     }
   },
 
@@ -141,6 +158,12 @@ export default {
       
       this.$router.push('/login') 
     }
+  },
+
+  mounted() {
+    this.$nextTick(async () => {
+      await this.handleGetAllCards()
+    })
   },
 
   paragraphDeleteCard:

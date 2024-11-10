@@ -17,6 +17,7 @@
       @input="handleInputData"
     />
     <input
+      v-else
       v-model="inputValue"
       class="input"
       :class="{ disabled: isInputDisabled }"

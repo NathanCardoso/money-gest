@@ -3,4 +3,10 @@ export interface IModalCreateOrEditCardData {
   cardName: string;
   cardLimited: string;
   cardNumber: string;
+  cardDateClose: string;
+  cardDateMaturity: string;
+  cardDateNumber: string;
+  cardCVC: string;
+  cardDateValidity: string;
+  cardType: string;
 }

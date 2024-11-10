@@ -36,10 +36,8 @@ export default {
   flex-direction: column;
   padding: rem(16);
   margin-bottom: rem(16);
-  position: absolute;
-  right: 0;
-  left: 0;
-  bottom: rem(-10);
+  position: relative;
+  top: rem(75);
 
   .footer-background {
     border-top-left-radius: rem(8);

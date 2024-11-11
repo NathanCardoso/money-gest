@@ -34,11 +34,11 @@ export default {
   },
 
   methods: {
-    handlePopoverEdit() {
-      this.$emit("card:edit")
+    handlePopoverEdit(cardId: string): void {
+      this.$emit("card:edit", cardId)
     },
-    handlePopoverDelete() {
-      this.$emit("card:delete")
+    handlePopoverDelete(cardId: string): void {
+      this.$emit("card:delete", cardId)
     }
   }
 }

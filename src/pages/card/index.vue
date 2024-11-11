@@ -25,11 +25,13 @@
     </main>
     <TheModalCreateCard
       :is-opened="createCardModalOpened"
+      :loading-request="loadingRequest"
       @modal-card:close="handleCloseModalCreateCard"
       @modal-card:submit="handleCreateCard"
     />
     <TheModalEditCard
       :is-opened="editCardModalOpened"
+      :loading-request="loadingRequest"
       @modal-card:close="handleCloseModalEditCard"
       @modal-card:submit="handleEditCard"
     />
@@ -37,6 +39,7 @@
       title-confirmation="Tem certeza que deseja excluir?"
       :paragraph-confirmation="$options.paragraphDeleteCard"
       :is-opened="deleteCardModalOpened"
+      :is-disabled="loadingRequest"
       @modal-confirmation:close="handleCloseModalDeleteCard"
       @modal-confirmation:submit="handleDeleteCard"
     />
@@ -58,6 +61,7 @@ export default {
       createCardModalOpened: false,
       editCardModalOpened: false,
       deleteCardModalOpened: false,
+      cardId: '' as string,
       listCard: [
         {
           nameBanking: "Itaú",
@@ -111,6 +115,26 @@ export default {
     handleOpenModalCreateCard() {
       this.createCardModalOpened = true
     },
+    handleCloseModalCreateCard() {
+      this.createCardModalOpened = false
+    },
+    handleOpenModalEditCard(cardId: string) {
+      this.editCardModalOpened = true
+      this.cardId = cardId
+    },
+    handleCloseModalEditCard() {
+      this.editCardModalOpened = false
+    },
+    handleOpenModalDeleteCard(cardId: string) {
+      this.deleteCardModalOpened = true
+      this.cardId = cardId
+    },
+    handleCloseModalDeleteCard() {
+      this.deleteCardModalOpened = false
+    },
+    async handleGetAllCards() {
+      await this.storeCard.getAllCard()
+    },
     async handleCreateCard(cardPayload: IModalCreateOrEditCardData) {
       this.loadingRequest = true
       await this.storeCard.postCard(cardPayload)
@@ -118,32 +142,20 @@ export default {
       this.loadingRequest = false
       this.handleCloseModalCreateCard()
     },
-    handleCloseModalCreateCard() {
-      this.createCardModalOpened = false
-    },
-    handleOpenModalEditCard() {
-      this.editCardModalOpened = true
-    },
-    handleEditCard() {},
-    handleCloseModalEditCard() {
-      this.editCardModalOpened = false
-    },
-    handleOpenModalDeleteCard() {
-      this.deleteCardModalOpened = true
+    async handleEditCard(cardPayload: IModalCreateOrEditCardData) {
+      this.loadingRequest = true
+      await this.storeCard.putCard(cardPayload, this.cardId)
+
+      this.loadingRequest = false
+      this.handleCloseModalEditCard()
     },
     async handleDeleteCard(cardId: string) {
       this.loadingRequest = true
-      await this.storeCard.deleteCard(cardId)
+      await this.storeCard.deleteCard(this.cardId)
 
       this.loadingRequest = false
       this.handleCloseModalDeleteCard()
     },
-    handleCloseModalDeleteCard() {
-      this.deleteCardModalOpened = false
-    },
-    async handleGetAllCards() {
-      await this.storeCard.getAllCard()
-    }
   },
 
   beforeMount() {

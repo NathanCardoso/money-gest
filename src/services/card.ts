@@ -25,11 +25,11 @@ const postCard = async (
 
 const putCard = async (
   card:  IModalCreateOrEditCardData,
-  cardId: number
+  cardId: string
 ): Promise<IApiResponse<null>> => {
   try {
     await api.put<IModalCreateOrEditCardData, IItemListCardProp>(
-      `cartoes${cardId}`,
+      `cartoes/${cardId}`,
       card
     )
     return { error: null, data: null }
@@ -38,9 +38,9 @@ const putCard = async (
   }
 }
 
-const deleteCard = async (cardId: number): Promise<IApiResponse<null>> => {
+const deleteCard = async (cardId: string): Promise<IApiResponse<null>> => {
   try {
-    await api.delete(`cartoes${cardId}`)
+    await api.delete(`cartoes/${cardId}`)
     return { error: null, data: null }
   } catch(err) {
     return { error: err as Error, data: null }

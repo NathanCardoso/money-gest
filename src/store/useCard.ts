@@ -35,6 +35,15 @@ export const useStoreCard = defineStore('transaction', {
     async postCard(card: IModalCreateOrEditCardData): Promise<void> {
       const { error } = await serviceCard.postCard(card)
 
+      if(!error) {
+        await this.getAllCard()
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: 'Cartão adicionado com sucesso.'
+        })
+      }
+
       if(error) {
         addFeedback({
           isFeedbackActive: true,
@@ -44,12 +53,45 @@ export const useStoreCard = defineStore('transaction', {
       }
     },
 
-    async putCard(card: IModalCreateOrEditCardData, cardId: number): Promise<void> {
-      await serviceCard.putCard(card, cardId)
+    async putCard(card: IModalCreateOrEditCardData, cardId: string): Promise<void> {
+      const { error } = await serviceCard.putCard(card, cardId)
+
+      if(!error) {
+        await this.getAllCard()
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: 'Cartão atualizado com sucesso.'
+        })
+      }
+
+      if(error) {
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: error?.message
+        })
+      }
     },
 
-    async deleteCard(cardId: number): Promise<void> {
-      await serviceCard.deleteCard(cardId)
+    async deleteCard(cardId: string): Promise<void> {
+      const { error } = await serviceCard.deleteCard(cardId)
+
+      if(!error) {
+        await this.getAllCard()
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: 'Cartão deletado com sucesso.'
+        })
+      }
+      if(error) {
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: error?.message
+        })
+      }
     },
   }
 })

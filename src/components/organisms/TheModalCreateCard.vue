@@ -60,8 +60,8 @@
         is-label
         input-type="text"
         input-id="name"
-        input-name="Limite do cartão"
-        input-placeholder="Digite o limite do cartão..."
+        input-name="Saldo do cartão"
+        input-placeholder="Digite o saldo do cartão..."
         input-validate="number"
         :is-input-disabled="loadingRequest"
         v-model="createCard.cardLimited"

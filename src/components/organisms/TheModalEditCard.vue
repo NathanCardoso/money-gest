@@ -8,17 +8,6 @@
   >
     <form class="form">
       <TheInputField
-        ref="inputBankingName"
-        is-label
-        input-type="text"
-        input-id="name"
-        input-name="Nome do banco"
-        input-placeholder="Digite o nome do banco..."
-        input-validate="name"
-        :is-input-disabled="loadingRequest"
-        v-model="editCard.cardBankingName"
-      />
-      <TheInputField
         ref="inputBankingCardName"
         is-label
         input-type="text"
@@ -56,11 +45,13 @@
       <TheInputField
         ref="inputBankingCardDateValidity"
         is-label
+        is-mask
         input-type="text"
         input-id="name"
         input-name="Validade do Cartão"
         input-placeholder="Digite a validade do cartão..."
         input-validate="date-birthday"
+        input-mask="##/##/####"
         :is-input-disabled="loadingRequest"
         v-model="editCard.cardDateValidity"
       />
@@ -69,16 +60,26 @@
         is-label
         input-type="text"
         input-id="name"
-        input-name="Limite do cartão"
-        input-placeholder="Digite o limite do cartão..."
+        input-name="Saldo do cartão"
+        input-placeholder="Digite o saldo do cartão..."
         input-validate="number"
         :is-input-disabled="loadingRequest"
         v-model="editCard.cardLimited"
       />
       <TheSelect
+        ref="selectCardType"
+        select-name="Selecione o tipo do cartão"
+        select-id="cardType"
+        is-label
+        is-validate
+        :is-select-disabled="loadingRequest"
+        :select-options="selectOptinonsCardType"
+        v-model="editCard.cardType"
+      />
+      <TheSelect
         ref="selectDateClose"
         select-name="Selecione a data de fechamento"
-        select-id="category"
+        select-id="cardDateClose"
         is-label
         is-validate
         :is-select-disabled="loadingRequest"
@@ -88,12 +89,12 @@
       <TheSelect
         ref="selectDateMaturity"
         select-name="Selecione a data de vencimento"
-        select-id="category"
+        select-id="cardDateMaturity"
         is-label
         is-validate
         :is-select-disabled="loadingRequest"
         :select-options="selectOptionsDateMaturity"
-        v-model="editCard.cardDateClose"
+        v-model="editCard.cardDateMaturity"
       />
     </form>
   </TheModal>
@@ -126,10 +127,14 @@ export default {
   data() {
     return {
       editCard: {
-        cardBankingName: "",
         cardName: "",
         cardLimited: "",
-        cardNumber: ""
+        cardNumber: "",
+        cardDateClose: "",
+        cardDateMaturity: "",
+        cardCVC: "",
+        cardDateValidity: "",
+        cardType: "",
       } as IModalCreateOrEditCardData,
       selectOptionsDateClose: [
           {value: "", label: "Selecione uma opção"},
@@ -211,7 +216,6 @@ export default {
         this.$emit("modal-card:submit", this.editCard)
     },
     isValidateFormRequest(): boolean {
-      const inputBankingName = this.$refs.inputBankingName as typeof TheInputField
       const inputCardName = this.$refs.inputBankingCardName as typeof TheInputField
       const inputCardNumber = this.$refs.inputBankingCardNumber as typeof TheInputField
       const inputCardCVC = this.$refs.inputBankingCardCVC as typeof TheInputField
@@ -220,18 +224,17 @@ export default {
       const inputCardDateClose = this.$refs.selectDateClose as typeof TheSelect
       const inputCardDateMaturity = this.$refs.selectDateMaturity as typeof TheSelect
 
-      const bankingName = inputBankingName.validate()
       const cardName = inputCardName.validate()
       const cardNumber = inputCardNumber.validate()
       const cardCVC = inputCardCVC.validate()
-      const cardDateValidity = inputCardDateValidity.valdiate()
+      const cardDateValidity = inputCardDateValidity.validate()
       const cardLimit = inputCardLimit.validate()
       const cardDateClose = inputCardDateClose.validate()
       const cardDateMaturity = inputCardDateMaturity.validate()
 
 
-      const isValidRequest = bankingName
-        && cardName
+      const isValidRequest = 
+        cardName
         && cardNumber 
         && cardCVC 
         && cardDateValidity 

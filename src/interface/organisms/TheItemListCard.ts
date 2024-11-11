@@ -1,4 +1,5 @@
 export interface IItemListCardProp {
+  _id: string;
   nameBanking: string;
   cardFlag: string;
   cardLastNumber: string;

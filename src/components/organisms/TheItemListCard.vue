@@ -87,11 +87,11 @@ export default {
 
   methods: {
     handleCardShow(): void {},
-    handlePopoverEdit() {
-      this.$emit("popover:edit")
+    handlePopoverEdit(): void {
+      this.$emit("popover:edit", this.itemList._id)
     },
-    handlePopoverDelete() {
-      this.$emit("popover:delete")
+    handlePopoverDelete(): void {
+      this.$emit("popover:delete", this.itemList._id)
     }
   }
 }

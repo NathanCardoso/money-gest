@@ -64,24 +64,6 @@ export default {
       editAccountModalOpened: false as boolean,
       deleteAccountModalOpened: false as boolean,
       accountId: '' as string,
-      listAccount: [
-        {
-          nameBanking: "Nubank",
-          accountBalance: "R$ 8987,00"
-        },
-        {
-          accountBankingName: "Itau",
-          accountBalance: "R$ 769,00"
-        },
-        {
-          accountBanking: "PicPay",
-          accountBalance: "R$ 4860,00"
-        },
-        {
-          accountBanking: "Santander",
-          accountBalance: "R$ 2890,00"
-        }
-      ] as IItemListAccountProp[],
     }
   },
 

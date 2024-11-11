@@ -12,7 +12,8 @@ export interface IUserResgisterResponse {
   message: string;
   response: {
     token: string;
-  };
+    id: string;
+  }
 }
 
 export interface IUserLogin {

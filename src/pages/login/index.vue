@@ -30,6 +30,7 @@
       <TheButtonForm
         class="form-button"
         button-message="Entrar"
+        :is-disabled="loadingRequest"
         @button:click="handleClickSend"/>
     </form>
     <div class="login-register">
@@ -40,6 +41,7 @@
       <TheButtonForm
         class="register-button"
         button-message="Cadastro"
+        :is-disabled="loadingRequest"
         @button:click="handleClickRegister"
       />
     </div>

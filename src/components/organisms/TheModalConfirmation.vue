@@ -13,8 +13,8 @@
           />
           <TheButtonForm
             button-message="Cancelar"
-            is-button-small
             button-cancel
+            is-button-small
             :is-disabled="isDisabled"
             @button:click="handleClose"
           />

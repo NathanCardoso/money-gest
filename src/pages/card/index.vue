@@ -16,11 +16,13 @@
         paragraph-card="Veja seu cartões, e monitore com facilidade."
       >
         <TheListCard
+          v-if="storeCard.cards.length"
           is-popover
           :card-list="storeCard.cards"
           @card:edit="handleOpenModalEditCard"
           @card:delete="handleOpenModalDeleteCard"
         />
+        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateCard

@@ -128,50 +128,50 @@ export default {
       ] as IItemListCardProp[],
       listAccount: [
         {
-          nameBanking: "Nubank",
-          cardFlag: "mastercard",
-          balance: "R$ 8987,00"
+          _id: '1',
+          accountBankingName: "Nubank",
+          accountBalance: 8987
         },
         {
-          nameBanking: "Itau",
-          cardFlag: "mastercard",
-          balance: "R$ 769,00"
+          _id: '2',
+          accountBankingName: "Itau",
+          accountBalance: 769
         },
         {
-          nameBanking: "PicPay",
-          cardFlag: "mastercard",
-          balance: "R$ 4860,00"
+          _id: '3',
+          accountBankingName: "PicPay",
+          accountBalance: 4860
         },
         {
-          nameBanking: "Santander",
-          cardFlag: "mastercard",
-          balance: "R$ 2890,00"
+          _id: '3',
+          accountBankingName: "Santander",
+          accountBalance: 2890
         }
       ] as IItemListAccountProp[],
       listCategory: [
         {
-          id: 1,
-          nameCategory: "Transporte",
-          colorCategory: "blue",
-          revenueValue: "R$ 890,00"
+          _id: '1',
+          categoryName: "Transporte",
+          categoryColor: "blue",
+          revenueValue: 890
         },
         {
-          id: 2,
-          nameCategory: "Alimentação",
-          colorCategory: "red",
-          revenueValue: "R$ 890,00"
+          _id: '2',
+          categoryName: "Alimentação",
+          categoryColor: "red",
+          revenueValue: 890
         },
         {
-          id: 3,
-          nameCategory: "lazer",
-          colorCategory: "yellow",
-          revenueValue: "R$ 890,00"
+          _id: '3',
+          categoryName: "lazer",
+          categoryColor: "yellow",
+          revenueValue: 890
         },
         {
-          id: 4,
-          nameCategory: "saude",
-          colorCategory: "green",
-          revenueValue: "R$ 890,00"
+          _id: '4',
+          categoryName: "saude",
+          categoryColor: "green",
+          revenueValue: 890
         }
       ] as IItemListCategoryProp[]
     }

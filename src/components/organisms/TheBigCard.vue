@@ -5,9 +5,15 @@
       <TheParagraph :paragraph-message="paragraphCard" />
     </div>
     <Transition name="bigCard" mode="out-in">
-      <slot></slot>
+      <div class="card-transition">
+        <slot></slot>
+        <TheButtonLinkCard
+          v-if='isButtonLink'
+          :button-message="buttonLinkMessage"
+          @button:click="handleClick"
+        />
+      </div>
     </Transition>
-    <TheButtonLinkCard :button-message="buttonLinkMessage" @button:click="handleClick" />
   </section>
 </template>
 
@@ -30,7 +36,7 @@ export default {
     },
     isButtonLink: {
       type: Boolean,
-      default: false
+      default: true
     },
     isHeader: {
       type: Boolean,
@@ -59,6 +65,10 @@ export default {
     flex-direction: column;
     gap: rem(10);
     margin-bottom: rem(30);
+  }
+
+  .card-transition {
+    width: 100%;
   }
 }
 

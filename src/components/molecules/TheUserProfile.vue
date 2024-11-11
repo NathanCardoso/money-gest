@@ -15,11 +15,11 @@ export default {
   props: {
     userName: {
       type: String,
-      required: true
+      default: ''
     },
     userEmail: {
       type: String,
-      required: true
+      default: ''
     }
   },
 

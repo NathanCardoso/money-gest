@@ -21,11 +21,6 @@ export const useStoreProfile = defineStore('transaction', {
 
       if (!error && data !== null && !Array.isArray(data)){
         window.localStorage.setItem('token', data.response.token)
-        addFeedback({
-          isFeedbackActive: true,
-          isError: false,
-          feedbackMessage: data.message
-        })
       } else {
         addFeedback({
           isFeedbackActive: true,
@@ -40,11 +35,6 @@ export const useStoreProfile = defineStore('transaction', {
       
       if (!error && data !== null && !Array.isArray(data)){
         window.localStorage.setItem('token', data.response.token)
-        addFeedback({
-          isFeedbackActive: true,
-          isError: false,
-          feedbackMessage: data.message
-        })
       } else {
         addFeedback({
           isFeedbackActive: true,

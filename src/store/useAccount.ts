@@ -40,13 +40,12 @@ export const useStoreAccount = defineStore('account', {
       })
 
       if(!error) {
+        await this.getAllAccount()
         addFeedback({
           isFeedbackActive: true,
           isError: false,
           feedbackMessage: "Conta adicionada com sucesso."
         })
-
-        await serviceAccount.getAllAccount()
       } else {
         addFeedback({
           isFeedbackActive: true,
@@ -60,13 +59,12 @@ export const useStoreAccount = defineStore('account', {
       const { error } = await serviceAccount.putAccount(account, accountId)
 
       if(!error) {
+        await this.getAllAccount()
         addFeedback({
           isFeedbackActive: true,
           isError: false,
           feedbackMessage: "Conta atualizada com sucesso."
         })
-
-        await serviceAccount.getAllAccount()
       } else {
         addFeedback({
           isFeedbackActive: true,
@@ -80,13 +78,12 @@ export const useStoreAccount = defineStore('account', {
       const { error } =  await serviceAccount.deleteAccount(accountId)
 
       if(!error) {
+        await this.getAllAccount()
         addFeedback({
           isFeedbackActive: true,
           isError: false,
           feedbackMessage: "Conta deletada com sucesso."
         })
-
-        await serviceAccount.getAllAccount()
       } else {
         addFeedback({
           isFeedbackActive: true,

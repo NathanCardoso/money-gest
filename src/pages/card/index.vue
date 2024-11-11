@@ -151,7 +151,7 @@ export default {
       this.loadingRequest = false
       this.handleCloseModalEditCard()
     },
-    async handleDeleteCard(cardId: string) {
+    async handleDeleteCard() {
       this.loadingRequest = true
       await this.storeCard.deleteCard(this.cardId)
 

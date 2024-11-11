@@ -67,6 +67,10 @@ export default {
     isSelectDisabled: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: String,
+      default: ''
     }
   },
 
@@ -82,6 +86,9 @@ export default {
 
   watch: {
     modelValue(newValue: string): void {
+      this.inputValue = newValue
+    },
+    value(newValue): void {
       this.inputValue = newValue
     }
   },

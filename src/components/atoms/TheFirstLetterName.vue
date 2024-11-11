@@ -17,7 +17,7 @@ export default {
 
   computed: {
     firstLetterName() {
-      return this.userName.toUpperCase()[0]
+      return this.userName?.toUpperCase()[0]
     }
   }
 }

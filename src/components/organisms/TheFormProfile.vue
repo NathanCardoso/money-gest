@@ -16,25 +16,31 @@
         input-name="Nome de usuário"
         input-placeholder="Digite seu nome..."
         input-message="Altere seu nome de usuário aqui. Pode ser seu nome real ou um pseudônimo."
+        input-validate="name"
+        :value="userData.name"
         v-model="user.name"
       />
       <TheInputField
         is-label
         is-input-message
-        input-type="number"
-        input-id="age"
-        input-name="Idade"
+        input-type="text"
+        input-id="date-birthday"
+        input-name="Data de Nascimento"
         input-placeholder="Digite sua idade..."
-        input-message="A sua idade só pode ser alterada uma única vez."
-        v-model="user.age"
+        input-message="A sua data de nascimentos só pode ser alterada uma única vez."
+        input-validate="date-birthday"
+        :value="userData.dateBirthday"
+        v-model="user.dateBirthday"
       />
       <TheSelect
         is-label
         is-select-message
+        is-validate
         select-name="Gênero"
         select-id="gender"
         select-message="Altere o seu gênero aqui."
         :select-options="selectOptions"
+        :value="userData.gender"
         v-model="user.gender"
       />
       <TheInputField
@@ -45,6 +51,8 @@
         input-name="Email"
         input-placeholder="Digite seu email..."
         input-message="Altere seu email de usuário aqui."
+        input-validate="email"
+        :value="userData.email"
         v-model="user.email"
       />
       <TheButtonForm button-message="Atualizar Perfil" is-button-small />
@@ -54,18 +62,26 @@
 
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { IUserData } from "~/interface/pages/user"
 
 export default {
   name: "TheFormProfile",
+
+  props: {
+    userData: {
+      type: Object as () => IUserData,
+      default: () => ({} as IUserData)
+    }
+  },
 
   data() {
     return {
       user: {
         name: "",
         email: "",
-        age: "",
+        dateBirthday: "",
         gender: "",
-      },
+      } as IUserData,
       selectOptions: [
         {
           value: "",
@@ -81,6 +97,13 @@ export default {
         }
       ] as ISelectOptionsProp[]
     }
+  },
+
+  mounted() {
+    this.user.name = this.userData.name
+    this.user.email = this.userData.email
+    this.user.gender = this.userData.gender
+    this.user.dateBirthday = this.userData.dateBirthday
   }
 }
 </script>

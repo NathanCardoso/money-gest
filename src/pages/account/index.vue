@@ -49,10 +49,9 @@
 </template>
 
 <script lang="ts">
-import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import type { IModalCreateOrEditAccountData } from "~/interface/organisms/TheModalCreateOrEditAccountData"
-import { useStoreAccount } from "~/store/useAccount";
-import { addFeedback } from "~/utils/addFeedback";
+import { useStoreAccount } from "~/store/useAccount"
+import { addFeedback } from "~/utils/addFeedback"
 
 export default {
   name: "PageAccount",
@@ -64,6 +63,7 @@ export default {
       editAccountModalOpened: false as boolean,
       deleteAccountModalOpened: false as boolean,
       accountId: '' as string,
+      userInject: this.user
     }
   },
 

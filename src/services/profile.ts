@@ -4,32 +4,49 @@ import type {
   IUserRegister,
   IUserResgisterResponse,
   IUserLogin,
-  IUserLoginResponse 
+  IUserLoginResponse, 
+  IUserDataResponse
 } from "~/interface/pages/user"
 
 const registerUser = async (
   card:  IUserRegister
 ): Promise<IApiResponse<IUserResgisterResponse>> => {
   try {
-    const userResgiterResponse = await api.post<IUserRegister, IUserResgisterResponse>('usuarios/registro', card)
-    return { error: null, data:  userResgiterResponse }
+    const userResgisterResponse = await api.post<IUserRegister, IUserResgisterResponse>('usuarios/registro', card)
+    
+    if(userResgisterResponse !== undefined)
+      return { error: null, data: userResgisterResponse }
+
+    return { error: null, data: null}
   } catch(err) {
-    const error = new Error(`Erro ao cadastrar usuário: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 
 const userLogin = async(user: IUserLogin): Promise<IApiResponse<IUserLoginResponse>> =>{
   try {
     const userLoginResponse = await api.post<IUserLogin, IUserLoginResponse>('usuarios/login', user)
-    return { error: null, data:  userLoginResponse }
+    
+    if(userLoginResponse !== undefined)
+      return { error: null, data:  userLoginResponse }
+
+    return { error: null, data: null}
   } catch (err) {
-    const error = new Error(`Erro ao logar usuário: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
+  }
+}
+
+const getUser = async(userId: string): Promise<IApiResponse<IUserDataResponse>> =>{
+  try {
+    const userDataResponse = await api.get<IUserDataResponse>(`usuarios/${userId}`)
+    return { error: null, data: userDataResponse }
+  } catch (err) {
+    return { error: err as Error, data: null }
   }
 }
 
 export default {
   registerUser,
-  userLogin
+  userLogin,
+  getUser
 };

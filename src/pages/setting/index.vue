@@ -8,7 +8,7 @@
             @aside:profile="handleProfile"
             @aside:password-change="handlePasswordChange"
           />
-          <component :is="asyncComponent" />
+          <component :is="asyncComponent" :user-data="useStore.user"/>
         </div>
       </TheBigCard>
     </main>
@@ -18,7 +18,8 @@
 <script lang="ts">
 import { defineAsyncComponent } from "vue"
 import type { DefineComponent } from "vue"
-import { addFeedback } from "~/utils/addFeedback";
+import { addFeedback } from "~/utils/addFeedback"
+import { useStoreProfile } from "~/store/useProfile"
 
 export default {
   name: "PageSettings",
@@ -28,6 +29,15 @@ export default {
       currentComponent: "TheFormProfile"
     }
   },
+
+  setup() {
+    const useStore = useStoreProfile()
+
+    return {
+      useStore
+    }
+  },
+
 
   computed: {
     asyncComponent(): DefineComponent {
@@ -66,7 +76,12 @@ export default {
       
       this.$router.push('/login')
     }
-  }
+  },
+
+  // mounted() {
+  //   const userId: string = window.localStorage.getItem('userId') || ''
+  //   this.useStore.getUser(userId)
+  // }
 }
 </script>
 

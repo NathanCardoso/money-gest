@@ -6,7 +6,7 @@
       :messageRequest="feedbackData.feedbackMessage"
       @feedback:finished="removeFeedback"
     />
-    <TheHeader />
+    <TheHeader :user-data="userStore.user"/>
     <div class="content">
       <div class="container">
         <slot></slot>
@@ -18,15 +18,18 @@
 
 <script lang="ts">
 import { useStoreFeedback } from '~/store/useFeedback'
+import { useStoreProfile } from '~/store/useProfile'
 
 export default {
   name: "LayoutDefault",
 
   setup() {
     const feedbackStore = useStoreFeedback()
+    const userStore =  useStoreProfile()
 
     return {
-      feedbackStore
+      feedbackStore,
+      userStore
     }
   },
 
@@ -45,7 +48,14 @@ export default {
           feedbackMessage: ""
         })
       }, 400)
-    },
+    }
+  },
+
+  mounted() {
+    this.$nextTick(async () => {
+      const userId: string = window.localStorage.getItem('userId') || ''
+      this.userStore.getUser(userId)
+    })
   }
 }
 </script>

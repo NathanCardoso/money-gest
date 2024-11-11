@@ -99,6 +99,10 @@ export default {
     isMoney: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: String, Number,
+      default: ''
     }
   },
 
@@ -113,8 +117,14 @@ export default {
     }
   },
 
+  watch: {
+    value(newValue): void {
+      this.inputValue = newValue
+    }
+  },
+
   methods: {
-    handleInputData(event: Event) {
+    handleInputData(event: Event): void {
       const target = event.target as HTMLInputElement
       this.$emit("update:modelValue", target.value)
     }

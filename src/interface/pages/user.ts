@@ -13,6 +13,8 @@ export interface IUserResgisterResponse {
   response: {
     token: string;
     id: string;
+    email: string;
+    name: string;
   }
 }
 
@@ -33,7 +35,13 @@ export interface IUserLoginResponse {
 
 export interface IUserData {
   name: string;
-  age: string;
-  gender: string;
   email: string;
+  age: number;
+  gender: string;
+  dateBirthday: string;
+}
+
+export interface IUserDataResponse {
+  message: string;
+  response: IUserData;
 }

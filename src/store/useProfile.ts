@@ -1,17 +1,16 @@
 import { defineStore } from 'pinia'
-import type { IUserRegister, IUserLogin } from "~/interface/pages/user"
-import type { UserToken } from "~/types/page/user"
+import type { IUserRegister, IUserLogin, IUserData } from "~/interface/pages/user"
 import { addFeedback } from '~/utils/addFeedback'
 import serviceProfile from "~/services/profile"
 
-export const useStoreProfile = defineStore('transaction', {
+export const useStoreProfile = defineStore('profile', {
   state: () => ({
-    userToken: "" as UserToken
+    userData: {} as IUserData
   }),
 
   getters: {
-    getToken(state) {
-      return state.userToken
+    user(state) {
+      return state.userData
     }
   },
 
@@ -42,6 +41,21 @@ export const useStoreProfile = defineStore('transaction', {
           isFeedbackActive: true,
           isError: true,
           feedbackMessage: "Não foi possivel fazer o login!"
+        })
+      }
+    },
+
+    async getUser(userId: string): Promise<void> {
+      const { error, data } = await serviceProfile.getUser(userId)
+      
+      if(data !== null && !Array.isArray(data)) 
+        this.userData = data.response
+
+      if(error) {
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: error?.message
         })
       }
     }

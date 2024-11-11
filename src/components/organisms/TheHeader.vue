@@ -8,8 +8,8 @@
         </div>
         <div class="header-user">
           <TheUserProfile
-            user-name="Nathan"
-            user-email="nathan@gmail.com"
+            :user-name="userData.name"
+            :user-email="userData.email"
             @user-profile:click="handleClickProfile"
           />
           <TheExit @exit:click="handleClickExit"/>
@@ -21,9 +21,18 @@
 
 <script lang="ts">
 import type { IHeaderNavigationProp } from "../../interface/molecules/TheHeaderNavigation"
+import type { IUserData } from "~/interface/pages/user"
+import { useStoreProfile } from "~/store/useProfile"
 
 export default {
   name: "TheHeader",
+
+  props: {
+    userData: {
+      type: Object as () => IUserData,
+      default: () => ({} as IUserData)
+    }
+  },
 
   data() {
     return {
@@ -62,13 +71,20 @@ export default {
     }
   },
 
+  setup() {
+    const userStore =  useStoreProfile()
+
+    return {
+      userStore
+    }
+  },
+
   methods: {
     handleClickProfile() {
       this.$router.push('/setting')
     },
 
     handleClickExit() {
-      console.log('lalalal')
       window.localStorage.removeItem('token')
 
       this.$router.push('/login')

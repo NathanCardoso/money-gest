@@ -1,40 +1,49 @@
 <template>
   <TheModal
     :is-opened="isOpened"
+    :is-disabled="loadingRequest"
     title="Edite a saída"
     @modal:close="handleClose"
     @modal:submit="handleSubmit"
   >
     <form class="form">
       <TheInputField
+        ref="inputName"
         is-label
         input-type="text"
         input-id="name"
         input-name="Nome"
         input-placeholder="Digite o nome da entrada..."
-        v-model="dataEditExpense.expenseName"
+        input-validate="name"
+        v-model="editExpense.expenseName"
       />
       <TheInputField
+        ref="inputValue"
         is-label
         input-type="number"
         input-id="revenue"
         input-name="Valor"
         input-placeholder="Digite o valor da entrada..."
-        v-model="dataEditExpense.expenseValue"
+        input-validate="number"
+        v-model="editExpense.expenseValue"
       />
       <TheSelect
+        ref="selectAccount"
         is-label
+        is-validate
         select-name="Conta"
         select-id="account"
-        v-model="dataEditExpense.expenseAccount"
         :select-options="selectOptions"
+        v-model="editExpense.expenseAccount"
       />
       <TheSelect
+        ref="selectCategory"
         is-label
+        is-validate
         select-name="Categoria"
         select-id="category"
-        v-model="dataEditExpense.expenseCategory"
         :select-options="selectOptions"
+        v-model="editExpense.expenseCategory"
       />
     </form>
   </TheModal>
@@ -42,7 +51,8 @@
 
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
-import type { IModalCreateOrEditExpenseData } from "~/interface/organisms/TheModalCreateOrEditExpense";
+import type { IModalCreateOrEditExpenseData } from "~/interface/organisms/TheModalCreateOrEditExpense"
+import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
   name: "TheModalEditExpense",
@@ -55,12 +65,16 @@ export default {
     expenseData: {
       type: Object,
       default: () => {}
+    },
+    loadingRequest: {
+      type: Boolean,
+      default: false
     }
   },
 
   data() {
     return {
-      dataEditExpense: {
+      editExpense: {
         expenseName: "",
         expenseValue: "",
         expenseAccount: "",
@@ -88,7 +102,14 @@ export default {
       this.$emit("modal-expense:close")
     },
     handleSubmit(): void {
-      this.$emit("modal-expense:submit", this.dataEditExpense)
+      if(this.isValidateFormRequest())
+        this.$emit("modal-expense:submit", this.editExpense)
+    },
+    isValidateFormRequest(): boolean {
+      const refArray = Object.values(this.$refs)
+      const isValid = useFormValidation(refArray)
+
+      return isValid
     }
   }
 }

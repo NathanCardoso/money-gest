@@ -35,8 +35,7 @@
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 import type { IModalCreateOrEditCategoryData } from "~/interface/organisms/TheModalCreateOrEditCategory"
-import TheInputField from "~/components/molecules/TheInputField.vue"
-import TheSelect from '~/components/molecules/TheSelect.vue'
+import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
   name: "TheModalCreateCategory",
@@ -104,15 +103,10 @@ export default {
         this.$emit("modal-category:submit", this.dataCreateCategory)
     },
     isValidateFormRequest(): boolean {
-      const inputCategory = this.$refs.inputCategory as typeof TheInputField
-      const selectColor = this.$refs.selectColor as typeof TheSelect
+      const refArray = Object.values(this.$refs)
+      const isValid = useFormValidation(refArray)
 
-      const category = inputCategory.validate()
-      const color = selectColor.validate()
-
-      const isValidRequest = category && color
-
-      return isValidRequest
+      return isValid
     }
   }
 }

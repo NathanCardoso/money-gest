@@ -24,6 +24,7 @@
         input-id="balance"
         input-name="Saldo da conta"
         input-placeholder="Digite o saldo da conta"
+        input-validate="number"
         v-model="editAccount.accountBalance"
       />
     </form>
@@ -33,8 +34,7 @@
 <script lang="ts">
 import type { IModalCreateOrEditAccountData } from "~/interface/organisms/TheModalCreateOrEditAccountData"
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
-import TheSelect from '../molecules/TheSelect.vue'
-import TheInputField from '../molecules/TheInputField.vue';
+import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
   name: "TheModalEditAccount",
@@ -96,19 +96,14 @@ export default {
       this.$emit("modal-card:close")
     },
     handleSubmit(): void {
-      if (this.isValidateFormRequest())
-        this.$emit("modal-card:submit", this.editAccount)
+      if (this.isValidateFormRequest()){}
+        // this.$emit("modal-card:submit", this.editAccount)
     },
     isValidateFormRequest(): boolean {
-      const selectBanking = this.$refs.selectBanking as typeof TheSelect
-      const inputBalance = this.$refs.inputBalance as typeof TheInputField
+      const refArray = Object.values(this.$refs)
+      const isValid = useFormValidation(refArray)
 
-      const banking = selectBanking.validate()
-      const balance = inputBalance.validate()
-
-      const isValidRequest = banking && balance
-
-      return isValidRequest
+      return isValid
     }
   }
 }

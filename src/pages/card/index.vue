@@ -16,7 +16,7 @@
         paragraph-card="Veja seu cartões, e monitore com facilidade."
       >
         <TheListCard
-          v-if="storeCard.cards.length"
+          v-if="true"
           is-popover
           :card-list="storeCard.cards"
           @card:edit="handleOpenModalEditCard"

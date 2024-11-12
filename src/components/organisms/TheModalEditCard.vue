@@ -103,8 +103,7 @@
 <script lang="ts">
 import type { IModalCreateOrEditCardData } from '~/interface/organisms/TheModalCreateOrEditCard'
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
-import TheInputField from '../molecules/TheInputField.vue'
-import TheSelect from '../molecules/TheSelect.vue'
+import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
   name: "TheModalEditCard",
@@ -136,6 +135,11 @@ export default {
         cardDateValidity: "",
         cardType: "",
       } as IModalCreateOrEditCardData,
+      selectOptinonsCardType: [
+        {value: "", label: "Selecione uma opção"},
+        {value: "credito", label: "Crédito"},
+        {value: "debito", label: "Débito"},
+      ] as ISelectOptionsProp[],
       selectOptionsDateClose: [
           {value: "", label: "Selecione uma opção"},
           { value: "01", label: "Todo dia - 1" },
@@ -216,33 +220,10 @@ export default {
         this.$emit("modal-card:submit", this.editCard)
     },
     isValidateFormRequest(): boolean {
-      const inputCardName = this.$refs.inputBankingCardName as typeof TheInputField
-      const inputCardNumber = this.$refs.inputBankingCardNumber as typeof TheInputField
-      const inputCardCVC = this.$refs.inputBankingCardCVC as typeof TheInputField
-      const inputCardDateValidity = this.$refs.inputBankingCardDateValidity as typeof TheInputField
-      const inputCardLimit = this.$refs.inputBankingCardLimit as typeof TheInputField
-      const inputCardDateClose = this.$refs.selectDateClose as typeof TheSelect
-      const inputCardDateMaturity = this.$refs.selectDateMaturity as typeof TheSelect
+      const refArray = Object.values(this.$refs)
+      const isValid = useFormValidation(refArray)
 
-      const cardName = inputCardName.validate()
-      const cardNumber = inputCardNumber.validate()
-      const cardCVC = inputCardCVC.validate()
-      const cardDateValidity = inputCardDateValidity.validate()
-      const cardLimit = inputCardLimit.validate()
-      const cardDateClose = inputCardDateClose.validate()
-      const cardDateMaturity = inputCardDateMaturity.validate()
-
-
-      const isValidRequest = 
-        cardName
-        && cardNumber 
-        && cardCVC 
-        && cardDateValidity 
-        && cardLimit 
-        && cardDateClose 
-        && cardDateMaturity
-
-      return isValidRequest
+      return isValid
     }
   }
 }

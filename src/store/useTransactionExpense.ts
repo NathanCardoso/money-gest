@@ -4,7 +4,7 @@ import type { IItemListTransactionProp } from '~/interface/organisms/TheItemList
 import type { IModalCreateOrEditExpenseData } from '~/interface/organisms/TheModalCreateOrEditExpense'
 import { addFeedback } from '~/utils/addFeedback'
 
-export const useStoreExpense = defineStore('transaction', {
+export const useStoreExpense = defineStore('expense', {
   state: () => ({
     expense: [] as IItemListTransactionProp[],
   }),

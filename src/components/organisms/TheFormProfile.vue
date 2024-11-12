@@ -22,7 +22,9 @@
       />
       <TheInputField
         is-label
+        is-mask
         is-input-message
+        input-mask="##/##/####"
         input-type="text"
         input-id="date-birthday"
         input-name="Data de Nascimento"

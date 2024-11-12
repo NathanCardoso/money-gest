@@ -8,7 +8,8 @@
             @aside:profile="handleProfile"
             @aside:password-change="handlePasswordChange"
           />
-          <component :is="asyncComponent" :user-data="useStore.user"/>
+          <component v-if="isUserData" :is="asyncComponent" :user-data="useStore.user"/>
+          <TheLoading v-else />
         </div>
       </TheBigCard>
     </main>
@@ -47,6 +48,9 @@ export default {
       }
 
       return dynamicComponents[this.currentComponent]
+    },
+    isUserData() {
+      return Object.entries(this.useStore.user).length > 0
     }
   },
 
@@ -76,12 +80,7 @@ export default {
       
       this.$router.push('/login')
     }
-  },
-
-  // mounted() {
-  //   const userId: string = window.localStorage.getItem('userId') || ''
-  //   this.useStore.getUser(userId)
-  // }
+  }
 }
 </script>
 

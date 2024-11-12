@@ -4,7 +4,7 @@ import type { IItemListCardProp } from '~/interface/organisms/TheItemListCard'
 import type { IModalCreateOrEditCardData } from '~/interface/organisms/TheModalCreateOrEditCard'
 import { addFeedback } from '~/utils/addFeedback'
 
-export const useStoreCard = defineStore('transaction', {
+export const useStoreCard = defineStore('card', {
   state: () => ({
     allCards: [] as IItemListCardProp[],
   }),

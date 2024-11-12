@@ -97,13 +97,6 @@ export default {
         }
       ] as ISelectOptionsProp[]
     }
-  },
-
-  mounted() {
-    this.user.name = this.userData.name
-    this.user.email = this.userData.email
-    this.user.gender = this.userData.gender
-    this.user.dateBirthday = this.userData.dateBirthday
   }
 }
 </script>

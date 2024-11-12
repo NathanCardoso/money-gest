@@ -106,6 +106,12 @@ export default {
     }
   },
 
+  watch: {
+    value(newValue) {
+      this.inputValue = newValue
+    }
+  },
+
   setup(props) {
     const { inputValue, error, validate, onBlur } = useForm(props.inputValidate || false)
 
@@ -117,17 +123,15 @@ export default {
     }
   },
 
-  watch: {
-    value(newValue): void {
-      this.inputValue = newValue
-    }
-  },
-
   methods: {
     handleInputData(event: Event): void {
       const target = event.target as HTMLInputElement
       this.$emit("update:modelValue", target.value)
     }
+  },
+
+  mounted() {
+    if(!!this.value) this.inputValue = this.value
   }
 }
 </script>

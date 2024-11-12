@@ -54,7 +54,7 @@ export default {
   mounted() {
     this.$nextTick(async () => {
       const userId: string = window.localStorage.getItem('userId') || ''
-      this.userStore.getUser(userId)
+      await this.userStore.getUser(userId)
     })
   }
 }

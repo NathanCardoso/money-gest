@@ -5,11 +5,10 @@ import type { IItemListTransactionProp } from "~/interface/organisms/TheItemList
 
 const getTransactionRevenue = async (): Promise<IApiResponse<IItemListTransactionProp>> => {
   try {
-    const transactionRevenue = await api.get<IItemListTransactionProp[]>('receitas');
+    const transactionRevenue = await api.get<IItemListTransactionProp[]>('receitas')
     return { error: null, data: transactionRevenue }
   } catch (err) {
-    const error = new Error(`Erro ao buscar transações de entrada: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 
@@ -20,15 +19,13 @@ const postTransactionRevenue = async (
     await api.post<IModalCreateOrEditRevenueData, IItemListTransactionProp>('receitas', transaction)
     return { error: null, data: null }
   } catch(err) {
-    const error = new Error(`Erro ao criar transação de entrada: ${err}`);
-    console.log('lallala')
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 
 const putTransactionRevenue = async (
   transaction:  IModalCreateOrEditRevenueData,
-  transactionId: number
+  transactionId: string
 ): Promise<IApiResponse<null>> => {
   try {
     await api.put<IModalCreateOrEditRevenueData, IItemListTransactionProp>(
@@ -37,18 +34,16 @@ const putTransactionRevenue = async (
     )
     return { error: null, data: null }
   } catch(err) {
-    const error = new Error(`Erro ao atualizar transação de entrada: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 
-const deleteTransactionRevenue = async (transactionId: number): Promise<IApiResponse<null>> => {
+const deleteTransactionRevenue = async (transactionId: string): Promise<IApiResponse<null>> => {
   try {
     await api.delete(`receitas/${transactionId}`)
     return { error: null, data: null }
   } catch(err) {
-    const error = new Error(`Erro ao deletar transação de entrada: ${err}`);
-    return { error, data: null }
+    return { error: err as Error, data: null }
   }
 }
 
@@ -57,4 +52,4 @@ export default {
   postTransactionRevenue,
   putTransactionRevenue,
   deleteTransactionRevenue
-};
+}

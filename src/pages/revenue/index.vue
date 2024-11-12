@@ -19,10 +19,12 @@
         paragraph-card="Monitore suas fontes de renda e acompanhe seu crescimento."
       >
         <TheListTransaction
+          v-if="true"
           :transaction-list="itemListTransaction"
           @transaction:edit="handleOpenModalEditRevenue"
           @transaction:delete="handleOpenModalDeleteRevenue"
         />
+        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateRevenue
@@ -41,6 +43,7 @@
       title-confirmation="Tem certeza que deseja excluir?"
       :paragraph-confirmation="$options.paragraphDeleteRevenue"
       :is-opened="deleteRvenueModalOpened"
+      :is-disabled="loadingRequest"
       @modal-confirmation:close="handleCloseModalDeleteRevenue"
       @modal-confirmation:submit="handleDeleteRevenue"
     />
@@ -62,6 +65,7 @@ export default {
       createRevenueModalOpened: false as boolean,
       editRevenueModalOpened: false as boolean,
       deleteRvenueModalOpened: false as boolean,
+      revenueId: '' as string,
       itemListTransaction: [
         {
           nameAccount: "Conta Itaú",
@@ -119,30 +123,46 @@ export default {
     handleOpenModalCreateRevenue(): void {
       this.createRevenueModalOpened = true
     },
-    async handleCreateRevenue(revenuePayload: IModalCreateOrEditRevenueData) {
-      this.loadingRequest = true
-      this.storeRevenue.postTransactionRevenue(revenuePayload)
-      
-      this.loadingRequest = false
-      this.handleCloseModalCreateRevenue()
-    },
     handleCloseModalCreateRevenue(): void {
       this.createRevenueModalOpened = false
     },
-    handleOpenModalEditRevenue(): void {
+    handleOpenModalEditRevenue(revenueId: string): void {
       this.editRevenueModalOpened = true
+      this.revenueId = revenueId
     },
-    handleEditRevenue(): void {},
     handleCloseModalEditRevenue(): void {
       this.editRevenueModalOpened = false
     },
     handleOpenModalDeleteRevenue(): void {
       this.deleteRvenueModalOpened = true
     },
-    handleDeleteRevenue(): void {},
     handleCloseModalDeleteRevenue(): void {
       this.deleteRvenueModalOpened = false
-    }
+    },
+    async hadnleGetAllRevenue() {
+      await this.storeRevenue.getTransactionRevenue()
+    },
+    async handleCreateRevenue(revenuePayload: IModalCreateOrEditRevenueData): Promise<void> {
+      this.loadingRequest = true
+      this.storeRevenue.postTransactionRevenue(revenuePayload)
+      
+      this.loadingRequest = false
+      this.handleCloseModalCreateRevenue()
+    },
+    async handleEditRevenue(revenuePayload: IModalCreateOrEditRevenueData): Promise<void> {
+      this.loadingRequest = true
+      this.storeRevenue.putTransactionRevenue(revenuePayload, this.revenueId)
+      
+      this.loadingRequest = false
+      this.handleCloseModalEditRevenue()
+    },
+    async handleDeleteRevenue(): Promise<void> {
+      this.loadingRequest = true
+      this.storeRevenue.deleteTransactionRevenue(this.revenueId)
+      
+      this.loadingRequest = false
+      this.handleCloseModalDeleteRevenue()
+    },
   },
 
   beforeMount() {

@@ -8,30 +8,36 @@
   >
     <form class="form">
       <TheInputField
+        ref="inputName"
         is-label
         input-type="text"
         input-id="name"
         input-name="Nome"
         input-placeholder="Digite o nome da entrada..."
+        input-validate="name"
         :is-input-disabled="loadingRequest"
-        v-model="dataEditRevenue.revenueName"
+        v-model="editRevenue.revenueName"
       />
       <TheInputField
+        ref="inputValue"
         is-label
         input-type="number"
         input-id="revenue"
         input-name="Valor"
         input-placeholder="Digite o valor da entrada..."
+        input-validate="number"
         :is-input-disabled="loadingRequest"
-        v-model="dataEditRevenue.revenueMoney"
+        v-model="editRevenue.revenueMoney"
       />
       <TheSelect
+        ref="selectAccount"
         is-label
+        is-validate
         select-name="Conta"
         select-id="account"
         :is-input-disabled="loadingRequest"
         :select-options="selectOptions"
-        v-model="dataEditRevenue.revenueAccount"
+        v-model="editRevenue.revenueAccount"
       />
     </form>
   </TheModal>
@@ -39,7 +45,8 @@
 
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
-import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue";
+import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue"
+import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
   name: "TheModalEditRevenue",
@@ -61,7 +68,7 @@ export default {
 
   data() {
     return {
-      dataEditRevenue: {
+      editRevenue: {
         revenueName: "",
         revenueMoney: "",
         revenueAccount: ""
@@ -88,7 +95,14 @@ export default {
       this.$emit("modal-revenue:close")
     },
     handleSubmit(): void {
-      this.$emit("modal-revenue:submit", this.dataEditRevenue)
+      if(this.isValidateFormRequest())
+        this.$emit("modal-revenue:submit", this.editRevenue)
+    },
+    isValidateFormRequest(): boolean {
+      const refArray = Object.values(this.$refs)
+      const isValid = useFormValidation(refArray)
+
+      return isValid
     }
   }
 }

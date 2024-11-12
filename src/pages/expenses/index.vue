@@ -19,10 +19,12 @@
         paragraph-card="Monitore suas despesas e mantenha seu orçamento em dia."
       >
         <TheListTransaction
+          v-if="true"
           :transaction-list="itemListTransaction"
           @transaction:edit="handleOpenEditModalExpense"
           @transaction:delete="handleOpenModalDeleteExpense"
         />
+        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateExpense

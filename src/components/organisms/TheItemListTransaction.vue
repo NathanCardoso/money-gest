@@ -67,10 +67,10 @@ export default {
 
   methods: {
     handlePopoverEdit() {
-      this.$emit("popover:edit")
+      this.$emit("popover:edit", this.itemTransaction.id)
     },
     handlePopoverDelete() {
-      this.$emit("popover:delete")
+      this.$emit("popover:delete", this.itemTransaction.id)
     }
   }
 }

@@ -5,7 +5,7 @@ import type { IItemListTransactionProp } from "~/interface/organisms/TheItemList
 
 const getTransactionExpense = async (): Promise<IApiResponse<IItemListTransactionProp>> => {
   try {
-    const transactionExpense = await api.get<IItemListTransactionProp[]>('compras');
+    const transactionExpense = await api.get<IItemListTransactionProp[]>('receitas');
     return { error: null, data: transactionExpense }
   } catch (err) {
     return { error: err as Error, data: null }
@@ -16,7 +16,7 @@ const postTransactionExpense = async (
   transaction:  IModalCreateOrEditExpenseData
 ): Promise<IApiResponse<null>> => {
   try {
-    await api.post<IModalCreateOrEditExpenseData, IItemListTransactionProp>('compras', transaction)
+    await api.post<IModalCreateOrEditExpenseData, IItemListTransactionProp>('receitas', transaction)
     return { error: null, data: null }
   } catch(err) {
     return { error: err as Error, data: null }
@@ -29,7 +29,7 @@ const putTransactionExpense = async (
 ): Promise<IApiResponse<null>> => {
   try {
     await api.put<IModalCreateOrEditExpenseData, IItemListTransactionProp>(
-      `compras${transactionId}`,
+      `receitas/${transactionId}`,
       transaction
     )
     return { error: null, data: null }
@@ -40,7 +40,7 @@ const putTransactionExpense = async (
 
 const deleteTransactionExpense = async (transactionId: string): Promise<IApiResponse<null>> => {
   try {
-    await api.delete(`compras${transactionId}`)
+    await api.delete(`receitas/${transactionId}`)
     return { error: null, data: null }
   } catch(err) {
     return { error: err as Error, data: null }

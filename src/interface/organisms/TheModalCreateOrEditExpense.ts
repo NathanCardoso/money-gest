@@ -1,6 +1,7 @@
 export interface IModalCreateOrEditExpenseData {
+  expenseType: string;
   expenseName: string;
   expenseValue: string;
-  expenseAccount: string;
   expenseCategory: string;
+  expenseEstablishment: string;
 }

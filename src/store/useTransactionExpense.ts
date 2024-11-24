@@ -30,8 +30,8 @@ export const useStoreExpense = defineStore('expense', {
       }
     },
 
-    async postTransactionExpense(transaction: IModalCreateOrEditExpenseData): Promise<void> {
-      const { error } = await serviceTransactionExpense.postTransactionExpense(transaction)
+    async postTransactionExpense(transactionExpense: IModalCreateOrEditExpenseData): Promise<void> {
+      const { error } = await serviceTransactionExpense.postTransactionExpense(transactionExpense)
 
       if(!error) {
         addFeedback({
@@ -39,6 +39,8 @@ export const useStoreExpense = defineStore('expense', {
           isError: false,
           feedbackMessage: 'Saída cadastrada com sucesso.'
         })
+        
+        await this.getTransactionExpense()
       } else {
         addFeedback({
           isFeedbackActive: true,

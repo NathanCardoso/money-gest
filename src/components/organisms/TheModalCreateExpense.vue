@@ -27,14 +27,15 @@
         input-validate="number"
         v-model="createExpense.expenseValue"
       />
-      <TheSelect
-        ref="selectAccount"
+      <TheInputField
+        ref="inputEstablishment"
         is-label
-        is-validate
-        select-name="Conta"
-        select-id="account"
-        :select-options="selectOptions"
-        v-model="createExpense.expenseAccount"
+        input-type="text"
+        input-id="establishment"
+        input-name="Estabelecimento"
+        input-placeholder="Digite o nome do estabelecimento..."
+        input-validate="name"
+        v-model="createExpense.expenseEstablishment"
       />
       <TheSelect
         ref="selectCategory"
@@ -42,7 +43,7 @@
         is-validate
         select-name="Categoria"
         select-id="category"
-        :select-options="selectOptions"
+        :select-options="categories"
         v-model="createExpense.expenseCategory"
       />
     </form>
@@ -65,6 +66,10 @@ export default {
     loadingRequest: {
       type: Boolean,
       default: false
+    },
+    categories: {
+      type: Array as () => ISelectOptionsProp[],
+      default: () => ([] as ISelectOptionsProp[])
     }
   },
 
@@ -73,8 +78,8 @@ export default {
       createExpense: {
         expenseName: "",
         expenseValue: "",
-        expenseAccount: "",
-        expenseCategory: ""
+        expenseCategory: "",
+        expenseEstablishment: "",
       } as IModalCreateOrEditExpenseData,
       selectOptions: [
         {

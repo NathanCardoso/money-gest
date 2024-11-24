@@ -20,7 +20,7 @@
       >
         <TheListTransaction
           v-if="true"
-          :transaction-list="itemListTransaction"
+          :transaction-list="listItemExpenseTransaction"
           @transaction:edit="handleOpenEditModalExpense"
           @transaction:delete="handleOpenModalDeleteExpense"
         />
@@ -30,12 +30,14 @@
     <TheModalCreateExpense
       :is-opened="createExpenseModalOpened"
       :loading-request="loadingRequest"
+      :categories="selectOptionsCategory"
       @modal-expense:close="handleCloseModalCreateExpense"
       @modal-expense:submit="handleCreateExpense"
     />
     <TheModalEditExpense
       :is-opened="editExpenseModalOpened"
       :loading-request="loadingRequest"
+      :categories="selectOptionsCategory"
       @modal-expense:close="handleCloseModalEditExpense"
       @modal-expense:submit="handleEditExpense"
     />
@@ -53,6 +55,8 @@
 <script lang="ts">
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
 import type { IModalCreateOrEditExpenseData } from "~/interface/organisms/TheModalCreateOrEditExpense"
+import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import { useStoreCategory } from "~/store/useCategory"
 import { useStoreExpense } from "~/store/useTransactionExpense"
 import { addFeedback } from "~/utils/addFeedback"
 
@@ -113,22 +117,61 @@ export default {
 
   setup() {
     const storeExpense = useStoreExpense()
+    const storeCategory = useStoreCategory()
 
     return {
-      storeExpense
+      storeExpense,
+      storeCategory
+    }
+  },
+
+  computed: {
+    selectOptionsCategory(): ISelectOptionsProp[] {
+      const categoryOption = this.storeCategory?.categoryAll?.map(category => {
+        return {
+          value: category.categoryName,
+          label: category.categoryName
+        }
+      })
+
+      return categoryOption
+    },
+
+    listItemExpenseTransaction() {
+      const listExpense = this.storeExpense.transactionExpense?.map(expense => {
+        return {
+          nameAccount: expense.expenseName,
+          nameCategory: expense.nameCategory,
+          colorCategory: expense.categoryId.categoryColor,
+          dateTime: expense.date,
+          recipeName: expense.expenseEstablishment,
+          revenueValue: "R$" + expense.expenseValue,
+          id: expense._id
+        }
+      })
+
+      return listExpense
     }
   },
 
   methods: {
-    handleOpenModalCreateExpense(): void {
+    async handleOpenModalCreateExpense(): Promise<void> {
+      this.loadingRequest = true
+      await this.handleGetCategory()
+
       this.createExpenseModalOpened = true
+      this.loadingRequest = false
     },
     handleCloseModalCreateExpense():void {
       this.createExpenseModalOpened = false
     },
-    handleOpenEditModalExpense(expenseId: string): void {
+    async handleOpenEditModalExpense(expenseId: string): Promise<void> {
+      this.loadingRequest = true
+      await this.handleGetCategory()
+
       this.editExpenseModalOpened = true
       this.expenseId = expenseId
+      this.loadingRequest = false
     },
     handleCloseModalEditExpense(): void {
       this.editExpenseModalOpened = false
@@ -140,19 +183,28 @@ export default {
     handleCloseModalDeleteExpense(): void {
       this.deleteExpenseModalOpened = false
     },
+    async handleGetCategory(): Promise<void> {
+      await this.storeCategory.getAllCategory()
+    },
     async handleGetExpense(): Promise<void> {
       await this.storeExpense.getTransactionExpense()
     },
     async handleCreateExpense(expensePayload: IModalCreateOrEditExpenseData): Promise<void> {
       this.loadingRequest = true
-      await this.storeExpense.postTransactionExpense(expensePayload)
+      await this.storeExpense.postTransactionExpense({
+        ...expensePayload,
+        expenseType: 'saida'
+      })
 
       this.loadingRequest = false
       this.handleCloseModalCreateExpense()
     },
     async handleEditExpense(expensePayload: IModalCreateOrEditExpenseData): Promise<void> {
       this.loadingRequest = true
-      await this.storeExpense.putTransactionExpense(expensePayload, this.expenseId)
+      await this.storeExpense.putTransactionExpense({
+        ...expensePayload,
+        expenseType: 'saida'
+      }, this.expenseId)
 
       this.loadingRequest = false
       this.handleCloseModalEditExpense()
@@ -178,6 +230,13 @@ export default {
       
       this.$router.push('/login') 
     }
+  },
+
+  mounted() {
+    this.$nextTick(async () => {
+      await this.handleGetExpense()
+      console.log(this.storeExpense.transactionExpense)
+    })
   },
 
   paragraphDeleteExpense:

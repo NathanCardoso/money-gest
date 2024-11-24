@@ -1,6 +1,6 @@
 export interface IItemListTransactionProp {
   id: number;
-  nameAccount: string;
+  nameAccount?: string;
   nameCategory: string;
   colorCategory: string;
   dateTime: string;

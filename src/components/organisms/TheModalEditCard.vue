@@ -6,7 +6,7 @@
     @modal:close="handleClose"
     @modal:submit="handleSubmit"
   >
-    <form class="form">
+  <form class="form">
       <TheInputField
         ref="inputBankingCardName"
         is-label
@@ -32,17 +32,6 @@
         v-model="editCard.cardNumber"
       />
       <TheInputField
-        ref="inputBankingCardCVC"
-        is-label
-        input-type="text"
-        input-id="name"
-        input-name="CVC"
-        input-placeholder="Digite o cvc do cartão..."
-        :is-input-disabled="loadingRequest"
-        input-validate="number"
-        v-model="editCard.cardCVC"
-      />
-      <TheInputField
         ref="inputBankingCardDateValidity"
         is-label
         is-mask
@@ -61,40 +50,31 @@
         input-type="text"
         input-id="name"
         input-name="Saldo do cartão"
-        input-placeholder="Digite o saldo do cartão..."
+        input-placeholder="Digite o limite do cartão..."
         input-validate="number"
         :is-input-disabled="loadingRequest"
         v-model="editCard.cardLimited"
       />
-      <TheSelect
-        ref="selectCardType"
-        select-name="Selecione o tipo do cartão"
-        select-id="cardType"
+      <TheInputField
+        ref="inputBankingCardInvoice"
         is-label
-        is-validate
-        :is-select-disabled="loadingRequest"
-        :select-options="selectOptinonsCardType"
-        v-model="editCard.cardType"
+        input-type="number"
+        input-id="name"
+        input-name="Fatura do cartão"
+        input-placeholder="Digite a fatura do cartão..."
+        input-validate="number"
+        :is-input-disabled="loadingRequest"
+        v-model="editCard.cardInvoice"
       />
       <TheSelect
-        ref="selectDateClose"
-        select-name="Selecione a data de fechamento"
-        select-id="cardDateClose"
+        ref="selectCardFlag"
+        select-name="Selecione a bandeira do cartão"
+        select-id="cardFlag"
         is-label
         is-validate
         :is-select-disabled="loadingRequest"
-        :select-options="selectOptionsDateClose"
-        v-model="editCard.cardDateClose"
-      />
-      <TheSelect
-        ref="selectDateMaturity"
-        select-name="Selecione a data de vencimento"
-        select-id="cardDateMaturity"
-        is-label
-        is-validate
-        :is-select-disabled="loadingRequest"
-        :select-options="selectOptionsDateMaturity"
-        v-model="editCard.cardDateMaturity"
+        :select-options="selectOptinonsCardFlag"
+        v-model="editCard.cardFlag"
       />
     </form>
   </TheModal>
@@ -128,17 +108,15 @@ export default {
       editCard: {
         cardName: "",
         cardLimited: "",
+        cardInvoice: "",
         cardNumber: "",
-        cardDateClose: "",
-        cardDateMaturity: "",
-        cardCVC: "",
         cardDateValidity: "",
-        cardType: "",
+        cardFlag: "",
       } as IModalCreateOrEditCardData,
-      selectOptinonsCardType: [
+      selectOptinonsCardFlag: [
         {value: "", label: "Selecione uma opção"},
-        {value: "credito", label: "Crédito"},
-        {value: "debito", label: "Débito"},
+        {value: "visa", label: "Visa"},
+        {value: "mastercard", label: "Mastercard"},
       ] as ISelectOptionsProp[],
       selectOptionsDateClose: [
           {value: "", label: "Selecione uma opção"},

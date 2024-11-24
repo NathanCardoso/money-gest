@@ -33,7 +33,12 @@ export const useStoreCard = defineStore('card', {
     },
 
     async postCard(card: IModalCreateOrEditCardData): Promise<void> {
-      const { error } = await serviceCard.postCard(card)
+      const requestCard = {
+        ...card,
+        cardInvoice: Number(card.cardInvoice)
+      }
+
+      const { error } = await serviceCard.postCard(requestCard)
 
       if(!error) {
         await this.getAllCard()
@@ -54,7 +59,12 @@ export const useStoreCard = defineStore('card', {
     },
 
     async putCard(card: IModalCreateOrEditCardData, cardId: string): Promise<void> {
-      const { error } = await serviceCard.putCard(card, cardId)
+      const requestCard = {
+        ...card,
+        cardInvoice: Number(card.cardInvoice)
+      }
+
+      const { error } = await serviceCard.putCard(requestCard, cardId)
 
       if(!error) {
         await this.getAllCard()

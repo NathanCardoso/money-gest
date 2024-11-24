@@ -1,6 +1,6 @@
 import { api } from "~/axios"
 import type { IApiResponse } from "~/interface/service/ResponseRequest";
-import type { IModalCreateOrEditCardData } from "~/interface/organisms/TheModalCreateOrEditCard";
+import type { ICreateOrEditCardData } from "~/interface/organisms/TheModalCreateOrEditCard";
 import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard";
 
 const getAllCard = async (): Promise<IApiResponse<IItemListCardProp>> => {
@@ -13,10 +13,10 @@ const getAllCard = async (): Promise<IApiResponse<IItemListCardProp>> => {
 }
 
 const postCard = async (
-  card:  IModalCreateOrEditCardData
+  card:  ICreateOrEditCardData
 ): Promise<IApiResponse<null>> => {
   try {
-    await api.post<IModalCreateOrEditCardData, IItemListCardProp>('cartoes', card)
+    await api.post<ICreateOrEditCardData, IItemListCardProp>('cartoes', card)
     return { error: null, data: null }
   } catch(err) {
     return { error: err as Error, data: null }
@@ -24,11 +24,11 @@ const postCard = async (
 }
 
 const putCard = async (
-  card:  IModalCreateOrEditCardData,
+  card:  ICreateOrEditCardData,
   cardId: string
 ): Promise<IApiResponse<null>> => {
   try {
-    await api.put<IModalCreateOrEditCardData, IItemListCardProp>(
+    await api.put<ICreateOrEditCardData, IItemListCardProp>(
       `cartoes/${cardId}`,
       card
     )

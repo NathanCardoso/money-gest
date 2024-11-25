@@ -35,8 +35,6 @@
 <script lang="ts">
 import type { IModalCreateOrEditAccountData } from '~/interface/organisms/TheModalCreateOrEditAccountData'
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
-import TheSelect from '../molecules/TheSelect.vue'
-import TheInputField from '../molecules/TheInputField.vue'
 import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {

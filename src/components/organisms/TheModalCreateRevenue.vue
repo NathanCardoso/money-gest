@@ -16,7 +16,7 @@
         input-placeholder="Digite o nome da entrada..."
         input-validate="name"
         :is-input-disabled="loadingRequest"
-        v-model="createRevenue.revenueName"
+        v-model="createRevenue.expenseName"
       />
       <TheInputField
         ref="inputValue"
@@ -27,7 +27,7 @@
         input-placeholder="Digite o valor da entrada..."
         input-validate="number"
         :is-input-disabled="loadingRequest"
-        v-model="createRevenue.revenueMoney"
+        v-model="createRevenue.expenseValue"
       />
       <TheSelect
         ref="selectAccount"
@@ -36,8 +36,8 @@
         select-name="Conta"
         select-id="account"
         :is-input-disabled="loadingRequest"
-        :select-options="selectOptions"
-        v-model="createRevenue.revenueAccount"
+        :select-options="accounties"
+        v-model="createRevenue.expenseAccount"
       />
     </form>
   </TheModal>
@@ -59,15 +59,19 @@ export default {
     loadingRequest: {
       type: Boolean,
       default: false
+    },
+    accounties: {
+      type: Array as () => ISelectOptionsProp[],
+      default: () => ([] as ISelectOptionsProp[])
     }
   },
 
   data() {
     return {
       createRevenue: {
-        revenueName: "",
-        revenueMoney: "",
-        revenueAccount: ""
+        expenseName: "",
+        expenseValue: "",
+        expenseAccount: ""
       } as IModalCreateOrEditRevenueData,
       selectOptions: [
         {

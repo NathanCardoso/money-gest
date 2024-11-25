@@ -20,7 +20,7 @@
       >
         <TheListTransaction
           v-if="true"
-          :transaction-list="itemListTransaction"
+          :transaction-list="listItemRevenueTransaction"
           @transaction:edit="handleOpenModalEditRevenue"
           @transaction:delete="handleOpenModalDeleteRevenue"
         />
@@ -30,12 +30,14 @@
     <TheModalCreateRevenue
       :is-opened="createRevenueModalOpened"
       :loading-request="loadingRequest"
+      :accounties="selectOptionsAccount"
       @modal-revenue:close="handleCloseModalCreateRevenue"
       @modal-revenue:submit="handleCreateRevenue"
     />
     <TheModalEditRevenue
       :is-opened="editRevenueModalOpened"
       :loading-request="loadingRequest"
+      :accounties="selectOptionsAccount"
       @modal-revenue:close="handleCloseModalEditRevenue"
       @modal-revenue:submit="handleEditRevenue"
     />
@@ -52,9 +54,11 @@
 
 <script lang="ts">
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
-import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue";
-import { useStoreRevenue } from '~/store/useTransactionRevenue';
-import { addFeedback } from "~/utils/addFeedback";
+import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue"
+import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import { useStoreAccount } from "~/store/useAccount"
+import { useStoreRevenue } from '~/store/useTransactionRevenue'
+import { addFeedback } from "~/utils/addFeedback"
 
 export default {
   name: "PageRevenue",
@@ -71,7 +75,7 @@ export default {
           nameAccount: "Conta Itaú",
           nameCategory: "Carteira",
           colorCategory: "blue",
-          dateTime: "10/06/2024 - 15:58", 
+          dateTime: "10/06/2024 - 15:58",
           recipeName: "Salário",
           revenueValue: "R$ 4.322,89"
         },
@@ -113,9 +117,39 @@ export default {
 
   setup() {
     const storeRevenue = useStoreRevenue()
+    const storeAccount = useStoreAccount()
 
     return {
-      storeRevenue
+      storeRevenue,
+      storeAccount
+    }
+  },
+
+  computed: {
+    selectOptionsAccount(): ISelectOptionsProp[] {
+      const accountOptions = this.storeAccount?.allAccount?.map(account => {
+        return {
+          value: account.accountBankingName,
+          label: account.accountBankingName
+        }
+      })
+
+      return accountOptions
+    },
+    listItemRevenueTransaction() {
+      const listExpense = this.storeRevenue.transactionRevenue?.map(expense => {
+        return {
+          nameAccount: '',
+          nameCategory: '',
+          colorCategory: 'blue',
+          dateTime: expense.date,
+          recipeName: expense.expenseName,
+          revenueValue: "R$" + expense.expenseValue,
+          id: expense._id
+        }
+      })
+
+      return listExpense
     }
   },
 
@@ -133,8 +167,9 @@ export default {
     handleCloseModalEditRevenue(): void {
       this.editRevenueModalOpened = false
     },
-    handleOpenModalDeleteRevenue(): void {
+    handleOpenModalDeleteRevenue(revenueId: string): void {
       this.deleteRvenueModalOpened = true
+      this.revenueId = revenueId
     },
     handleCloseModalDeleteRevenue(): void {
       this.deleteRvenueModalOpened = false
@@ -142,9 +177,12 @@ export default {
     async hadnleGetAllRevenue() {
       await this.storeRevenue.getTransactionRevenue()
     },
-    async handleCreateRevenue(revenuePayload: IModalCreateOrEditRevenueData): Promise<void> {
+    async handleCreateRevenue(expensePayload: IModalCreateOrEditRevenueData): Promise<void> {
       this.loadingRequest = true
-      this.storeRevenue.postTransactionRevenue(revenuePayload)
+      this.storeRevenue.postTransactionRevenue({
+        ...expensePayload,
+        expenseType: 'entrada',
+      })
       
       this.loadingRequest = false
       this.handleCloseModalCreateRevenue()
@@ -177,6 +215,13 @@ export default {
       
       this.$router.push('/login') 
     }
+  },
+
+  mounted() {
+    this.$nextTick(async () => {
+      await this.hadnleGetAllRevenue()
+      await this.storeAccount.getAllAccount()
+    })
   },
 
   paragraphDeleteRevenue:

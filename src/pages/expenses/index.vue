@@ -235,7 +235,6 @@ export default {
   mounted() {
     this.$nextTick(async () => {
       await this.handleGetExpense()
-      console.log(this.storeExpense.transactionExpense)
     })
   },
 

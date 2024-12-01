@@ -5,7 +5,7 @@ import type { IItemListTransactionProp } from "~/interface/organisms/TheItemList
 
 const getTransactionExpense = async (): Promise<IApiResponse<IItemListTransactionProp>> => {
   try {
-    const transactionExpense = await api.get<IItemListTransactionProp[]>('receitas');
+    const transactionExpense = await api.get<IItemListTransactionProp[]>('receitas/saida');
     return { error: null, data: transactionExpense }
   } catch (err) {
     return { error: err as Error, data: null }

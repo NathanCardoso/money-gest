@@ -15,8 +15,9 @@
         title-card="Gastos por Categoria"
         paragraph-card="Veja suas categorias de despesas."
       >
+        <TheLoading v-if="storeCategory.loadingCategory" />
         <TheListCategory
-          v-if="storeCategory.categoryAll?.length"
+          v-else
           is-popover
           is-click
           :category-list="storeCategory.categoryAll"
@@ -24,7 +25,6 @@
           @category:edit="handleOpenModalEditCategory"
           @category:delete="handleOpenModalDeleteCategory"
         />
-        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateCategory

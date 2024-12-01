@@ -18,13 +18,13 @@
         title-card="Resumo de saídas"
         paragraph-card="Monitore suas despesas e mantenha seu orçamento em dia."
       >
+        <TheLoading v-if="storeExpense.loadingExpense" />
         <TheListTransaction
-          v-if="true"
-          :transaction-list="listItemExpenseTransaction"
+          v-else
+          :transaction-list="storeExpense.transactionExpense"
           @transaction:edit="handleOpenEditModalExpense"
           @transaction:delete="handleOpenModalDeleteExpense"
         />
-        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateExpense
@@ -37,6 +37,7 @@
     <TheModalEditExpense
       :is-opened="editExpenseModalOpened"
       :loading-request="loadingRequest"
+      :modal-value="expenseSelect"
       :categories="selectOptionsCategory"
       @modal-expense:close="handleCloseModalEditExpense"
       @modal-expense:submit="handleEditExpense"
@@ -53,9 +54,10 @@
 </template>
 
 <script lang="ts">
-import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
+import type { IItemListTransactionProp, IEditExpense } from "~/interface/organisms/TheItemListTransaction"
 import type { IModalCreateOrEditExpenseData } from "~/interface/organisms/TheModalCreateOrEditExpense"
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
 import { useStoreCategory } from "~/store/useCategory"
 import { useStoreExpense } from "~/store/useTransactionExpense"
 import { addFeedback } from "~/utils/addFeedback"
@@ -70,48 +72,6 @@ export default {
       deleteExpenseModalOpened: false as boolean,
       loadingRequest: false as boolean,
       expenseId: '' as string,
-      itemListTransaction: [
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "red",
-          dateTime: "10/06/2024 - 12:38",
-          recipeName: "Cinema",
-          revenueValue: "R$ 89,90"
-        },
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "red",
-          dateTime: "10/06/2024 - 12:38",
-          recipeName: "Estacionamento",
-          revenueValue: "R$ 30,00"
-        },
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "red",
-          dateTime: "10/06/2024 - 12:38",
-          recipeName: "Madero",
-          revenueValue: "R$ 230,52"
-        },
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "red",
-          dateTime: "10/06/2024 - 12:38",
-          recipeName: "Açaí",
-          revenueValue: "R$ 19,00"
-        },
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "red",
-          dateTime: "10/06/2024 - 12:38",
-          recipeName: "Gasolina",
-          revenueValue: "R$ 200,00"
-        }
-      ] as IItemListTransactionProp[]
     }
   },
 
@@ -127,51 +87,48 @@ export default {
 
   computed: {
     selectOptionsCategory(): ISelectOptionsProp[] {
-      const categoryOption = this.storeCategory?.categoryAll?.map(category => {
+      const categoryOption = this.storeCategory?.categoryAll?.map((category: IItemListCategoryProp) => {
         return {
           value: category.categoryName,
           label: category.categoryName
         }
       })
 
+      categoryOption.unshift({
+        value: "",
+        label: "Selecione uma opção"
+      })
+
       return categoryOption
     },
 
-    listItemExpenseTransaction() {
-      const listExpense = this.storeExpense.transactionExpense?.map(expense => {
+    expenseSelect(): IEditExpense {
+      const expense = this.storeExpense.transactionExpense
+      ?.map((expense: IItemListTransactionProp) => {
         return {
-          nameAccount: expense.expenseName,
-          nameCategory: expense.nameCategory,
-          colorCategory: expense.categoryId.categoryColor,
-          dateTime: expense.date,
-          recipeName: expense.expenseEstablishment,
-          revenueValue: "R$" + expense.expenseValue,
-          id: expense._id
+          _id: expense._id,
+          expenseName: expense.nameAccount,
+          expenseValue: expense.revenueValue,
+          expenseCategory: expense.nameCategory,
+          expenseEstablishment: expense.recipeName
         }
       })
+      ?.find((expense: IItemListTransactionProp) => expense._id === this.expenseId)
 
-      return listExpense
+      return expense
     }
   },
 
   methods: {
-    async handleOpenModalCreateExpense(): Promise<void> {
-      this.loadingRequest = true
-      await this.handleGetCategory()
-
+    handleOpenModalCreateExpense(): void {
       this.createExpenseModalOpened = true
-      this.loadingRequest = false
     },
     handleCloseModalCreateExpense():void {
       this.createExpenseModalOpened = false
     },
-    async handleOpenEditModalExpense(expenseId: string): Promise<void> {
-      this.loadingRequest = true
-      await this.handleGetCategory()
-
-      this.editExpenseModalOpened = true
+    handleOpenEditModalExpense(expenseId: string): void {
       this.expenseId = expenseId
-      this.loadingRequest = false
+      this.editExpenseModalOpened = true
     },
     handleCloseModalEditExpense(): void {
       this.editExpenseModalOpened = false
@@ -234,7 +191,7 @@ export default {
 
   mounted() {
     this.$nextTick(async () => {
-      await this.handleGetExpense()
+      await Promise.all([this.handleGetExpense(), this.handleGetCategory()])
     })
   },
 

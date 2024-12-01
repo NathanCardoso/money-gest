@@ -29,14 +29,14 @@ export const useStoreCategory = defineStore('category', {
           colorCategory: categoryColor,
           dateTime: formatDateToCustomFormat(category.date),
           recipeName: category.expenseEstablishment,
-          revenueValue: currencyBRL(category.expenseValue)
+          revenueValue: currencyBRL(category.expenseValue / 100)
         }
       })
 
       return {
         categoryTratament,
         categoryName,
-        revenueValue: revenueValue ? currencyBRL(revenueValue) : currencyBRL(0)
+        revenueValue: revenueValue ? currencyBRL(revenueValue / 100) : currencyBRL(0)
       }
     },
 

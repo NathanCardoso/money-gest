@@ -61,7 +61,7 @@ export default {
 
   computed: {
     revenueCategory(): string {
-    const revenueValue: number = +this.itemCategory.revenueValue
+    const revenueValue: number = +this.itemCategory.revenueValue / 100
 
     if (typeof revenueValue === "number") {
       return revenueValue.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })

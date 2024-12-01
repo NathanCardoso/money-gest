@@ -20,7 +20,8 @@
       <TheInputField
         ref="inputValue"
         is-label
-        input-type="number"
+        is-money
+        input-type="text"
         input-id="expense"
         input-name="Valor"
         input-placeholder="Digite o valor da saída..."

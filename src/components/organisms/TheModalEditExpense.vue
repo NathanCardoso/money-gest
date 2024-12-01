@@ -15,16 +15,19 @@
         input-name="Nome"
         input-placeholder="Digite o nome da entrada..."
         input-validate="name"
+        :value="modalValue.expenseName"
         v-model="editExpense.expenseName"
       />
       <TheInputField
         ref="inputValue"
         is-label
-        input-type="number"
+        is-money
+        input-type="text"
         input-id="revenue"
         input-name="Valor"
         input-placeholder="Digite o valor da entrada..."
         input-validate="number"
+        :value="modalValue.expenseValue"
         v-model="editExpense.expenseValue"
       />
       <TheInputField
@@ -35,6 +38,7 @@
         input-name="Estabelecimento"
         input-placeholder="Digite o nome do estabelecimento..."
         input-validate="name"
+        :value="modalValue.expenseEstablishment"
         v-model="editExpense.expenseEstablishment"
       />
       <TheSelect
@@ -44,6 +48,7 @@
         select-name="Categoria"
         select-id="category"
         :select-options="categories"
+        :value="modalValue.expenseCategory"
         v-model="editExpense.expenseCategory"
       />
     </form>
@@ -53,6 +58,7 @@
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 import type { IModalCreateOrEditExpenseData } from "~/interface/organisms/TheModalCreateOrEditExpense"
+import type { IEditExpense } from "~/interface/organisms/TheItemListTransaction"
 import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
@@ -74,6 +80,10 @@ export default {
     categories: {
       type: Array as () => ISelectOptionsProp[],
       default: () => ([] as ISelectOptionsProp[])
+    },
+    modalValue: {
+      type: Object as () => IEditExpense,
+      default: () => ({} as IEditExpense)
     }
   },
 
@@ -84,21 +94,7 @@ export default {
         expenseValue: "",
         expenseCategory: "",
         expenseEstablishment: ""
-      } as IModalCreateOrEditExpenseData,
-      selectOptions: [
-        {
-          value: "",
-          label: "Selecione uma opção"
-        },
-        {
-          value: "M",
-          label: "Masculino"
-        },
-        {
-          value: "F",
-          label: "Feminino"
-        }
-      ] as ISelectOptionsProp[]
+      } as IModalCreateOrEditExpenseData
     }
   },
 

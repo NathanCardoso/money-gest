@@ -19,6 +19,7 @@ export default {
           "purple",
           "black",
           "gray",
+          "lineAndStroke"
         ].includes(color)
       },
     },

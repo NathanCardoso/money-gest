@@ -15,7 +15,7 @@
           is-button-link-card
           @big-card:click="handleBigCardClick('card')"
         >
-          <TheListCard :card-list="listCard" />
+          <TheListCard :card-list="storeCard.cards" />
         </TheBigCard>
         <TheBigCard
           class="card"
@@ -25,7 +25,7 @@
           is-button-link-card
           @big-card:click="handleBigCardClick('account')"
         >
-          <TheListAccount :account-list="listAccount" />
+          <TheListAccount :account-list="storeAccount.allAccount" />
         </TheBigCard>
         <TheBigCard
           class="card"
@@ -35,7 +35,7 @@
           is-button-link-card
           @big-card:click="handleBigCardClick('category')"
         >
-          <TheListCategory :category-list="listCategory" />
+          <TheListCategory :category-list="storeCategory.categoryAll" />
         </TheBigCard>
         <TheBigCard
           class="card"
@@ -52,20 +52,40 @@ import type { IMoneyCard } from "~/interface/organisms/TheMoneyCard"
 import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
 import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
-import { useCurrencyFormat } from "~/composables/useCurrencyFormat"
 import { auth } from '~/utils/authToken'
 import { addFeedback } from "~/utils/addFeedback"
+import { currencyBRL } from "~/utils/numberTocurrency"
+import { useStoreCard } from "~/store/useCard"
+import { useStoreAccount } from "~/store/useAccount"
+import { useStoreCategory } from "~/store/useCategory"
+import { useStoreRevenue } from "~/store/useTransactionRevenue"
+import { useStoreExpense } from "~/store/useTransactionExpense"
 
 export default {
   name: "AppIndex",
 
-  data() {
+  setup() {
+    const storeCard = useStoreCard()
+    const storeAccount = useStoreAccount()
+    const storeCategory = useStoreCategory()
+    const storeRevenue = useStoreRevenue()
+    const storeExpense = useStoreExpense()
+
     return {
-      amount: "",
-      moneyCards: [
+      storeCard,
+      storeAccount,
+      storeCategory,
+      storeRevenue,
+      storeExpense
+    }
+  },
+
+  computed: {
+    moneyCards(): IMoneyCard[] {
+      return [
         {
           title: "Entrada",
-          moneyValue: "R$ 300",
+          moneyValue: currencyBRL(this.storeRevenue.totalRevenue),
           moneyColor: "green",
           icon: "IconArrowUp"
         },
@@ -77,112 +97,21 @@ export default {
         },
         {
           title: "Saída",
-          moneyValue: "R$ 200",
+          moneyValue: currencyBRL(this.storeExpense.totalExpense),
           moneyColor: "red",
           icon: "IconArrowDown"
         },
         {
           title: "Balanço",
-          moneyValue: "R$ 300",
+          moneyValue: this.totalBalance,
           moneyColor: "yellow",
           icon: "IconBarChart"
         }
-      ] as IMoneyCard[],
-      listCard: [
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "De: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Nubank",
-          cardFlag: "mastercard",
-          cardLastNumber: "Final 9856",
-          cardLimited: "De: R$ 6789,80",
-          cardInvoice: "Fatura: R$ 3489,00",
-          cardPercentageLimited: "37",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "De: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "De: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        }
-      ] as IItemListCardProp[],
-      listAccount: [
-        {
-          _id: '1',
-          accountBankingName: "Nubank",
-          accountBalance: 8987
-        },
-        {
-          _id: '2',
-          accountBankingName: "Itau",
-          accountBalance: 769
-        },
-        {
-          _id: '3',
-          accountBankingName: "PicPay",
-          accountBalance: 4860
-        },
-        {
-          _id: '3',
-          accountBankingName: "Santander",
-          accountBalance: 2890
-        }
-      ] as IItemListAccountProp[],
-      listCategory: [
-        {
-          _id: '1',
-          categoryName: "Transporte",
-          categoryColor: "blue",
-          revenueValue: 890
-        },
-        {
-          _id: '2',
-          categoryName: "Alimentação",
-          categoryColor: "red",
-          revenueValue: 890
-        },
-        {
-          _id: '3',
-          categoryName: "lazer",
-          categoryColor: "yellow",
-          revenueValue: 890
-        },
-        {
-          _id: '4',
-          categoryName: "saude",
-          categoryColor: "green",
-          revenueValue: 890
-        }
-      ] as IItemListCategoryProp[]
-    }
-  },
+      ]
+    },
 
-  setup() {
-    const { formattedValue, formatCurrency } = useCurrencyFormat()
-
-    return {
-      formattedValue,
-      formatCurrency
+    totalBalance(): string {
+      return currencyBRL(this.storeRevenue.totalRevenue - this.storeExpense.totalExpense)
     }
   },
 
@@ -204,6 +133,18 @@ export default {
       
       this.$router.push('/login') 
     }
+  },
+
+  mounted() {
+    this.$nextTick(async () => {
+      Promise.all([
+        this.storeCard.getAllCard(),
+        this.storeAccount.getAllAccount(),
+        this.storeCategory.getAllCategory(),
+        this.storeExpense.getTransactionExpense(),
+        this.storeRevenue.getTransactionRevenue()
+      ])
+    })
   }
 }
 </script>

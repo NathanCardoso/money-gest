@@ -6,7 +6,7 @@
     </div>
     <Transition name="bigCard" mode="out-in">
       <div class="card-transition">
-        <slot></slot>
+        <slot class="card-slot"></slot>
         <TheButtonLinkCard
           v-if='isButtonLink'
           :button-message="buttonLinkMessage"
@@ -70,8 +70,13 @@ export default {
   .card-transition {
     flex-grow: 1;
     width: 100%;
-    max-height: rem(300);
-    overflow-y: scroll;
+    @include useAlignStartBetween;
+    flex-direction: column;
+
+    .card-slot {
+      max-height: rem(300);
+      overflow-y: scroll;
+    }
   }
 }
 

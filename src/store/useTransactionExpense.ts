@@ -13,6 +13,13 @@ export const useStoreExpense = defineStore('expense', {
   }),
 
   getters: {
+    totalExpense(state: any) {
+      const expenseTotal =  state.expense?.reduce((acc: number, expense: any): number => {
+        return acc + expense.expenseValue
+      }, 0)
+
+      return expenseTotal / 100
+    },
     transactionExpense(state: any) {
       const expense = state.expense?.map((expense: any) => {
         const { expenseValue, expenseName, expenseEstablishment, date, categoryId } = expense

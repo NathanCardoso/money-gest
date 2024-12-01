@@ -2,6 +2,10 @@
   <li class="item-list-account">
     <div class="info-bank">
       <TheParagraph :paragraph-message="itemAccount.accountBankingName" bold />
+      <div class="wrapper-banking">
+        <TheIconMark color="lineAndStroke" />
+      <TheParagraph paragraph-message="Banco" />
+      </div>
     </div>
     <div class="wrapper-balance">
       <div class="info-balance">
@@ -92,6 +96,25 @@ export default {
     margin-top: rem(28);
   }
 
+  .info-bank {
+      @include useAlignStartBetween;
+      flex-direction: column;
+      gap: rem(14);
+
+      .wrapper-banking {
+        display: flex;
+        align-items: center;
+        gap: rem(8);
+
+        .icon-mark {
+          width: rem(16);
+          height: rem(16);
+          border-radius: rem(4);
+          @include useBackgroundColors;
+        }
+      }
+    }
+
   .info-account {
     @include useAlignCenter;
     gap: rem(24);
@@ -102,12 +125,6 @@ export default {
       border-radius: rem(6);
       background: $grayLight;
       @include useAlignCenter;
-    }
-
-    .info-bank {
-      @include useAlignStartBetween;
-      flex-direction: column;
-      gap: rem(14);
     }
   }
 

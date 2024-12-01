@@ -123,6 +123,10 @@ export default {
       if(this.isMoney) this.inputMoney = newValue
       this.inputValue = newValue
     },
+    inputMoney(moneyValue) {
+      if(typeof moneyValue === 'string')
+        this.inputValue = +moneyValue.replace('R$', '').replaceAll('.','').replace(',','')
+    }
   },
 
   setup(props) {

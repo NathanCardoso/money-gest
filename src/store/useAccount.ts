@@ -8,20 +8,31 @@ import { addFeedback } from '~/utils/addFeedback'
 export const useStoreAccount = defineStore('account', {
   state: (): stateAccount => ({
     accounts: [] as IItemListAccountProp[],
+    accountLoading: false as boolean
   }),
 
   getters: {
-    allAccount(state): IItemListAccountProp[] {
+    allAccount(state: any): IItemListAccountProp[] {
       return state.accounts
+    },
+    loadingAccount(state: any): boolean {
+      return state.accountLoading
     }
   },
 
   actions: {
     async getAllAccount(): Promise<void> {
+      this.accountLoading = true
+
       const { error, data } = await serviceAccount.getAllAccount()
 
       if(!error && Array.isArray(data)) {
-        this.accounts = data
+        this.accounts = data?.map(account => {
+          return {
+            ...account,
+            accountBalance: account.accountBalance / 100
+          }
+        })
       }
 
       if(error) {
@@ -31,12 +42,16 @@ export const useStoreAccount = defineStore('account', {
           feedbackMessage: error?.message
         })
       }
+
+      this.accountLoading = false
     },
 
     async postAccount(account: IModalCreateOrEditAccountData): Promise<void> {
+      this.accountLoading = true
+
       const { error } = await serviceAccount.postAccount({
         ...account,
-        accountBalance: +account.accountBalance
+        accountBalance: +account.accountBalance.replace('R$', '').replaceAll('.','').replace(',','')
       })
 
       if(!error) {
@@ -53,10 +68,19 @@ export const useStoreAccount = defineStore('account', {
           feedbackMessage: error?.message
         })
       }
+
+      this.accountLoading = false
     },
 
     async putAccount(account: IModalCreateOrEditAccountData, accountId: string): Promise<void> {
-      const { error } = await serviceAccount.putAccount(account, accountId)
+      this.accountLoading = true
+
+      const { error } = await serviceAccount.putAccount({
+          ...account,
+          accountBalance: +account.accountBalance.replace('R$', '').replaceAll('.','').replace(',','')
+        },
+        accountId
+      )
 
       if(!error) {
         await this.getAllAccount()
@@ -72,9 +96,13 @@ export const useStoreAccount = defineStore('account', {
           feedbackMessage: error?.message
         })
       }
+
+      this.accountLoading = false
     },
 
     async deleteAccount(accountId: string): Promise<void> {
+      this.accountLoading = true
+
       const { error } =  await serviceAccount.deleteAccount(accountId)
 
       if(!error) {
@@ -91,6 +119,8 @@ export const useStoreAccount = defineStore('account', {
           feedbackMessage: error?.message
         })
       }
+
+      this.accountLoading = false
     },
   }
 })

@@ -15,14 +15,14 @@
         title-card="Lista de contas "
         paragraph-card="Veja suas contas bancárias, e monitore com facilidade."
       >
+        <TheLoading v-if="storeAccount.loadingAccount" />
         <TheListAccount
-          v-if="storeAccount.allAccount.length"
+          v-else
           is-popover
           :account-list="storeAccount.allAccount"
           @account:edit="handleOpenModalEditAccount"
           @account:delete="handleOpenModalDeleteAccount"
         />
-        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateAccount
@@ -34,6 +34,7 @@
     <TheModalEditAccount
       :is-opened="editAccountModalOpened"
       :loading-request="loadingRequest"
+      :modal-value="accountSelect"
       @modal-card:close="handleCloseModalEditAccount"
       @modal-card:submit="handleEditAccount"
     />
@@ -50,6 +51,7 @@
 
 <script lang="ts">
 import type { IModalCreateOrEditAccountData } from "~/interface/organisms/TheModalCreateOrEditAccountData"
+import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import { useStoreAccount } from "~/store/useAccount"
 import { addFeedback } from "~/utils/addFeedback"
 
@@ -72,6 +74,20 @@ export default {
 
     return {
       storeAccount
+    }
+  },
+
+  computed: {
+    accountSelect(): IItemListAccountProp {
+      return this.storeAccount.allAccount
+      ?.map((account: IItemListAccountProp) => {
+        return {
+          ...account,
+          accountBalance: account.accountBalance * 100
+        }
+      })
+      ?.find((account: IItemListAccountProp) => account._id === this.accountId)
+      ?? {} as IItemListAccountProp
     }
   },
 

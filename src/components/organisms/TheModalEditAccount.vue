@@ -15,16 +15,19 @@
         is-validate
         :is-select-disabled="loadingRequest"
         :select-options="selectOptionsBanking"
+        :value="modalValue.accountBankingName"
         v-model="editAccount.accountBankingName"
       />
       <TheInputField
         ref="inputBalance"
         is-label
+        is-money
         input-type="text"
         input-id="balance"
         input-name="Saldo da conta"
         input-placeholder="Digite o saldo da conta"
         input-validate="number"
+        :value="modalValue.accountBalance"
         v-model="editAccount.accountBalance"
       />
     </form>
@@ -34,6 +37,7 @@
 <script lang="ts">
 import type { IModalCreateOrEditAccountData } from "~/interface/organisms/TheModalCreateOrEditAccountData"
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
@@ -47,6 +51,10 @@ export default {
     loadingRequest: {
       type: Boolean,
       default: false
+    },
+    modalValue: {
+      type: Object as () => IItemListAccountProp,
+      default: () => ({} as IItemListAccountProp)
     }
   },
 
@@ -82,22 +90,13 @@ export default {
     }
   },
 
-  setup() {
-    const { formattedValue, formatCurrency } = useCurrencyFormat()
-
-    return {
-      formattedValue,
-      formatCurrency
-    }
-  },
-
   methods: {
     handleClose(): void {
       this.$emit("modal-card:close")
     },
     handleSubmit(): void {
       if (this.isValidateFormRequest()){}
-        // this.$emit("modal-card:submit", this.editAccount)
+        this.$emit("modal-card:submit", this.editAccount)
     },
     isValidateFormRequest(): boolean {
       const refArray = Object.values(this.$refs)

@@ -2,4 +2,5 @@ import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAcco
 
 export interface stateAccount {
   accounts: IItemListAccountProp[];
+  accountLoading: boolean;
 }

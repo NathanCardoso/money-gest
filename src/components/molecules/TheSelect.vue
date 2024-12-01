@@ -102,6 +102,7 @@ export default {
 
   mounted() {
     this.inputValue = this.value
+    this.$emit("update:modelValue", this.value)
   }
 }
 </script>

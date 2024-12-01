@@ -20,6 +20,7 @@
       <TheInputField
         ref="inputBalance"
         is-label
+        is-money
         input-type="text"
         input-id="balance"
         input-name="Saldo da conta"
@@ -83,22 +84,13 @@ export default {
     }
   },
 
-  setup() {
-    const { formattedValue, formatCurrency } = useCurrencyFormat()
-
-    return {
-      formattedValue,
-      formatCurrency
-    }
-  },
-
   methods: {
     handleClose(): void {
       this.$emit("modal-card:close")
     },
     handleSubmit(): void {
       if (this.isValidateFormRequest()) {}
-      // this.$emit("modal-card:submit", this.addAccount)
+      this.$emit("modal-card:submit", this.addAccount)
     },
     isValidateFormRequest(): boolean {
       const refArray = Object.values(this.$refs)

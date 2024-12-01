@@ -10,7 +10,6 @@
       >
         <IconAdd />
       </TheButtonLink>
-      <TheDatePicker class="date-picker"/>
     </div>
     <main class="category-main">
       <TheBigCard
@@ -200,7 +199,7 @@ export default {
       margin-top: rem(20);
     }
   }
-  
+
   .card-main {
     margin-top: rem(16);
   }

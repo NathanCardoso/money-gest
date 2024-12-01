@@ -10,7 +10,6 @@
       >
         <IconAdd />
       </TheButtonLink>
-      <TheDatePicker class="date-picker"/>
     </div>
     <main class="category-main">
       <TheBigCard

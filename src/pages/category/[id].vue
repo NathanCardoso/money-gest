@@ -2,7 +2,6 @@
   <div class="page-category">
     <div class="category-header">
       <TheTitlePage title-message="Categoria" />
-      <TheDatePicker class="date-picker"/>
     </div>
     <TheListMoneyCard class="category-money-cards" :cards="moneyCards" />
     <main class="category-main">

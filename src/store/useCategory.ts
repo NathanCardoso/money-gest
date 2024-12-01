@@ -1,28 +1,54 @@
 import { defineStore } from 'pinia'
 import serviceCategory from "~/services/category"
-import type { stateCategory } from '~/interface/pages/category'
 import type { IItemListCategoryProp } from '~/interface/organisms/TheItemListCategory'
-import type { IItemListTransactionProp } from '~/interface/organisms/TheItemListTransaction'
 import type { IModalCreateOrEditCategoryData } from '~/interface/organisms/TheModalCreateOrEditCategory'
 import { addFeedback } from '~/utils/addFeedback'
+import { currencyBRL } from '~/utils/numberTocurrency'
+import { formatDateToCustomFormat } from '~/utils/dateFormat'
 
 export const useStoreCategory = defineStore('category', {
   state: () => ({
-    allCategory: [] as IItemListCategoryProp[],
-    category: {}
+    category: {},
+    categoryLoading: false as boolean,
+    allCategory: [] as IItemListCategoryProp[]
   }),
 
   getters: {
-    categoryAll(state: stateCategory): IItemListCategoryProp[] {
+    categoryAll(state: any): IItemListCategoryProp[] {
       return state.allCategory
     },
-    categoryData(state) {
-      return state.category
+
+    categoryData(state: any) {
+      const { categoryColor, categoryName, receitas, revenueValue } = state.category
+
+      const categoryTratament = receitas?.map((category: any) => {
+        return {
+          ...category,
+          nameAccount: category.expenseName,
+          nameCategory: categoryName,
+          colorCategory: categoryColor,
+          dateTime: formatDateToCustomFormat(category.date),
+          recipeName: category.expenseEstablishment,
+          revenueValue: currencyBRL(category.expenseValue)
+        }
+      })
+
+      return {
+        categoryTratament,
+        categoryName,
+        revenueValue: revenueValue ? currencyBRL(revenueValue) : currencyBRL(0)
+      }
+    },
+
+    loadingCategory(state: any) {
+      return state.categoryLoading
     }
   },
 
   actions: {
     async getAllCategory(): Promise<void> {
+      this.categoryLoading = true
+
       const { error, data } = await serviceCategory.getAllCategory()
 
       if(!error && Array.isArray(data)) {
@@ -36,12 +62,17 @@ export const useStoreCategory = defineStore('category', {
           feedbackMessage: error?.message
         })
       }
+
+      this.categoryLoading = false
     },
 
     async getCategory(categoryId: string): Promise<void | Error> {
+      this.categoryLoading = true
+
       const { error, data } = await serviceCategory.getCategory(categoryId)
-      
+
       if(!error && !Array.isArray(data) && data !== null) {
+
         this.category = data
       }
 
@@ -54,9 +85,13 @@ export const useStoreCategory = defineStore('category', {
 
         return error
       }
+
+      this.categoryLoading = false
     },
 
     async postCategory(category: IModalCreateOrEditCategoryData): Promise<void> {
+      this.categoryLoading = true
+
       const { error } = await serviceCategory.postCategory(category)
 
       if(!error) {
@@ -73,9 +108,13 @@ export const useStoreCategory = defineStore('category', {
           feedbackMessage: error?.message
         })
       }
+
+      this.categoryLoading = false
     },
 
     async putCategory(category: IModalCreateOrEditCategoryData, categoryId: number): Promise<void> {
+      this.categoryLoading = true
+
       const { error } = await serviceCategory.putCategory(category, categoryId)
 
       if(!error) {
@@ -92,9 +131,13 @@ export const useStoreCategory = defineStore('category', {
           feedbackMessage: error?.message
         })
       }
+
+      this.categoryLoading = false
     },
 
     async deleteCategory(categoryId: number): Promise<void> {
+      this.categoryLoading = true
+
       const { error } = await serviceCategory.deleteCategory(categoryId)
 
       if(!error) {
@@ -111,6 +154,8 @@ export const useStoreCategory = defineStore('category', {
           feedbackMessage: error?.message
         })
       }
+
+      this.categoryLoading = false
     }
   }
 })

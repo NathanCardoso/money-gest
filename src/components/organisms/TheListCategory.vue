@@ -51,7 +51,5 @@ export default {
 <style lang="scss" scoped>
 .category-list {
   width: 100%;
-  max-height: rem(300);
-  overflow-y: scroll;
 }
 </style>

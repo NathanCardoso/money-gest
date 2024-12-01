@@ -8,15 +8,16 @@
     <main class="category-main">
       <TheBigCard
         class="card-main"
-        title-card="Lazer"
+        :title-card="storeCategory.categoryData.categoryName"
         paragraph-card="O limite de gasto nessa categoria é R$ 1.000,00."
       >
+        <TheLoading v-if="storeCategory.loadingCategory" />
         <TheListTransaction
-          v-if="storeCategory.category.length"
-          :transaction-list="storeCategory.category"
+          v-else
+          is-category
           :is-popover="false"
+          :transaction-list="storeCategory.categoryData.categoryTratament"
         />
-        <TheLoading v-else/>
       </TheBigCard>
     </main>
   </div>
@@ -27,7 +28,7 @@ import type { IMoneyCard } from "~/interface/organisms/TheMoneyCard"
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
 import { addFeedback } from "~/utils/addFeedback"
 import { useStoreCategory } from "~/store/useCategory"
-import category from "~/services/category"
+import { currencyBRL } from "~/utils/numberTocurrency"
 
 export default {
   name: "PageExpenses",
@@ -76,26 +77,6 @@ export default {
           revenueValue: "R$ 200,00"
         }
       ] as IItemListTransactionProp[],
-      moneyCards: [
-        {
-          title: "Limite de Gasto",
-          moneyValue: "R$ 300",
-          moneyColor: "blue",
-          icon: "IconArrowUp"
-        },
-        {
-          title: "Total Gasto",
-          moneyValue: "R$ 2000",
-          moneyColor: "green",
-          icon: "IconAlert"
-        },
-        {
-          title: "Saldo",
-          moneyValue: "R$ 200",
-          moneyColor: "yellow",
-          icon: "IconBarChart"
-        }
-      ] as IMoneyCard[]
     }
   },
 
@@ -108,20 +89,27 @@ export default {
   },
 
   computed: {
-    listItemExpenseTransaction() {
-      const listExpense = this.storeCategory.categoryData?.receitas?.map(expense => {
-        return {
-          nameAccount: expense.expenseName,
-          nameCategory: expense.nameCategory,
-          colorCategory: expense.categoryId.categoryColor,
-          dateTime: expense.date,
-          recipeName: expense.expenseEstablishment,
-          revenueValue: "R$" + expense.expenseValue,
-          id: expense._id
+    moneyCards(): IMoneyCard[] {
+      return [
+        {
+          title: "Limite de Gasto",
+          moneyValue: "R$ 300",
+          moneyColor: "blue",
+          icon: "IconArrowUp"
+        },
+        {
+          title: "Total Gasto",
+          moneyValue: this.storeCategory.categoryData.revenueValue,
+          moneyColor: "green",
+          icon: "IconAlert"
+        },
+        {
+          title: "Saldo",
+          moneyValue: "R$ 200",
+          moneyColor: "yellow",
+          icon: "IconBarChart"
         }
-      })
-
-      return listExpense
+      ]
     }
   },
 
@@ -144,7 +132,6 @@ export default {
       const categoryId: string = Array.isArray(this.$route.params.id) ? '' : this.$route.params.id
       const error = await this.storeCategory.getCategory(categoryId)
 
-      console.log(this.storeCategory.category?.receitas)
       if(error) this.$router.go(-1)
     })
   }

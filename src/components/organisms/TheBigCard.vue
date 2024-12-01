@@ -68,7 +68,10 @@ export default {
   }
 
   .card-transition {
+    flex-grow: 1;
     width: 100%;
+    max-height: rem(300);
+    overflow-y: scroll;
   }
 }
 

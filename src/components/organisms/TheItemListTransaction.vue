@@ -6,7 +6,8 @@
       </div>
       <div class="info-category">
         <TheIconMark :color="itemTransaction.colorCategory" />
-        <TheParagraph :paragraph-message="buyCategory" />
+        <TheParagraph v-if="isCategory" :paragraph-message="itemTransaction.recipeName" />
+        <TheParagraph v-else :paragraph-message="buyCategory" />
       </div>
     </div>
     <div class="info-invoice">
@@ -39,6 +40,10 @@ export default {
     isPopover: {
       type: Boolean,
       default: true
+    },
+    isCategory: {
+      type: Boolean,
+      default: false
     }
   },
 

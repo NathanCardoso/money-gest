@@ -5,6 +5,7 @@
       :key="transactionIndex"
       :item-transaction="transaction"
       :is-popover="isPopover"
+      :is-category="isCategory"
       @popover:edit="handlePopoverEdit"
       @popover:delete="handlePopoverDelete"
     />
@@ -25,6 +26,10 @@ export default {
     isPopover: {
       type: Boolean,
       default: true
+    },
+    isCategory: {
+      type: Boolean,
+      default: false
     }
   },
 

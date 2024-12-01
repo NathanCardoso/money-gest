@@ -15,6 +15,7 @@
         input-name="Nome"
         input-placeholder="Digite o nome da categoria..."
         input-validate="name"
+        :value="modalValue.categoryName"
         :is-input-disabled="loadingRequest"
         v-model="dataEditCategory.categoryName"
       />
@@ -24,6 +25,7 @@
         select-id="category"
         is-label
         is-validate
+        :value="modalValue.categoryColor"
         :is-select-disabled="loadingRequest"
         :select-options="selectOptions"
         v-model="dataEditCategory.categoryColor"
@@ -35,6 +37,7 @@
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 import type { IModalCreateOrEditCategoryData } from "~/interface/organisms/TheModalCreateOrEditCategory"
+import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
 import { useFormValidation } from '~/composables/useFormValidation'
 
 
@@ -55,8 +58,12 @@ export default {
       default: false
     },
     categoryId: {
-      type: Number,
+      type: String,
       required: true
+    },
+    modalValue: {
+      type: Object as () => IItemListCategoryProp,
+      default: () => ({} as IItemListCategoryProp)
     }
   },
 

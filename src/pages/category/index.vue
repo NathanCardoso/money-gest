@@ -37,6 +37,7 @@
       :is-opened="editCategoryModalOpened"
       :loading-request="loadingRequest"
       :category-id="categoryId"
+      :modal-value="categorySelect"
       @modal-category:close="handleCloseModalEditCategory"
       @modal-category:submit="handleEditCategory"
     />
@@ -53,6 +54,7 @@
 
 <script lang="ts">
 import type { IModalCreateOrEditCategoryData } from "~/interface/organisms/TheModalCreateOrEditCategory"
+import type { IItemListCategoryProp } from "~/interface/organisms/TheItemListCategory"
 import { useStoreCategory } from "~/store/useCategory"
 import { addFeedback } from "~/utils/addFeedback"
 
@@ -61,7 +63,7 @@ export default {
 
   data() {
     return {
-      categoryId: 0 as number,
+      categoryId: '' as string,
       loadingRequest: false as boolean,
       createCategoryModalOpened: false as boolean,
       editCategoryModalOpened: false as boolean,
@@ -77,6 +79,14 @@ export default {
     }
   },
 
+  computed: {
+    categorySelect(): IItemListCategoryProp {
+      return this.storeCategory.categoryAll
+      ?.find((category: IItemListCategoryProp) => category._id === this.categoryId)
+      ?? {} as IItemListCategoryProp
+    }
+  },
+
   methods: {
     handleOpenCategory(categoryId: number): void {
       this.$router.push(`/category/${categoryId}`)
@@ -87,14 +97,14 @@ export default {
     handleCloseModalCreateCategory(): void {
       this.createCategoryModalOpened = false
     },
-    handleOpenModalEditCategory(categoryId: number): void {
+    handleOpenModalEditCategory(categoryId: string): void {
       this.categoryId = categoryId
       this.editCategoryModalOpened = true
     },
     handleCloseModalEditCategory(): void {
       this.editCategoryModalOpened = false
     },
-    handleOpenModalDeleteCategory( categoryId: number): void {
+    handleOpenModalDeleteCategory( categoryId: string): void {
       this.categoryId = categoryId
       this.deleteCategoryModalOpened = true
     },

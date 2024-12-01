@@ -3,4 +3,6 @@ export interface IItemListCategoryProp {
   categoryName: string;
   categoryColor: string;
   revenueValue: number;
+  receitas: [];
+  categoryBalance: number;
 }

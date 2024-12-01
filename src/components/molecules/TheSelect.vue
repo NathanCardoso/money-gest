@@ -98,6 +98,10 @@ export default {
       const target = event.target as HTMLSelectElement
       this.$emit("update:modelValue", target.value)
     }
+  },
+
+  mounted() {
+    this.inputValue = this.value
   }
 }
 </script>

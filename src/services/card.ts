@@ -1,11 +1,11 @@
 import { api } from "~/axios"
 import type { IApiResponse } from "~/interface/service/ResponseRequest";
 import type { ICreateOrEditCardData } from "~/interface/organisms/TheModalCreateOrEditCard";
-import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard";
+import type { IItemListCardProp, IGetListCard } from "~/interface/organisms/TheItemListCard";
 
-const getAllCard = async (): Promise<IApiResponse<IItemListCardProp>> => {
+const getAllCard = async (): Promise<IApiResponse<IGetListCard>> => {
   try {
-    const allCard = await api.get<IItemListCardProp[]>('cartoes');
+    const allCard = await api.get<IGetListCard[]>('cartoes');
     return { error: null, data: allCard }
   } catch (err) {
     return { error: err as Error, data: null }

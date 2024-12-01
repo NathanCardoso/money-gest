@@ -1,29 +1,28 @@
-import { ref } from 'vue';
+import { ref } from 'vue'
 
-export function useCurrencyFormat() {
-  const formattedValue = ref("R$ 0,00");
+export const useCurrencyFormat = () => {
+  const inputMoney = ref("R$ 0,00")
 
-  const formatCurrency = (event: Event) => {
-    const input = event.target as HTMLInputElement;
-    let value = input.value.replace(/\D/g, "");
+  const formatCurrency = (inputValue: string) => {
+    let value = inputValue.replace(/\D/g, "")
 
     if (value === "") {
-      formattedValue.value = "R$ 0,00";
-      input.value = formattedValue.value;
-      return;
+      inputMoney.value = "R$ 0,00"
+      inputValue = inputMoney.value
+      return
     }
 
-    const numberValue = Number(value) / 100;
-    formattedValue.value = numberValue.toLocaleString("pt-BR", {
+    const numberValue = Number(value) / 100
+    inputMoney.value = numberValue.toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
-    });
+    })
 
-    input.value = formattedValue.value;
-  };
+    inputValue = inputMoney.value
+  }
 
   return {
-    formattedValue,
+    inputMoney,
     formatCurrency
-  };
+  }
 }

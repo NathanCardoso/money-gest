@@ -28,11 +28,16 @@ const types: Record<string, TypeConfig> = {
     initialVariable: "",
     regex: /\d+(\.\d*)?$/,
     message: 'Preencha uma data válida.'
+  },
+  ['card-validity']: {
+    initialVariable: "",
+    regex: /^(0[1-9]|1[0-2])\/\d{2}$/,
+    message: 'Preencha a validade correta.'
   }
 }
 
 function useForm(type: keyof typeof types | false) {
-  const inputValue = ref<string>(type !== false && types[type]?.initialVariable ? types[type].initialVariable : '')
+  const inputValue = ref<string | number>(type !== false && types[type]?.initialVariable ? types[type].initialVariable : '')
   const error = ref<string | null>(null)
 
   watch(inputValue, () => {
@@ -41,15 +46,15 @@ function useForm(type: keyof typeof types | false) {
     } 
   })
 
-  function validate(data: string): boolean {
+  function validate(data: string | number): boolean {
     if (type === false) return true
 
-    if (data.length === 0) {
+    if (typeof data === 'string' && data.length === 0) {
       error.value = "O campo é obrigatório."
       return false
     }
 
-    if(type === 'date-birthday') {
+    if(typeof data === 'string' && type === 'date-birthday') {
       const formatDate = data.split('/').reverse().join('-')
       const parsedDate = new Date(formatDate)
       const isDateValid = parsedDate instanceof Date && !isNaN(parsedDate.getTime())
@@ -63,7 +68,7 @@ function useForm(type: keyof typeof types | false) {
       return true
     }
 
-    if (types[type] && !types[type].regex.test(data)) {
+    if (typeof data === 'string' && types[type] && !types[type].regex.test(data)) {
       error.value = types[type].message
       return false
     }

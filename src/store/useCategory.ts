@@ -7,14 +7,17 @@ import type { IModalCreateOrEditCategoryData } from '~/interface/organisms/TheMo
 import { addFeedback } from '~/utils/addFeedback'
 
 export const useStoreCategory = defineStore('category', {
-  state: (): stateCategory => ({
+  state: () => ({
     allCategory: [] as IItemListCategoryProp[],
-    category: [] as IItemListTransactionProp[]
+    category: {}
   }),
 
   getters: {
     categoryAll(state: stateCategory): IItemListCategoryProp[] {
       return state.allCategory
+    },
+    categoryData(state) {
+      return state.category
     }
   },
 
@@ -35,11 +38,11 @@ export const useStoreCategory = defineStore('category', {
       }
     },
 
-    async getCategory(categoryId: number): Promise<void | Error> {
+    async getCategory(categoryId: string): Promise<void | Error> {
       const { error, data } = await serviceCategory.getCategory(categoryId)
-
-      if(!error && Array.isArray(data)) {
-        this.allCategory = data 
+      
+      if(!error && !Array.isArray(data) && data !== null) {
+        this.category = data
       }
 
       if(error) {

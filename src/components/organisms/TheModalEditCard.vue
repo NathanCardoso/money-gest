@@ -15,6 +15,7 @@
         input-name="Nome do cartão"
         input-placeholder="Digite o nome do cartão..."
         input-validate="name"
+        :value="modalValue.cardName"
         :is-input-disabled="loadingRequest"
         v-model="editCard.cardName"
       />
@@ -28,6 +29,7 @@
         input-placeholder="Digite os números do cartão..."
         input-validate="number"
         input-mask="#### #### #### ####"
+        :value="modalValue.cardNumber"
         :is-input-disabled="loadingRequest"
         v-model="editCard.cardNumber"
       />
@@ -39,30 +41,35 @@
         input-id="name"
         input-name="Validade do Cartão"
         input-placeholder="Digite a validade do cartão..."
-        input-validate="date-birthday"
-        input-mask="##/##/####"
+        input-validate="card-validity"
+        input-mask="##/##"
+        :value="modalValue.cardDateValidity"
         :is-input-disabled="loadingRequest"
         v-model="editCard.cardDateValidity"
       />
       <TheInputField
         ref="inputBankingCardLimit"
+        is-money
         is-label
         input-type="text"
         input-id="name"
-        input-name="Saldo do cartão"
+        input-name="Limite do cartão"
         input-placeholder="Digite o limite do cartão..."
         input-validate="number"
+        :value="modalValue.cardLimited"
         :is-input-disabled="loadingRequest"
         v-model="editCard.cardLimited"
       />
       <TheInputField
         ref="inputBankingCardInvoice"
+        is-money
         is-label
-        input-type="number"
+        input-type="text"
         input-id="name"
         input-name="Fatura do cartão"
         input-placeholder="Digite a fatura do cartão..."
         input-validate="number"
+        :value="modalValue.cardInvoice"
         :is-input-disabled="loadingRequest"
         v-model="editCard.cardInvoice"
       />
@@ -72,6 +79,7 @@
         select-id="cardFlag"
         is-label
         is-validate
+        :value="modalValue.cardFlag"
         :is-select-disabled="loadingRequest"
         :select-options="selectOptinonsCardFlag"
         v-model="editCard.cardFlag"
@@ -83,6 +91,7 @@
 <script lang="ts">
 import type { IModalCreateOrEditCardData } from '~/interface/organisms/TheModalCreateOrEditCard'
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { IGetListCard } from "~/interface/organisms/TheItemListCard"
 import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
@@ -93,9 +102,9 @@ export default {
       type: Boolean,
       default: false
     },
-    cardData: {
-      type: Object,
-      default: () => {}
+    modalValue: {
+      type: Object as () => IGetListCard,
+      default: () => ({} as IGetListCard)
     },
     loadingRequest: {
       type: Boolean,
@@ -204,7 +213,7 @@ export default {
       return isValid
     }
   }
-}
+ }
 </script>
 
 <style lang="scss" scoped>

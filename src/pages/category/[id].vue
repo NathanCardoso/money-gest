@@ -27,6 +27,7 @@ import type { IMoneyCard } from "~/interface/organisms/TheMoneyCard"
 import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
 import { addFeedback } from "~/utils/addFeedback"
 import { useStoreCategory } from "~/store/useCategory"
+import category from "~/services/category"
 
 export default {
   name: "PageExpenses",
@@ -106,6 +107,24 @@ export default {
     }
   },
 
+  computed: {
+    listItemExpenseTransaction() {
+      const listExpense = this.storeCategory.categoryData?.receitas?.map(expense => {
+        return {
+          nameAccount: expense.expenseName,
+          nameCategory: expense.nameCategory,
+          colorCategory: expense.categoryId.categoryColor,
+          dateTime: expense.date,
+          recipeName: expense.expenseEstablishment,
+          revenueValue: "R$" + expense.expenseValue,
+          id: expense._id
+        }
+      })
+
+      return listExpense
+    }
+  },
+
   beforeMount() {
     const isAuthorization = auth()
 
@@ -122,9 +141,10 @@ export default {
 
   mounted() {
     this.$nextTick(async () => {
-      const categoryId = +this.$route.params.id
+      const categoryId: string = Array.isArray(this.$route.params.id) ? '' : this.$route.params.id
       const error = await this.storeCategory.getCategory(categoryId)
 
+      console.log(this.storeCategory.category?.receitas)
       if(error) this.$router.go(-1)
     })
   }

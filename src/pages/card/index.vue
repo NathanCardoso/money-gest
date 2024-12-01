@@ -15,14 +15,14 @@
         title-card="Lista de cartões "
         paragraph-card="Veja seu cartões, e monitore com facilidade."
       >
+        <TheLoading v-if="storeCard.loadingCards" />
         <TheListCard
-          v-if="true"
+          v-else
           is-popover
           :card-list="storeCard.cards"
           @card:edit="handleOpenModalEditCard"
           @card:delete="handleOpenModalDeleteCard"
         />
-        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateCard
@@ -34,6 +34,7 @@
     <TheModalEditCard
       :is-opened="editCardModalOpened"
       :loading-request="loadingRequest"
+      :modal-value="cardSelect"
       @modal-card:close="handleCloseModalEditCard"
       @modal-card:submit="handleEditCard"
     />
@@ -50,7 +51,7 @@
 
 <script lang="ts">
 import type { IModalCreateOrEditCardData } from '~/interface/organisms/TheModalCreateOrEditCard'
-import type { IItemListCardProp } from "~/interface/organisms/TheItemListCard"
+import type { IGetListCard } from '~/interface/organisms/TheItemListCard'
 import { useStoreCard } from "~/store/useCard"
 import { addFeedback } from "~/utils/addFeedback"
 
@@ -64,44 +65,6 @@ export default {
       editCardModalOpened: false,
       deleteCardModalOpened: false,
       cardId: '' as string,
-      listCard: [
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "Limite: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Nubank",
-          cardFlag: "mastercard",
-          cardLastNumber: "Final 9856",
-          cardLimited: "Limite: R$ 6789,80",
-          cardInvoice: "Fatura: R$ 3489,00",
-          cardPercentageLimited: "37",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "Limite: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        },
-        {
-          nameBanking: "Itaú",
-          cardFlag: "visa",
-          cardLastNumber: "Final 5552",
-          cardLimited: "Limite: R$ 3750,43",
-          cardInvoice: "Fatura: R$ 1870,00",
-          cardPercentageLimited: "28",
-          cardStatus: "moderate"
-        }
-      ] as IItemListCardProp[]
     }
   },
 
@@ -110,6 +73,13 @@ export default {
 
     return {
       storeCard
+    }
+  },
+
+  computed: {
+    cardSelect(): IGetListCard {
+      return this.storeCard.allCards?.find((card: IGetListCard) => card._id === this.cardId)
+      ?? {} as IGetListCard
     }
   },
 

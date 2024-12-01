@@ -1,22 +1,42 @@
 import { defineStore } from 'pinia'
 import serviceCard from "~/services/card"
-import type { IItemListCardProp } from '~/interface/organisms/TheItemListCard'
+import type { IItemListCardProp, IGetListCard } from '~/interface/organisms/TheItemListCard'
 import type { IModalCreateOrEditCardData } from '~/interface/organisms/TheModalCreateOrEditCard'
 import { addFeedback } from '~/utils/addFeedback'
+import { currencyBRL } from '~/utils/numberTocurrency'
 
 export const useStoreCard = defineStore('card', {
   state: () => ({
-    allCards: [] as IItemListCardProp[],
+    allCards: [] as IGetListCard[],
+    cardLoading: false as boolean
   }),
 
   getters: {
-    cards(state) {
-      return state.allCards
+    cards(state: any): IItemListCardProp {
+      return state.allCards.map((card: IItemListCardProp) => {
+        const cardPercentageLimited = (Number(card.cardInvoice) / Number(card.cardLimited) * 100).toFixed(0)
+
+        return  {
+          _id: card._id,
+          cardName: card.cardName,
+          cardFlag: card.cardFlag,
+          cardLastNumber: "Final " + card.cardNumber.slice(-4),
+          cardLimited: "Limite: " + currencyBRL(+card.cardLimited / 100),
+          cardInvoice: "Fatura: " + currencyBRL(+card.cardInvoice / 100),
+          cardPercentageLimited: cardPercentageLimited,
+          cardStatus: "moderate",
+        }
+      })
+    },
+    loadingCards(state: any): boolean {
+      return state.cardLoading
     }
   },
 
   actions: {
     async getAllCard(): Promise<void> {
+      this.cardLoading = true
+
       const { error, data } = await serviceCard.getAllCard()
 
       if(!error && Array.isArray(data)) {
@@ -30,9 +50,12 @@ export const useStoreCard = defineStore('card', {
           feedbackMessage: error?.message
         })
       }
+
+      this.cardLoading = false
     },
 
     async postCard(card: IModalCreateOrEditCardData): Promise<void> {
+      this.cardLoading = true
       const requestCard = {
         ...card,
         cardInvoice: Number(card.cardInvoice)
@@ -56,12 +79,16 @@ export const useStoreCard = defineStore('card', {
           feedbackMessage: error?.message
         })
       }
+      this.cardLoading = false
     },
 
     async putCard(card: IModalCreateOrEditCardData, cardId: string): Promise<void> {
+      this.cardLoading = true
+
       const requestCard = {
         ...card,
-        cardInvoice: Number(card.cardInvoice)
+        cardLimited: String(card.cardLimited),
+        cardInvoice: +card.cardInvoice
       }
 
       const { error } = await serviceCard.putCard(requestCard, cardId)
@@ -82,9 +109,13 @@ export const useStoreCard = defineStore('card', {
           feedbackMessage: error?.message
         })
       }
+
+      this.cardLoading = false
     },
 
     async deleteCard(cardId: string): Promise<void> {
+      this.cardLoading = true
+
       const { error } = await serviceCard.deleteCard(cardId)
 
       if(!error) {
@@ -102,6 +133,8 @@ export const useStoreCard = defineStore('card', {
           feedbackMessage: error?.message
         })
       }
+
+      this.cardLoading = false
     },
   }
 })

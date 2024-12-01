@@ -14,9 +14,9 @@ const getAllCategory = async (): Promise<IApiResponse<IItemListCategoryProp>> =>
   }
 }
 
-const getCategory = async (categoryId: number): Promise<IApiResponse<IItemListCategoryProp>> => {
+const getCategory = async (categoryId: string): Promise<IApiResponse<IItemListCategoryProp>> => {
   try {
-    const category = await api.get<IItemListCategoryProp>(`category${categoryId}`)
+    const category = await api.get<IItemListCategoryProp>(`categorias/${categoryId}`)
     return { error: null, data: category }
   } catch (err) {
     return { error: err as Error, data: null }

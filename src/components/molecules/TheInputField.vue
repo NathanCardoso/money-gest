@@ -17,6 +17,17 @@
       @input="handleInputData"
     />
     <input
+      v-else-if="isMoney"
+      v-model="inputMoney"
+      class="input"
+      :class="{ disabled: isInputDisabled }"
+      :type="inputType"
+      :id="inputId"
+      :placeholder="inputPlaceholder"
+      :disabled="isInputDisabled"
+      @input="handleInputData"
+    />
+    <input
       v-else
       v-model="inputValue"
       class="input"
@@ -35,6 +46,7 @@
 
 <script lang="ts">
 import useForm from "~/composables/useForm"
+import { useCurrencyFormat } from "~/composables/useCurrencyFormat";
 
 export default {
   name: "TheInputField",
@@ -71,7 +83,7 @@ export default {
       default: ""
     },
     modelValue: {
-      type: String,
+      type: [String, Number],
       required: true
     },
     isMask: {
@@ -101,37 +113,50 @@ export default {
       default: false
     },
     value: {
-      type: String, Number,
+      type: [String, Number],
       default: ''
     }
   },
 
   watch: {
     value(newValue) {
+      if(this.isMoney) this.inputMoney = newValue
       this.inputValue = newValue
-    }
+    },
   },
 
   setup(props) {
     const { inputValue, error, validate, onBlur } = useForm(props.inputValidate || false)
+    const { inputMoney, formatCurrency } = useCurrencyFormat()
 
     return {
       inputValue,
       error,
       validate,
-      onBlur
+      onBlur,
+      inputMoney,
+      formatCurrency
     }
   },
 
   methods: {
     handleInputData(event: Event): void {
+      if(this.isMoney) this.formatCurrency(this.inputMoney)
       const target = event.target as HTMLInputElement
+
       this.$emit("update:modelValue", target.value)
     }
   },
 
   mounted() {
     if(!!this.value) this.inputValue = this.value
+    
+    if(!!this.value && this.isMoney) {
+      this.inputMoney = String(this.value)
+      this.formatCurrency(this.inputMoney)
+    }
+
+    this.$emit("update:modelValue", this.value)
   }
 }
 </script>

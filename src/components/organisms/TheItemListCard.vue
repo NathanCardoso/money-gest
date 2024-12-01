@@ -6,7 +6,7 @@
         <IconVisa v-else />
       </div>
       <div class="card-bank">
-        <TheParagraph :paragraph-message="itemList.nameBanking" bold />
+        <TheParagraph :paragraph-message="itemList.cardName" bold />
         <TheParagraph :paragraph-message="itemList.cardLastNumber" />
       </div>
     </div>
@@ -81,7 +81,7 @@ export default {
 
   computed: {
     isMastercard(): boolean {
-      return this.itemList.cardFlag === "mastercad"
+      return this.itemList.cardFlag === "mastercard"
     }
   },
 

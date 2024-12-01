@@ -39,14 +39,15 @@
         input-id="name"
         input-name="Validade do Cartão"
         input-placeholder="Digite a validade do cartão..."
-        input-validate="date-birthday"
-        input-mask="##/##/####"
+        input-validate="card-validity"
+        input-mask="##/##"
         :is-input-disabled="loadingRequest"
         v-model="createCard.cardDateValidity"
       />
       <TheInputField
         ref="inputBankingCardLimit"
         is-label
+        is-money
         input-type="text"
         input-id="name"
         input-name="Limite do cartão"
@@ -58,7 +59,8 @@
       <TheInputField
         ref="inputBankingCardInvoice"
         is-label
-        input-type="number"
+        is-money
+        input-type="text"
         input-id="name"
         input-name="Fatura do cartão"
         input-placeholder="Digite a fatura do cartão..."

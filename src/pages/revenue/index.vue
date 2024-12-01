@@ -18,13 +18,13 @@
         title-card="Resumo de receitas"
         paragraph-card="Monitore suas fontes de renda e acompanhe seu crescimento."
       >
+        <TheLoading v-if="storeRevenue.loadingRevenue" />
         <TheListTransaction
-          v-if="true"
-          :transaction-list="listItemRevenueTransaction"
+          v-else
+          :transaction-list="storeRevenue.transactionRevenue"
           @transaction:edit="handleOpenModalEditRevenue"
           @transaction:delete="handleOpenModalDeleteRevenue"
         />
-        <TheLoading v-else />
       </TheBigCard>
     </main>
     <TheModalCreateRevenue
@@ -38,6 +38,7 @@
       :is-opened="editRevenueModalOpened"
       :loading-request="loadingRequest"
       :accounties="selectOptionsAccount"
+      :modal-value="revenueSelect"
       @modal-revenue:close="handleCloseModalEditRevenue"
       @modal-revenue:submit="handleEditRevenue"
     />
@@ -53,9 +54,10 @@
 </template>
 
 <script lang="ts">
-import type { IItemListTransactionProp } from "~/interface/organisms/TheItemListTransaction"
+import type { IItemListTransactionProp, IEditRevenue } from "~/interface/organisms/TheItemListTransaction"
 import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue"
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
+import type { IItemListAccountProp } from "~/interface/organisms/TheItemListAccount"
 import { useStoreAccount } from "~/store/useAccount"
 import { useStoreRevenue } from '~/store/useTransactionRevenue'
 import { addFeedback } from "~/utils/addFeedback"
@@ -70,48 +72,6 @@ export default {
       editRevenueModalOpened: false as boolean,
       deleteRvenueModalOpened: false as boolean,
       revenueId: '' as string,
-      itemListTransaction: [
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "blue",
-          dateTime: "10/06/2024 - 15:58",
-          recipeName: "Salário",
-          revenueValue: "R$ 4.322,89"
-        },
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "blue",
-          dateTime: "10/06/2024 - 15:58", 
-          recipeName: "Salário",
-          revenueValue: "R$ 4.322,89"
-        },
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "blue",
-          dateTime: "10/06/2024 - 15:58", 
-          recipeName: "Salário",
-          revenueValue: "R$ 4.322,89"
-        },
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "blue",
-          dateTime: "10/06/2024 - 15:58", 
-          recipeName: "Salário",
-          revenueValue: "R$ 4.322,89"
-        },
-        {
-          nameAccount: "Conta Itaú",
-          nameCategory: "Carteira",
-          colorCategory: "blue",
-          dateTime: "10/06/2024 - 15:58", 
-          recipeName: "Salário",
-          revenueValue: "R$ 4.322,89"
-        }
-      ] as IItemListTransactionProp[]
     }
   },
 
@@ -127,29 +87,32 @@ export default {
 
   computed: {
     selectOptionsAccount(): ISelectOptionsProp[] {
-      const accountOptions = this.storeAccount?.allAccount?.map(account => {
+      const accountOptions = this.storeAccount?.allAccount?.map((account: IItemListAccountProp) => {
         return {
           value: account.accountBankingName,
           label: account.accountBankingName
         }
       })
 
-      return accountOptions
-    },
-    listItemRevenueTransaction() {
-      const listExpense = this.storeRevenue.transactionRevenue?.map(expense => {
-        return {
-          nameAccount: '',
-          nameCategory: '',
-          colorCategory: 'blue',
-          dateTime: expense.date,
-          recipeName: expense.expenseName,
-          revenueValue: "R$" + expense.expenseValue,
-          id: expense._id
-        }
+      accountOptions.unshift({
+        value: "",
+        label: "Selecione uma opção"
       })
 
-      return listExpense
+      return accountOptions
+    },
+    revenueSelect(): IEditRevenue {
+      const revenue = this.storeRevenue.transactionRevenue
+      ?.map((revenue: IItemListTransactionProp) => {
+        return {
+          _id: revenue._id || '',
+          revenueName: revenue.nameAccount || '',
+          revenueValue: revenue.revenueValue || '',
+        }
+      })
+      ?.find((revenue: IEditRevenue) => revenue._id === this.revenueId)
+
+      return revenue as IEditRevenue
     }
   },
 
@@ -219,8 +182,7 @@ export default {
 
   mounted() {
     this.$nextTick(async () => {
-      await this.hadnleGetAllRevenue()
-      await this.storeAccount.getAllAccount()
+      await Promise.all([this.hadnleGetAllRevenue(), this.storeAccount.getAllAccount()])
     })
   },
 
@@ -238,8 +200,7 @@ export default {
       margin-top: rem(20);
     }
   }
-
-
+  
   .card-main {
     margin-top: rem(16);
   }

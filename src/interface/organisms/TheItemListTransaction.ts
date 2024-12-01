@@ -15,3 +15,8 @@ export interface IEditExpense {
   expenseValue: string;
   _id: string;
 }
+export interface IEditRevenue {
+  revenueName: string;
+  revenueValue: string;
+  _id: string;
+}

@@ -15,17 +15,20 @@
         input-name="Nome"
         input-placeholder="Digite o nome da entrada..."
         input-validate="name"
+        :value="modalValue.revenueName"
         :is-input-disabled="loadingRequest"
         v-model="editRevenue.expenseName"
       />
       <TheInputField
         ref="inputValue"
         is-label
-        input-type="number"
+        is-money
+        input-type="text"
         input-id="revenue"
         input-name="Valor"
         input-placeholder="Digite o valor da entrada..."
         input-validate="number"
+        :value="modalValue.revenueValue"
         :is-input-disabled="loadingRequest"
         v-model="editRevenue.expenseValue"
       />
@@ -46,6 +49,7 @@
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 import type { IModalCreateOrEditRevenueData } from "~/interface/organisms/TheModalCreateOrEditRevenue"
+import type { IEditRevenue } from "~/interface/organisms/TheItemListTransaction"
 import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
@@ -67,6 +71,10 @@ export default {
     accounties: {
       type: Array as () => ISelectOptionsProp[],
       default: () => ([] as ISelectOptionsProp[])
+    },
+    modalValue: {
+      type: Object as () => IEditRevenue,
+      default: () => ({} as IEditRevenue)
     }
   },
 
@@ -76,21 +84,7 @@ export default {
         expenseName: "",
         expenseValue: "",
         expenseAccount: ""
-      } as IModalCreateOrEditRevenueData,
-      selectOptions: [
-        {
-          value: "",
-          label: "Selecione uma opção"
-        },
-        {
-          value: "M",
-          label: "Masculino"
-        },
-        {
-          value: "F",
-          label: "Feminino"
-        }
-      ] as ISelectOptionsProp[]
+      } as IModalCreateOrEditRevenueData
     }
   },
 

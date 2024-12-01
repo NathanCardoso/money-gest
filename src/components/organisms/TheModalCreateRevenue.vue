@@ -21,7 +21,8 @@
       <TheInputField
         ref="inputValue"
         is-label
-        input-type="number"
+        is-money
+        input-type="text"
         input-id="revenue"
         input-name="Valor"
         input-placeholder="Digite o valor da entrada..."
@@ -72,21 +73,7 @@ export default {
         expenseName: "",
         expenseValue: "",
         expenseAccount: ""
-      } as IModalCreateOrEditRevenueData,
-      selectOptions: [
-        {
-          value: "",
-          label: "Selecione uma opção"
-        },
-        {
-          value: "M",
-          label: "Masculino"
-        },
-        {
-          value: "F",
-          label: "Feminino"
-        }
-      ] as ISelectOptionsProp[]
+      } as IModalCreateOrEditRevenueData
     }
   },
 

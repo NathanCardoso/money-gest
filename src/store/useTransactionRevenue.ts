@@ -3,20 +3,39 @@ import serviceTransactionRevenue from '~/services/transactionRevenue'
 import type { IItemListTransactionProp } from '~/interface/organisms/TheItemListTransaction';
 import type { IModalCreateOrEditRevenueData } from '~/interface/organisms/TheModalCreateOrEditRevenue'
 import { addFeedback } from '~/utils/addFeedback'
+import { formatDateToCustomFormat } from '~/utils/dateFormat'
+import { currencyBRL } from "~/utils/numberTocurrency"
 
 export const useStoreRevenue = defineStore('revenue', {
   state: () => ({
     revenue: [] as IItemListTransactionProp[],
+    revenueLoading: false as boolean
   }),
 
   getters: {
-    transactionRevenue(state) {
-      return state.revenue
+    transactionRevenue(state: any) {
+      return state.revenue?.map((revenue: any) => {
+        return {
+          nameAccount: revenue.expenseName,
+          nameCategory: 'carteira',
+          colorCategory: 'blue',
+          dateTime: formatDateToCustomFormat(revenue.date),
+          recipeName: 'carteira',
+          revenueValue: currencyBRL(revenue.expenseValue / 100),
+          _id: revenue._id
+        }
+      })
+    },
+
+    loadingRevenue(state: any) {
+      return state.revenueLoading
     }
   },
 
   actions: {
     async getTransactionRevenue(): Promise<void> {
+      this.revenueLoading = true
+
       const { error, data } = await serviceTransactionRevenue.getTransactionRevenue()
 
       if(!error && Array.isArray(data)) this.revenue = [...data]
@@ -28,10 +47,18 @@ export const useStoreRevenue = defineStore('revenue', {
           feedbackMessage: error?.message
         })
       }
+
+      this.revenueLoading = false
     },
 
     async postTransactionRevenue(transaction: IModalCreateOrEditRevenueData): Promise<void> {
-      const { error } = await serviceTransactionRevenue.postTransactionRevenue(transaction)
+      this.revenueLoading = true
+
+      const { error } = await serviceTransactionRevenue.postTransactionRevenue({
+        ...transaction,
+        expenseValue: +String(transaction.expenseValue)
+        .replace('R$', '').replaceAll('.','').replace(',', '')
+      })
 
       if(!error) {
         addFeedback({
@@ -39,6 +66,8 @@ export const useStoreRevenue = defineStore('revenue', {
           isError: false,
           feedbackMessage: 'Entrada cadastrada com sucesso.'
         })
+
+        await this.getTransactionRevenue()
       } else {
         addFeedback({
           isFeedbackActive: true,
@@ -46,10 +75,18 @@ export const useStoreRevenue = defineStore('revenue', {
           feedbackMessage: error?.message
         })
       }
+
+      this.revenueLoading = false
     },
 
     async putTransactionRevenue(transaction: IModalCreateOrEditRevenueData, transactionId: string): Promise<void> {
-      const { error } =await serviceTransactionRevenue.putTransactionRevenue(transaction, transactionId)
+      this.revenueLoading = true
+
+      const { error } =await serviceTransactionRevenue.putTransactionRevenue({
+        ...transaction,
+        expenseValue: +String(transaction.expenseValue)
+        .replace('R$', '').replaceAll('.','').replace(',', '')
+      }, transactionId)
 
       if(!error) {
         addFeedback({
@@ -57,6 +94,8 @@ export const useStoreRevenue = defineStore('revenue', {
           isError: false,
           feedbackMessage: 'Entrada atualizada com sucesso.'
         })
+
+        await this.getTransactionRevenue()
       } else {
         addFeedback({
           isFeedbackActive: true,
@@ -64,9 +103,13 @@ export const useStoreRevenue = defineStore('revenue', {
           feedbackMessage: error?.message
         })
       }
+
+      this.revenueLoading = false
     },
 
     async deleteTransactionRevenue(transactionId: string): Promise<void> {
+      this.revenueLoading = true
+
       const { error } =await serviceTransactionRevenue.deleteTransactionRevenue(transactionId)
 
       if(!error) {
@@ -75,6 +118,8 @@ export const useStoreRevenue = defineStore('revenue', {
           isError: false,
           feedbackMessage: 'Entrada deletada com sucesso.'
         })
+
+        await this.getTransactionRevenue()
       } else {
         addFeedback({
           isFeedbackActive: true,
@@ -82,6 +127,8 @@ export const useStoreRevenue = defineStore('revenue', {
           feedbackMessage: error?.message
         })
       }
-    },
+
+      this.revenueLoading = false
+    }
   }
 })

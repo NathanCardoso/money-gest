@@ -9,6 +9,7 @@
     </div>
     <form class="form">
       <TheInputField
+        ref="inputName"
         is-label
         is-input-message
         input-type="text"
@@ -21,6 +22,7 @@
         v-model="user.name"
       />
       <TheInputField
+        ref="inputDateBirthday"
         is-label
         is-mask
         is-input-message
@@ -35,6 +37,7 @@
         v-model="user.dateBirthday"
       />
       <TheSelect
+        ref="inputGender"
         is-label
         is-select-message
         is-validate
@@ -46,6 +49,7 @@
         v-model="user.gender"
       />
       <TheInputField
+        ref="inputEmail"
         is-label
         is-input-message
         input-type="email"
@@ -57,7 +61,7 @@
         :value="userData.email"
         v-model="user.email"
       />
-      <TheButtonForm button-message="Atualizar Perfil" is-button-small />
+      <TheButtonForm button-message="Atualizar Perfil" is-button-small @button:click="handleSubmit" />
     </form>
   </section>
 </template>
@@ -65,6 +69,7 @@
 <script lang="ts">
 import type { ISelectOptionsProp } from "~/interface/atoms/TheSelect"
 import type { IUserData } from "~/interface/pages/user"
+import { useFormValidation } from '~/composables/useFormValidation'
 
 export default {
   name: "TheFormProfile",
@@ -98,6 +103,19 @@ export default {
           label: "Feminino"
         }
       ] as ISelectOptionsProp[]
+    }
+  },
+
+  methods: {
+    handleSubmit() {
+      if(this.isValidateFormRequest())
+        this.$emit("form-profile:submit", this.user)
+    },
+    isValidateFormRequest(): boolean {
+      const refArray = Object.values(this.$refs)
+      const isValid = useFormValidation(refArray)
+
+      return isValid
     }
   }
 }

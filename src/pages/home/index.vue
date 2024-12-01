@@ -2,7 +2,6 @@
   <section class="home">
     <div class="home-header">
       <TheTitlePage title-message="Informações inicias" />
-      <TheDatePicker class="date-picker"/>
     </div>
     <main class="main">
       <TheListMoneyCard :cards="moneyCards" />

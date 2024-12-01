@@ -5,7 +5,8 @@ import type {
   IUserResgisterResponse,
   IUserLogin,
   IUserLoginResponse, 
-  IUserDataResponse
+  IUserDataResponse,
+  IUserData
 } from "~/interface/pages/user"
 
 const registerUser = async (
@@ -45,8 +46,22 @@ const getUser = async(userId: string): Promise<IApiResponse<IUserDataResponse>> 
   }
 }
 
+const putUser = async(user: IUserData, userId: string): Promise<IApiResponse<null>> =>{
+  try {
+    const userLoginResponse = await api.put<IUserData, IUserData>(`usuarios/${userId}`, user)
+    
+    if(userLoginResponse !== undefined)
+      return { error: null, data:  null }
+
+    return { error: null, data: null}
+  } catch (err) {
+    return { error: err as Error, data: null }
+  }
+}
+
 export default {
   registerUser,
   userLogin,
-  getUser
+  getUser,
+  putUser
 };

@@ -58,6 +58,27 @@ export const useStoreProfile = defineStore('profile', {
           feedbackMessage: error?.message
         })
       }
+    },
+
+    async putUser(user: IUserData): Promise<void> {
+      const userId: string = window.localStorage.getItem('userId') || ''
+      const { error } = await serviceProfile.putUser(user, userId)
+
+      if(!error) {
+        addFeedback({
+          isFeedbackActive: true,
+          isError: false,
+          feedbackMessage: "Usuário atualizado com sucesso."
+        })
+
+        await this.getUser(userId)
+      } else {
+        addFeedback({
+          isFeedbackActive: true,
+          isError: true,
+          feedbackMessage: error?.message
+        })
+      }
     }
   }
 })

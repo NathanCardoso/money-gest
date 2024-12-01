@@ -8,17 +8,31 @@
             @aside:profile="handleProfile"
             @aside:password-change="handlePasswordChange"
           />
-          <component v-if="isUserData" :is="asyncComponent" :user-data="useStore.user"/>
+          <component
+            v-if="isUserData"
+            :is="asyncComponent"
+            :user-data="useStore.user"
+            @form-profile:submit="handleOpenModalEditUser"
+          />
           <TheLoading v-else />
         </div>
       </TheBigCard>
     </main>
+    <TheModalConfirmation
+      title-confirmation="Tem certeza que deseja atualizar o perfil?"
+      :paragraph-confirmation="$options.paragraphEditUser"
+      :is-opened="editUserModalOpened"
+      :is-disabled="loadingRequest"
+      @modal-confirmation:close="handleCloseModalEditUser"
+      @modal-confirmation:submit="handleEditUser"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent } from "vue"
 import type { DefineComponent } from "vue"
+import type { IUserData } from "~/interface/pages/user"
+import { defineAsyncComponent } from "vue"
 import { addFeedback } from "~/utils/addFeedback"
 import { useStoreProfile } from "~/store/useProfile"
 
@@ -27,7 +41,10 @@ export default {
 
   data() {
     return {
-      currentComponent: "TheFormProfile"
+      currentComponent: "TheFormProfile",
+      loadingRequest: false as boolean,
+      editUserModalOpened: false as boolean,
+      user: {} as IUserData
     }
   },
 
@@ -65,6 +82,20 @@ export default {
       return defineAsyncComponent(
         () => import(`../../components/organisms/${component}.vue`)
       )
+    },
+    handleOpenModalEditUser(userPayload: IUserData) {
+      this.user = { ...userPayload }
+      this.editUserModalOpened = true
+    },
+    handleCloseModalEditUser() {
+      this.editUserModalOpened = false
+    },
+    async handleEditUser(): Promise<void> {
+      this.loadingRequest = true
+      await this.useStore.putUser(this.user)
+
+      this.loadingRequest = false
+      this.handleCloseModalEditUser()
     }
   },
 
@@ -80,7 +111,10 @@ export default {
       
       this.$router.push('/login')
     }
-  }
+  },
+
+  paragraphEditUser:
+  "Se você optar por atualizar o seu perfil, suas informações de usuário serão sobreescrita."
 }
 </script>
 

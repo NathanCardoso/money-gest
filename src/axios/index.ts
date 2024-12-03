@@ -13,7 +13,7 @@ urlInstance.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`
     }
 
-    if (config.method === 'post' && !config.url?.includes('/login')) {
+    if (!config.url?.includes('/login') && !config.url?.includes('/registro')) {
       if (config.data && typeof config.data === 'object') {
         config.data.userId = localStorage.getItem('userId')
       }
